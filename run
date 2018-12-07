@@ -1,0 +1,105 @@
+#!/usr/bin/env bash
+
+case "$1" in
+
+  'build')
+    echo ""
+    echo "Building"
+    echo ""
+    ./gradlew build
+    ./gradlew assemble
+    ;;
+
+  'clean')
+    echo ""
+    echo "Cleaning"
+    echo ""
+    ./gradlew clean
+    ;;
+
+  'react:deps')
+    echo ""
+    echo "Installing NPM dependencies"
+    echo ""
+    cd subprojects/frontend/react-app
+    npm install
+    ;;
+
+  'react:start')
+    echo ""
+    echo "Starting local react app..."
+    echo ""
+    cd subprojects/frontend/react-app
+    npm start
+    ;;
+
+  'server:start')
+    echo ""
+    echo "Starting local server from jar file..."
+    echo ""
+    java -Dspring.profiles.active=dev,db-h2,db-init,debug -jar ./subprojects/backend/build/libs/backend-0.0.1-SNAPSHOT.jar
+    ;;
+
+  'server:javadoc')
+    echo ""
+    echo "Opening javadoc"
+    echo ""
+    open subprojects/backend/build/docs/javadoc/index.html
+    ;;
+
+  'server:reports:test')
+    echo ""
+    echo "Opening report test"
+    echo ""
+    open subprojects/backend/build/reports/tests/test/index.html
+    ;;
+
+  'h2:console')
+    echo ""
+    echo "Opening H2 console..."
+    echo ""
+    open http://localhost:8080/h2-console
+    ;;
+
+  'chrome')
+    echo ""
+    echo "Opening Chrome in application mode."
+    echo ""
+
+    url=http://localhost:3000
+
+    /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --app=$url --window-size=1400,1000 --user-data-dir=./temp/chrome/desktop
+    echo ""
+    ;;
+
+  'chrome:mobile')
+    echo ""
+    echo "Opening Chrome in application mode."
+    echo ""
+
+    url=http://localhost:3000
+
+    /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --app=$url --window-size=414,736 --user-data-dir=./temp/chrome/mobile
+    echo ""
+    ;;
+
+
+  *)
+    echo -e ""
+    echo "Usage:"
+    echo ""
+    echo "$(tput setaf 5)    $me$(tput sgr0) $(tput setaf 3)<command>$(tput sgr0)"
+    echo ""
+    echo "Commands:"
+    echo ""
+
+    echo "$(tput setaf 3)    build                                      $(tput sgr0)      Compile and assemble application"
+    echo "$(tput setaf 3)    clean                                      $(tput sgr0)      Delete generated and temporary files"
+
+    echo "$(tput setaf 3)    react:start                                $(tput sgr0)      Start local react application"
+    echo "$(tput setaf 3)    react:deps                                 $(tput sgr0)      Install NPM dependencies for react application"
+
+    echo "$(tput setaf 3)    server:start                               $(tput sgr0)      Run entire application as a spring boot jar (must generate jar via './run build' first)"
+    echo "$(tput setaf 3)    h2:console                                 $(tput sgr0)      Open the H2 database console"
+
+esac

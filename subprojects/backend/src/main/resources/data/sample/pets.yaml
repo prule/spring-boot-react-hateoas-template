@@ -1,0 +1,12 @@
+---
+  !!com.example.demo.pet.Pet
+key:
+  key: "kitty"
+name:
+  name: "Kitty"
+---
+  !!com.example.demo.pet.Pet
+key:
+  key: "fido"
+name:
+  name: "Fido"

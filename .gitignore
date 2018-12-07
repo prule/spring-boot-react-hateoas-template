@@ -1,0 +1,41 @@
+# osx
+.DS_Store
+.DS_Store?
+.AppleDouble
+.LSOverride
+.Spotlight-V100
+.Trashes
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+ehthumbs.db
+Thumbs.db
+
+# intellij
+.idea
+*.ipr
+*.iws
+*.iml
+out/
+
+# compiled output
+dist
+tmp
+
+# dependencies
+node_modules
+bower_components
+
+# java
+build/
+.gradle
+target/
+subprojects/backend/src/main/generated
+
+# react
+subprojects/frontend/react-app/build
+
+temp
+/classes/

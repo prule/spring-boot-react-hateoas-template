@@ -1,0 +1,10 @@
+task npm(type: Exec) {
+    workingDir './react-app'
+    commandLine 'npm', 'run', 'build'
+}
+
+clean.doLast {
+    file('./react-app/build').deleteDir()
+}
+
+build.dependsOn(npm)

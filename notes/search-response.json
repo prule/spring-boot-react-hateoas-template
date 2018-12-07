@@ -1,0 +1,71 @@
+{
+    "_embedded": {
+        "personResourceList": [
+            {
+                "key": "john-doe",
+                "name": {
+                    "firstName": "John",
+                    "lastName": "Doe",
+                    "otherNames": "Homer Jay"
+                },
+                "address": null,
+                "dateOfBirth": "2015-04-14T11:07:00.000+0000",
+                "_links": {
+                    "self": {
+                        "href": "http://localhost:8080/api/1/persons/john-doe"
+                    },
+                    "update": {
+                        "href": "http://localhost:8080/api/1/persons/john-doe"
+                    }
+                }
+            },
+            {
+                "key": "jane-doe",
+                "name": {
+                    "firstName": "Jane",
+                    "lastName": "Doe",
+                    "otherNames": "Marge Jay"
+                },
+                "address": null,
+                "dateOfBirth": null,
+                "_links": {
+                    "self": {
+                        "href": "http://localhost:8080/api/1/persons/jane-doe"
+                    },
+                    "update": {
+                        "href": "http://localhost:8080/api/1/persons/jane-doe"
+                    }
+                }
+            },
+            {
+                "key": "jerry-doe",
+                "name": {
+                    "firstName": "Jerry",
+                    "lastName": "Doe",
+                    "otherNames": null
+                },
+                "address": null,
+                "dateOfBirth": null,
+                "_links": {
+                    "self": {
+                        "href": "http://localhost:8080/api/1/persons/jerry-doe"
+                    },
+                    "update": {
+                        "href": "http://localhost:8080/api/1/persons/jerry-doe"
+                    }
+                }
+            }
+        ]
+    },
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/api/1/persons?page=0&size=20"
+        }
+    },
+    "page": {
+        "size": 20,
+        "totalElements": 3,
+        "totalPages": 1,
+        "number": 0
+    }
+}

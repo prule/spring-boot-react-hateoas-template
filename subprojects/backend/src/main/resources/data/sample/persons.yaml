@@ -1,0 +1,57 @@
+---
+  !!com.example.demo.person.Person
+key:
+  key: john-doe
+dateOfBirth: 1985-04-14
+name:
+  firstName: John
+  lastName: Doe
+  otherNames: Homer Jay
+address:
+  line1: Level 3
+  line2: 10000 York St
+  city: Sydney
+  state: NSW
+  postcode: 2000
+  country: Australia
+pets:
+  - key:
+      key: paws
+    name:
+      name: Paws
+    dateOfBirth: 2010-01-14
+  - key:
+      key: jaws
+    name:
+      name: Jaws
+    dateOfBirth: 2015-08-14
+---
+  !!com.example.demo.person.Person
+key:
+  key: jane-doe
+name:
+  firstName: Jane
+  lastName: Doe
+  otherNames: Marge Jay
+pets:
+  - key:
+      key: fido
+    name:
+      name: Fido
+  - key:
+      key: dido
+    name:
+      name: Dido
+---
+  !!com.example.demo.person.Person
+key:
+  key: jerry-doe
+name:
+  firstName: Jerry
+  lastName: Doe
+pets:
+  - key:
+      key: tiger
+    name:
+      name: Tiger
+

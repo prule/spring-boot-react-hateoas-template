@@ -1,6 +1,7 @@
 package com.example.demo.common.errorhandling;
 
 import com.example.demo.common.NotFoundException;
+import com.example.demo.common.security.InvalidAuthenticationTokenException;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.core.Ordered;
@@ -22,8 +23,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
@@ -209,6 +209,21 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
+    @ExceptionHandler(InvalidAuthenticationTokenException.class)
+    protected ResponseEntity<Object> handleInvalidAuthenticationToken(MethodArgumentTypeMismatchException ex, WebRequest request) {
+        ApiError apiError = new ApiError(UNAUTHORIZED);
+        apiError.setMessage(String.format("Expired or invalid authentication token"));
+        apiError.setDebugMessage(ex.getMessage());
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
+        ApiError apiError = new ApiError(INTERNAL_SERVER_ERROR);
+        apiError.setMessage(String.format("Unexpected error"));
+        apiError.setDebugMessage(ex.getMessage());
+        return buildResponseEntity(apiError);
+    }
 
     private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {
         return new ResponseEntity<>(apiError, apiError.getStatus());

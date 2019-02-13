@@ -26,6 +26,7 @@ class WebConfiguration implements WebMvcConfigurer {
                     .allowCredentials(true)
                     .allowedOrigins(corsOrigins)
                     .allowedMethods(
+                            HttpMethod.OPTIONS.name(),
                             HttpMethod.HEAD.name(),
                             HttpMethod.GET.name(),
                             HttpMethod.POST.name(),

@@ -1,0 +1,7 @@
+---
+  !!com.example.demo.user.User
+key:
+  key: bob
+username: bob
+password: password
+enabled: true

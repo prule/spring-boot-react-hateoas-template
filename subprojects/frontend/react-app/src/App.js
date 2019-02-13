@@ -11,11 +11,13 @@ import HomePage from "./app/home/HomePage";
 import PersonsPage from "./app/person/PersonsPage";
 import PersonPage from "./app/person/PersonPage";
 import PersonPetPage from "./app/person/PersonPetPage";
+import LoginPage from "./app/LoginPage";
 
 
 class App extends Component {
 
   static index;
+  static token;
 
   constructor(props) {
     super(props);
@@ -45,6 +47,7 @@ class App extends Component {
 
           <div className="main">
             <Route exact path="/" component={HomePage}/>
+            <Route exact path="/login" component={LoginPage}/>
             <Route exact path="/persons" component={PersonsPage}/>
             <Route exact path="/persons/:key" component={PersonPage}/>
             <Route exact path="/persons/:personKey/pets/:petKey" component={PersonPetPage}/>

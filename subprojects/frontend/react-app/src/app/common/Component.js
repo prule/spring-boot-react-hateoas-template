@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Routes from '../../Routes';
+
 export default class Component extends React.Component {
 
   constructor(props) {
@@ -60,7 +62,11 @@ export default class Component extends React.Component {
   }
 
   onApiError(apiError) {
+    console.log(apiError);
     switch (apiError.status) {
+      case 403:
+        this.navigate(Routes.main.login());
+        break;
       case "BAD_REQUEST":
         this.setState({
           errorMessage: "A validation error has occurred.",

@@ -1,5 +1,6 @@
 import axios from "axios";
 import ApiError from "./common/ApiError";
+import App from "../App";
 
 export default class Api {
 
@@ -11,17 +12,27 @@ export default class Api {
     return await Api.do("put", link, body);
   };
 
+  static post = async (link, body) => {
+    return await Api.do("post", link, body);
+  };
+
   static do = async (method, link, body) => {
 
     try {
+
+      const headers = {
+        'Content-Type': 'application/json;charset=UTF-8'
+      };
+
+      if (App.token) {
+        headers['Authorization'] = `Bearer ${App.token}`
+      }
 
       const response = await axios({
         method: method,
         url: link.toString(),
         data: body,
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8'
-        }
+        headers: headers
       });
 
       return response.data;
@@ -29,11 +40,13 @@ export default class Api {
     } catch (error) {
 
       const response = error.response;
+      console.log('error is ', error);
 
       if (response) {
         // 400
-        if (response.status >= 400 && response.status < 500) {
-          const apiError = response.data.apierror;
+        if (response.status === 0 || (response.status >= 400 && response.status < 500)) {
+          console.log('response is ', response);
+          const apiError = response.data.apierror ? response.data.apierror : response.data;
           throw new ApiError(apiError);
         }
       }

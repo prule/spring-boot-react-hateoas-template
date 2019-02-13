@@ -4,6 +4,10 @@ export default class Routes {
 
     home() {
       return '/';
+    },
+
+    login() {
+      return "/login";
     }
 
   };

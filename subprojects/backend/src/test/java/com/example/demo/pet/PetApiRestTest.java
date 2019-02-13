@@ -1,14 +1,9 @@
 package com.example.demo.pet;
 
 import com.example.demo.common.Key;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.restassured.RestAssured;
-import io.restassured.config.DecoderConfig;
-import io.restassured.config.EncoderConfig;
-import io.restassured.config.ObjectMapperConfig;
-import io.restassured.config.RestAssuredConfig;
-import io.restassured.mapper.factory.Jackson2ObjectMapperFactory;
+import com.example.demo.common.security.JwtTokenProvider;
+import com.example.demo.rest.RestProvider;
+import com.example.demo.steps.LoginSteps;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -19,9 +14,9 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.lang.reflect.Type;
+import javax.inject.Inject;
 
-import static io.restassured.RestAssured.get;
+import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.with;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
@@ -35,30 +30,21 @@ public class PetApiRestTest {
     @LocalServerPort
     int port;
 
+    @Inject private LoginSteps loginSteps;
+    @Inject private RestProvider restProvider;
+
     @Before
-    public void setup() {
-        RestAssured.baseURI = "http://localhost";
-        RestAssured.port = port;
-
-        RestAssured.config = new RestAssuredConfig()
-                .decoderConfig(new DecoderConfig("UTF-8"))
-                .encoderConfig(new EncoderConfig("UTF-8", "UTF-8"))
-                .objectMapperConfig(ObjectMapperConfig.objectMapperConfig().jackson2ObjectMapperFactory(new Jackson2ObjectMapperFactory() {
-
-                            @Override
-                            public ObjectMapper create(Type type, String s) {
-                                ObjectMapper mapper = new ObjectMapper();
-                                mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                                return mapper;
-                            }
-                        })
-                );
-
+    public void setup() throws Exception {
+        restProvider.init("http://localhost", port);
+        loginSteps.login("bob", "password");
     }
 
     @Test
     public void should_find_pet() {
-        get("/api/1/pets/{key}", "fido")
+        given()
+                .header(JwtTokenProvider.AUTH_HEADER, loginSteps.authToken())
+                .when()
+                .get("/api/1/pets/{key}", "fido")
                 .then()
                 .statusCode(200)
                 .body("key", equalTo("fido"))
@@ -76,6 +62,7 @@ public class PetApiRestTest {
 
         with()
                 .body(resource)
+                .header(JwtTokenProvider.AUTH_HEADER, loginSteps.authToken())
                 .contentType("application/json")
                 .put("/api/1/pets/{key}", key.getKey())
                 .then()
@@ -90,6 +77,7 @@ public class PetApiRestTest {
 
         with()
                 .contentType("application/json")
+                .header(JwtTokenProvider.AUTH_HEADER, loginSteps.authToken())
                 .get("/api/1/pets?personKey=john-doe")
                 .then()
                 .statusCode(200)
@@ -102,6 +90,7 @@ public class PetApiRestTest {
 
         with()
                 .contentType("application/json")
+                .header(JwtTokenProvider.AUTH_HEADER, loginSteps.authToken())
                 .get("/api/1/pets")
                 .then()
                 .statusCode(200)

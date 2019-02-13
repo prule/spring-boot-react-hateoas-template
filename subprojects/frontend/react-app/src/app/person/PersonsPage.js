@@ -4,6 +4,7 @@ import Person from "./Person";
 import Str from "../common/Str";
 import Component from "../common/Component";
 import Routes from "../../Routes";
+import ErrorMessage from "../common/ErrorMessage";
 
 export default class PersonsPage extends Component {
 
@@ -40,12 +41,14 @@ export default class PersonsPage extends Component {
       <div>
         <h2>Owners</h2>
 
+        <ErrorMessage message={this.state.errorMessage}/>
+
         <Table striped bordered condensed hover>
           <thead>
           <tr>
             <th className="col-md-9">Name</th>
             <th className="col-md-2 text-center">Date Of Birth</th>
-            <th className="col-md-1"></th>
+            <th className="col-md-1"> </th>
           </tr>
           </thead>
           <tbody>

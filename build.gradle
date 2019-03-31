@@ -1,9 +1,10 @@
 plugins {
-    id 'org.kordamp.gradle.apidoc' version '0.9.0'
+    id 'org.kordamp.gradle.project' version '0.15.1'
 }
 
 config {
-    release = (rootProject.findProperty('release') ?: false).toBoolean()
+//    release = (rootProject.findProperty('release') ?: false).toBoolean()
+    release = true
 
     info {
         name = 'Demo'
@@ -11,27 +12,36 @@ config {
         description = 'Demo spring-boot/react application'
 
         links {
-            website = ''
-            issueTracker = ''
-            scm = ''
+            website = 'https://github.com/prule/spring-boot-react-hateoas-template'
+            issueTracker = 'https://github.com/prule/spring-boot-react-hateoas-template/issues'
+            scm = 'https://github.com/prule/spring-boot-react-hateoas-template.git'
         }
 
         people {
             person {
                 id = 'paulrule'
                 name = 'Paul Rule'
-                roles = ['developer']
+                roles = ['developer', 'architect']
             }
         }
     }
 
     license {
         enabled = false
-//        licenses {
-//            license {
-//                id = 'Apache-2.0'
-//            }
-//        }
+        licenses {
+            license {
+                id = 'Apache-2.0'
+            }
+        }
+    }
+
+    jacoco {
+        enabled
+        mergeExecFile
+        mergeReportHtmlFile
+        mergeReportXmlFile
+        additionalSourceDirs
+        additionalClassDirs
     }
 
     bintray {
@@ -55,19 +65,20 @@ allprojects {
 }
 
 task copyClientResources(dependsOn: ':frontend:build', type: Copy) {
+    doLast {
     println("Copying frontend resources to include in spring boot jar")
 
     group = 'build'
     description = 'Copy client resources into server'
-//    doLast {
-        def src = "${project(':frontend').projectDir}/react-app/build"
-        def dest = "${project(':backend').buildDir}/resources/main/static"
-        println("Copying ${src} to ${dest}")
-        copy {
-            from "${project(':frontend').projectDir}/react-app/build"
-            into "${project(':backend').buildDir}/resources/main/static"
-//        }
+    def src = "${project(':frontend').projectDir}/react-app/build"
+    def dest = "${project(':backend').buildDir}/resources/main/static"
+    println("Copying ${src} to ${dest}")
+    copy {
+        from "${project(':frontend').projectDir}/react-app/build"
+        into "${project(':backend').buildDir}/resources/main/static"
+        }
     }
 }
 
-task(":server:build").mustRunAfter(copyClientResources)
+//task(":server:build").mustRunAfter(copyClientResources)
+project(":backend").build.mustRunAfter(copyClientResources)

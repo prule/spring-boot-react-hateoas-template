@@ -83,6 +83,59 @@ case "$1" in
     echo ""
     ;;
 
+  'gradle:upgrade')
+    echo ""
+    echo "Upgrading gradle."
+    echo ""
+    if [ -z "$2" ]; then
+      echo "Version not specified!"
+    else
+      ./gradlew wrapper --gradle-version $2
+    fi
+    echo ""
+    ;;
+
+  'report:coverage')
+    echo ""
+    echo "Generating Jacoco test coverage report."
+    echo ""
+    ./gradlew JacocoTestReport
+    echo ""
+    ;;
+
+  'report:coverage:open')
+    echo ""
+    echo "Opening Jacoco test coverage report."
+    echo ""
+    open ./subprojects/backend/build/reports/jacoco/test/html/index.html
+    echo ""
+    ;;
+
+  'report:test:open')
+    echo ""
+    echo "Opening Junit test report."
+    echo ""
+    open ./subprojects/backend/build/reports/tests/test/index.html
+    echo ""
+    ;;
+
+  'kill:server')
+    echo ""
+    echo "Killing server processes"
+    echo ""
+    pwd = `pwd`
+    pkill -fl spring.profiles.active=
+    echo ""
+    ;;
+
+  'kill:web')
+    echo ""
+    echo "Killing web processes"
+    echo ""
+    pwd = `pwd`
+    pkill -fl ${pwd}/web/node_modules/
+    echo ""
+    ;;
 
   *)
     echo -e ""

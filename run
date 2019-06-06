@@ -137,6 +137,23 @@ case "$1" in
     echo ""
     ;;
 
+  # kordamp targets
+
+  'guide:create')
+    echo ""
+    echo "Creating guide"
+    echo ""
+    ./gradlew createGuide
+    ;;
+
+  'guide:open')
+    echo ""
+    echo "Opening guide"
+    echo ""
+    open ./docs/guide/build/guide/index.html
+    ;;
+
+
   *)
     echo -e ""
     echo "Usage:"

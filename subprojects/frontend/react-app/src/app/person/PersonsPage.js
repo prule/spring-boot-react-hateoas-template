@@ -1,73 +1,61 @@
-import React from "react";
-import {Glyphicon, Table} from "react-bootstrap";
+import React, {useEffect, useState} from "react";
+import {Table} from "react-bootstrap";
 import Person from "./Person";
-import Str from "../common/Str";
-import Component from "../common/Component";
+import Str from "../../common/Str";
 import Routes from "../../Routes";
-import ErrorMessage from "../common/ErrorMessage";
+import ErrorMessage from "../../common/ErrorMessage";
+import {fn, navigate} from "../../common/PageUtil";
+import {onApiError} from "../../Api";
+import {useStateValue} from "../../State";
 
-export default class PersonsPage extends Component {
+export default function PersonsPage(props) {
+  const [{index, alert}, dispatch] = useStateValue();
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-    this.onSelectPerson = this.onSelectPerson.bind(this);
-    this.setPersons = this.setPersons.bind(this);
-    this.search();
-  }
+  const [validation, setValidation] = useState(null);
+  const [persons, setPersons] = useState(null);
 
-  search() {
+  useEffect(() => {
 
     let params = {};
-    Person.search(params)
-      .then(this.setPersons)
-      .catch(this.onApiError);
+    Person.search(index, params)
+      .then(setPersons)
+      .catch(onApiError);
 
-  };
+  }, [index]);
 
-  setPersons(persons) {
-    this.setState({
-      persons: persons
-    });
+  function onSelectPerson(person) {
+    navigate(props.history, Routes.person.person(person));
   }
 
-  onSelectPerson(person) {
-    this.navigate(Routes.person.person(person));
-  }
 
-  render() {
+  return (
+    <div>
+      <h2>Owners</h2>
 
-    return (
-      <div>
-        <h2>Owners</h2>
+      <Table striped bordered condensed hover>
+        <thead>
+        <tr>
+          <th className="col-md-9">Name</th>
+          <th className="col-md-2 text-center">Date Of Birth</th>
+          <th className="col-md-1"></th>
+        </tr>
+        </thead>
+        <tbody>
 
-        <ErrorMessage message={this.state.errorMessage}/>
+        {persons && persons.list.map((person) => {
+          return (
+            <tr key={person.key} onClick={fn(onSelectPerson, person)} className="clickable">
+              <td>{person.name.fullName()}</td>
+              <td className="text-center">{Str.formatDate(person.dateOfBirth)}</td>
+              <td className="text-center"> ]</td>
+            </tr>
+          );
+        })}
+        </tbody>
+      </Table>
 
-        <Table striped bordered condensed hover>
-          <thead>
-          <tr>
-            <th className="col-md-9">Name</th>
-            <th className="col-md-2 text-center">Date Of Birth</th>
-            <th className="col-md-1"> </th>
-          </tr>
-          </thead>
-          <tbody>
-
-          {this.state.persons && this.state.persons.list.map((person) => {
-            return (
-              <tr key={person.key} onClick={this.fn(this.onSelectPerson, person)} className="clickable">
-                <td>{person.name.fullName()}</td>
-                <td className="text-center">{Str.formatDate(person.dateOfBirth)}</td>
-                <td className="text-center"><Glyphicon glyph="chevron-right"/></td>
-              </tr>
-            );
-          })}
-          </tbody>
-        </Table>
-
-      </div>
-    )
-  }
+    </div>
+  )
 
 }
 

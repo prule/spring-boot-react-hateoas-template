@@ -1,32 +1,24 @@
+// @flow
+
 import React, {Component} from 'react';
-import {Nav, Navbar, NavItem} from "react-bootstrap";
-import {Link} from "react-router-dom";
-import {LinkContainer} from 'react-router-bootstrap';
+import {Nav, Navbar} from "react-bootstrap";
 import Routes from '../Routes';
+import Api from '../Api';
 
 export default class Menu extends Component {
 
   render() {
     return (
-
-      <Navbar collapseOnSelect fixedTop inverse>
-        <Navbar.Header>
-          <Navbar.Brand>
-            <Link to={Routes.main.home()}>Pets and Owners</Link>
-          </Navbar.Brand>
-          <Navbar.Toggle/>
-        </Navbar.Header>
-        <Navbar.Collapse>
-          <Nav>
-            <LinkContainer to={Routes.person.persons()}>
-              <NavItem eventKey={1}>
-                Owners
-              </NavItem>
-            </LinkContainer>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
-
+        <Navbar collapseOnSelect fixedTop inverse>
+          <Navbar.Brand href="#home">Pets and Owners</Navbar.Brand>
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="mr-auto">
+              <Nav.Link href={Routes.person.persons()}>Owners</Nav.Link>
+              <Nav.Link href={Routes.main.home()} onClick={Api.logout}>Logout</Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
     );
   }
 }
+

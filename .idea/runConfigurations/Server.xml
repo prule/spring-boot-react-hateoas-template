@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Server" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-    <module name="com.example.backend.main" />
+    <module name="spring-boot-react-rest.backend.main" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.demo.Main" />
     <option name="VM_PARAMETERS" value="-Dspring.profiles.active=dev,db-h2,db-init,debug" />
     <option name="ALTERNATIVE_JRE_PATH" />

@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -25,7 +26,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import static org.springframework.http.HttpStatus.*;
 
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(Ordered.LOWEST_PRECEDENCE)
 @ControllerAdvice
 @Slf4j
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -210,9 +211,17 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(InvalidAuthenticationTokenException.class)
-    protected ResponseEntity<Object> handleInvalidAuthenticationToken(MethodArgumentTypeMismatchException ex, WebRequest request) {
+    protected ResponseEntity<Object> handleInvalidAuthenticationToken(InvalidAuthenticationTokenException ex, WebRequest request) {
         ApiError apiError = new ApiError(UNAUTHORIZED);
         apiError.setMessage(String.format("Expired or invalid authentication token"));
+        apiError.setDebugMessage(ex.getMessage());
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    protected ResponseEntity<Object> handleBadCredentials(BadCredentialsException ex, WebRequest request) {
+        ApiError apiError = new ApiError(UNAUTHORIZED);
+        apiError.setMessage(String.format("Invalid username/password combination"));
         apiError.setDebugMessage(ex.getMessage());
         return buildResponseEntity(apiError);
     }

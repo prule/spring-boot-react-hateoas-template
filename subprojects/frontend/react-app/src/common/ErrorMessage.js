@@ -1,9 +1,8 @@
-import Component from "./Component";
 import {Alert} from "react-bootstrap";
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default class ErrorMessage extends Component {
+export default class ErrorMessage {
 
   static propTypes = {
     message: PropTypes.string

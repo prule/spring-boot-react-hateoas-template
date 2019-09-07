@@ -1,184 +1,115 @@
-import React from "react";
-import {Button, ButtonToolbar, Col, ControlLabel, Form, FormControl, FormGroup, Glyphicon, Row, Table} from "react-bootstrap";
+// @flow
 
-import Str from "../common/Str";
-import Component from "../common/Component";
+import React, {useEffect, useState} from "react";
+import "react-datepicker/dist/react-datepicker.css";
+import withStyles from "@material-ui/core/styles/withStyles";
+
 import Routes from "../../Routes";
-import ErrorMessage from "../common/ErrorMessage";
-import InputDatePicker from "../components/InputDatePicker";
+import {onApiError} from "../../Api";
+
+import {navigate, fn} from '../../common/PageUtil';
 
 import Person from "./Person";
+import {useStateValue} from "../../State";
+import {Formik} from "formik";
+import * as yup from "yup";
+import Paper from "@material-ui/core/Paper";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 
-import "react-datepicker/dist/react-datepicker.css";
-import InputAddress from "../components/InputAddress";
+const schema = yup.object({
+  firstName: yup.string().required(),
+  lastName: yup.string().required()
+});
 
-export default class PersonPage extends Component {
+const styles = theme => ({
+ paper: {
+   marginTop: theme.spacing.unit * 8,
+   display: "flex",
+   flexDirection: "column",
+   alignItems: "center",
+   padding: `${theme.spacing.unit * 5}px ${theme.spacing.unit * 5}px ${theme
+     .spacing.unit * 5}px`
+ },
+ container: {
+   maxWidth: "200px"
+ }
+});
 
-  constructor(props) {
-    super(props);
+function PersonPage(props) {
+  const {classes} = props;
 
-    this.onCancel = this.onCancel.bind(this);
-    this.onSelectPet = this.onSelectPet.bind(this);
-    this.onAddPet = this.onAddPet.bind(this);
-    this.onSave = this.onSave.bind(this);
-    this.setPerson = this.setPerson.bind(this);
-    this.setPets = this.setPets.bind(this);
-    this.loadPets = this.loadPets.bind(this);
+  const [{index, alert}, dispatch] = useStateValue();
 
-    this.loadPerson(props.match.params.key);
+  const personKey = props.match.params.key;
+
+  const [validation, setValidation] = useState(null);
+  const [person, setPerson] = useState(null);
+  const [pets, setPets] = useState(null);
+
+  useEffect(() => {
+    Person.find(index, personKey)
+      .then(setPerson)
+      .then((person) => person.searchPets()
+        .then(setPets)
+        .catch((err) => onApiError(err, setValidation))
+      )
+      .catch((err) => onApiError(err, setValidation));
+  }, [personKey]);
+
+  function onCancel() {
+    navigate(props.history, Routes.person.persons());
   }
 
-  loadPerson(key) {
-    Person.find(key)
-      .then(this.setPerson)
-      .then(this.loadPets)
-      .catch(this.onApiError);
-  };
-
-  loadPets(person) {
-    if (person) {
-      person.searchPets()
-        .then(this.setPets)
-        .catch(this.onApiError);
-    }
-  };
-
-  onCancel() {
-    this.navigate(Routes.person.persons());
-  }
-
-  onSave() {
-    this.clear();
-    let person = this.state.person;
+  function onSave() {
     person.save()
-      .then(this.setPerson)
-      .then(() => this.navigate(Routes.person.persons()))
-      .catch(this.onApiError);
-  };
-
-  onSelectPet(pet) {
-    this.navigate(Routes.person.pet(this.state.person, pet));
+      .then(setPerson)
+      .then(() => navigate(Routes.person.persons()))
+      .catch(onApiError);
   }
 
-  onAddPet() {
-    let person = this.state.person;
-    this.navigate(Routes.person.pet(person, null));
+  function onSelectPet(pet) {
+    navigate(props.history, Routes.person.pet(person, pet));
   }
 
-  setPerson(person) {
-    this.setState({
-      person: person
-    });
-    return person;
+  function onAddPet() {
+    navigate(props.history, Routes.person.pet(person, null));
   }
 
-  setPets(pets) {
-    this.setState({
-      pets: pets
-    });
-    return pets;
-  }
+  return (
+    <div>
+      <h2>Owner</h2>
+      <br/>
 
-  render() {
+      {person &&
 
-    const person = this.state.person;
-    const pets = this.state.pets;
+      <div className={classes.container}>
+        <Paper elevation={1} className={classes.paper}>
+          <h1>Form</h1>
+          <Formik>
+            <form onSubmit={() => {
+            }}>
 
-    return (
-      <div>
-        <h2>Owner</h2>
-        <br/>
+              <TextField
+                id="person.name.firstName"
+                name="name"
+                label="Name"
+                value={person.name.firstName}
+                fullWidth
+              />
 
-        <ErrorMessage message={this.state.errorMessage}/>
+              <Button type="submit">Save</Button>
+              <Button onClick={onCancel}>Cancel</Button>
 
-        {person &&
-        <div>
-          <Form horizontal>
+            </form>
 
-            <FormGroup controlId="personFirstName" validationState={this.getValidationState('firstName')}>
-              <Col componentClass={ControlLabel} sm={2}>
-                First name
-              </Col>
-              <Col sm={6}>
-                <FormControl type="text" placeholder="First name" value={person.name.firstName} name="person.name.firstName" onChange={this.onChange}/>
-              </Col>
-            </FormGroup>
 
-            <FormGroup controlId="personLastName" validationState={this.getValidationState('lastName')}>
-              <Col componentClass={ControlLabel} sm={2}>
-                Last name
-              </Col>
-              <Col sm={6}>
-                <FormControl type="text" placeholder="Last name" value={person.name.lastName} name="person.name.lastName" onChange={this.onChange}/>
-              </Col>
-            </FormGroup>
-
-            <FormGroup controlId="personDateOfBirth" validationState={this.getValidationState('dateOfBirth')}>
-              <Col componentClass={ControlLabel} sm={2}>
-                Date of Birth
-              </Col>
-              <Col sm={10}>
-                <InputDatePicker className="form-control" value={person.dateOfBirth} name="person.dateOfBirth" onChange={this.onChange}/>
-              </Col>
-            </FormGroup>
-
-            <InputAddress value={person.address}/>
-
-            <Row>
-              <Col sm={10} smPush={2}>
-                <ButtonToolbar>
-                  <Button bsStyle="primary" onClick={this.onSave}>Save</Button>
-                  <Button onClick={this.onCancel}>Cancel</Button>
-                </ButtonToolbar>
-              </Col>
-            </Row>
-
-          </Form>
-
-          <h2>Pets</h2>
-
-          <Row>
-            <Col sm={10} smPush={2}>
-
-              <Table striped bordered condensed hover>
-                <thead>
-                <tr>
-                  <th className="col-md-7">Name</th>
-                  <th className="col-md-2 text-center">Date Of Birth</th>
-                  <th className="col-md-1"></th>
-                </tr>
-                </thead>
-                <tbody>
-
-                {pets && pets.list.map((pet) => {
-                  return (
-                    <tr key={pet.key} onClick={this.fn(this.onSelectPet, pet)} className="clickable">
-                      <td>{pet.name.fullName()}</td>
-                      <td className="text-center">{Str.formatDate(pet.dateOfBirth)}</td>
-                      <td className="text-center"><Glyphicon glyph="chevron-right"/></td>
-                    </tr>
-                  );
-                })}
-
-                </tbody>
-              </Table>
-
-            </Col>
-          </Row>
-
-          <Row>
-            <Col sm={10} smPush={2}>
-              <ButtonToolbar>
-                <Button bsStyle="primary" onClick={this.onAddPet}>Add</Button>
-              </ButtonToolbar>
-            </Col>
-          </Row>
-        </div>
-        }
-
+          </Formik>
+        </Paper>
       </div>
-    )
-  }
-
+      }
+    </div>
+  )
 }
 
+export default withStyles(styles)(PersonPage);

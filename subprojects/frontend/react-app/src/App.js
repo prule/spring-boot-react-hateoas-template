@@ -1,63 +1,50 @@
-import './App.css';
+// @flow
+
+import './App.css'
 
 import React from 'react';
-import {Route} from 'react-router-dom';
+import {Route, Router} from "react-router";
+import history from './history';
 
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import Link from '@material-ui/core/Link';
+
+import {StateProvider} from './State';
+import ActionType from "./common/ActionType";
+
+import Main from "./Main";
 import Menu from "./app/Menu";
-import Component from "./app/common/Component";
-import Index from "./app/common/Index";
-
-import HomePage from "./app/home/HomePage";
-import PersonsPage from "./app/person/PersonsPage";
-import PersonPage from "./app/person/PersonPage";
-import PersonPetPage from "./app/person/PersonPetPage";
 import LoginPage from "./app/LoginPage";
 
-
-class App extends Component {
-
-  static index;
-  static token;
-
-  constructor(props) {
-    super(props);
-    this.setIndex = this.setIndex.bind(this);
-    this.load();
-  }
-
-  load() {
-    Index.load()
-      .then(this.setIndex)
-      .catch(this.onApiError);
+export default function App() {
+  const initialState = {
+    index: null
   };
 
-  setIndex(index) {
-    App.index = index;
-    this.setState({
-      index: index
-    });
-  }
-
-  render() {
-    const index = this.state.index;
-    if (index) {
-      return (
-        <div className="container">
-          <Menu/>
-
-          <div className="main">
-            <Route exact path="/" component={HomePage}/>
-            <Route exact path="/login" component={LoginPage}/>
-            <Route exact path="/persons" component={PersonsPage}/>
-            <Route exact path="/persons/:key" component={PersonPage}/>
-            <Route exact path="/persons/:personKey/pets/:petKey" component={PersonPetPage}/>
-          </div>
-        </div>
-      );
+  const reducer = (state, action: ActionType) => {
+    console.log('action', action);
+    let func = ActionType.handlerMap[action.type];
+    if (func) {
+      return func(state, action);
     } else {
-      return null;
+      console.error('No handler has been defined for action ', action);
     }
-  }
+  };
+
+  return (
+    <Router history={history}>
+      <StateProvider initialState={initialState} reducer={reducer}>
+          <Container maxWidth="false">
+            <Box my={8}>
+              <Route exact path="/login" component={LoginPage}/>
+              <Main/>
+            </Box>
+          </Container>
+      </StateProvider>
+    </Router>
+  )
+
 }
 
-export default App;

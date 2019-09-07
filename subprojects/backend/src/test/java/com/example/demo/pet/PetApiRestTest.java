@@ -4,15 +4,11 @@ import com.example.demo.common.Key;
 import com.example.demo.common.security.JwtTokenProvider;
 import com.example.demo.rest.RestProvider;
 import com.example.demo.steps.LoginSteps;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.inject.Inject;
 
@@ -21,10 +17,8 @@ import static io.restassured.RestAssured.with;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 
-@RunWith(SpringRunner.class)
 @ActiveProfiles({"dev", "db-test", "db-init"})
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PetApiRestTest {
 
     @LocalServerPort
@@ -33,7 +27,7 @@ public class PetApiRestTest {
     @Inject private LoginSteps loginSteps;
     @Inject private RestProvider restProvider;
 
-    @Before
+    @BeforeEach
     public void setup() throws Exception {
         restProvider.init("http://localhost", port);
         loginSteps.login("bob", "password");

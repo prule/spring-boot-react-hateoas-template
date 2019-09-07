@@ -62,6 +62,14 @@ allprojects {
         jcenter()
         mavenCentral()
     }
+    ext {
+        SPRING_BOOT_VERSION = "2.1.6.RELEASE"
+        LOMBOK_VERSION = "1.18.8"
+        JUNIT_VERSION = "5.4.2"
+        POSTGRES_DRIVER_VERSION = "42.2.5"
+        QUERYDSL_VERSION = "4.2.1"
+        VSCORE_VERSION = "0.0.2-SNAPSHOT"
+    }
 }
 
 task copyClientResources(dependsOn: ':frontend:build', type: Copy) {

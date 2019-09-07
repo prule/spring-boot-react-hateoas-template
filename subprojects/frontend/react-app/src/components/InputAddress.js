@@ -1,6 +1,6 @@
 import React from "react";
 import Component from "../common/Component";
-import {Col, ControlLabel, FormControl, FormGroup} from "react-bootstrap";
+import {Col, FormLabel, FormControl, FormGroup} from "react-bootstrap";
 import PropTypes from "prop-types";
 
 export default class InputAddress extends Component {
@@ -24,8 +24,8 @@ export default class InputAddress extends Component {
     return (
       <div>
 
-        <FormGroup controlId="line1" validationState={this.getValidationState('line1')}>
-          <Col componentClass={ControlLabel} sm={2}>
+        <FormGroup controlId="line1">
+          <Col componentClass={FormLabel} sm={2}>
             Line 1
           </Col>
           <Col sm={10}>
@@ -33,8 +33,8 @@ export default class InputAddress extends Component {
           </Col>
         </FormGroup>
 
-        <FormGroup controlId="line2" validationState={this.getValidationState('line2')}>
-          <Col componentClass={ControlLabel} sm={2}>
+        <FormGroup controlId="line2">
+          <Col componentClass={FormLabel} sm={2}>
             Line 2
           </Col>
           <Col sm={10}>
@@ -42,8 +42,8 @@ export default class InputAddress extends Component {
           </Col>
         </FormGroup>
 
-        <FormGroup controlId="city" validationState={this.getValidationState('city')}>
-          <Col componentClass={ControlLabel} sm={2}>
+        <FormGroup controlId="city" >
+          <Col componentClass={FormLabel} sm={2}>
             City
           </Col>
           <Col sm={4}>
@@ -51,8 +51,8 @@ export default class InputAddress extends Component {
           </Col>
         </FormGroup>
 
-        <FormGroup controlId="state" validationState={this.getValidationState('state')}>
-          <Col componentClass={ControlLabel} sm={2}>
+        <FormGroup controlId="state">
+          <Col componentClass={FormLabel} sm={2}>
             State
           </Col>
           <Col sm={4}>
@@ -60,8 +60,8 @@ export default class InputAddress extends Component {
           </Col>
         </FormGroup>
 
-        <FormGroup controlId="country" validationState={this.getValidationState('country')}>
-          <Col componentClass={ControlLabel} sm={2}>
+        <FormGroup controlId="country" >
+          <Col componentClass={FormLabel} sm={2}>
             Country
           </Col>
           <Col sm={4}>

@@ -1,89 +1,192 @@
-import React from "react";
-import {Button, ButtonToolbar, Col, ControlLabel, Form, FormControl, FormGroup, Row} from "react-bootstrap";
-import Component from "./common/Component";
-import ErrorMessage from "./common/ErrorMessage";
+// @flow
+
+import React, {useEffect, useState} from "react";
 import Routes from "../Routes";
-import Api from './Api';
+import Api, {onApiError} from '../Api';
 import App from "../App";
 
 import "react-datepicker/dist/react-datepicker.css";
+import {navigate} from "../common/PageUtil";
+import {useStateValue} from "../State";
+import {Formik} from "formik";
+import * as yup from 'yup';
+import {withStyles} from '@material-ui/core/styles';
 
-export default class LoginPage extends Component {
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Link from '@material-ui/core/Link';
+import Paper from '@material-ui/core/Paper';
+import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Typography from '@material-ui/core/Typography';
+import {makeStyles} from '@material-ui/core/styles';
 
-  constructor(props) {
-    super(props);
-    this.state.login = {
-      username: '',
-      password: ''
-    };
+const styles = {};
 
-    this.onCancel = this.onCancel.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
+const schema = yup.object({
+  username: yup.string().required(),
+  password: yup.string().required()
+});
+
+const values = {
+  username: '',
+  password: '',
+};
+
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" href="https://material-ui.com/">
+        Your Website
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'. Built with '}
+      <Link color="inherit" href="https://material-ui.com/">
+        Material-UI.
+      </Link>
+    </Typography>
+  );
+}
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    height: '80vh',
+  },
+  image: {
+    backgroundImage: 'url(https://source.unsplash.com/random)',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  },
+  paper: {
+    margin: theme.spacing(8, 4),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
+
+
+function LoginPage(props) {
+  const classes = useStyles();
+  const [{index, alert}, dispatch] = useStateValue();
+  const [validation, setValidation] = useState({});
+
+  function onCancel() {
+    navigate(Routes.main.home());
   }
 
-  onCancel() {
-    this.navigate(Routes.main.home());
-  }
-
-  onSubmit() {
-    this.clear();
-    const login = this.state.login;
-    Api.post(App.index.link('login'), login)
+  function onSubmit(values) {
+    // clear();
+    Api.post(index.link('login'), values)
       .then((response) => {
-        console.log('response', response);
         App.token = response.token;
-        this.navigate(Routes.person.persons())
+        Api.setToken(response.token);
+        navigate(props.history, Routes.person.persons())
       })
-      .catch(this.onApiError);
-  };
-
-  render() {
-
-    const login = this.state.login;
-
-    return (
-      <div>
-        <h2>Login</h2>
-        <br/>
-
-        <ErrorMessage message={this.state.errorMessage}/>
-
-        <div>
-          <Form horizontal>
-
-            <FormGroup controlId="username" validationState={this.getValidationState('username')}>
-              <Col componentClass={ControlLabel} sm={2}>
-                Username
-              </Col>
-              <Col sm={6}>
-                <FormControl type="text" placeholder="Username" value={login.username} name="login.username" onChange={this.onChange}/>
-              </Col>
-            </FormGroup>
-
-            <FormGroup controlId="password" validationState={this.getValidationState('password')}>
-              <Col componentClass={ControlLabel} sm={2}>
-                Password
-              </Col>
-              <Col sm={6}>
-                <FormControl type="text" placeholder="Password" value={login.password} name="login.password" onChange={this.onChange}/>
-              </Col>
-            </FormGroup>
-
-            <Row>
-              <Col sm={10} smPush={2}>
-                <ButtonToolbar>
-                  <Button bsStyle="primary" onClick={this.onSubmit}>Login</Button>
-                  <Button onClick={this.onCancel}>Cancel</Button>
-                </ButtonToolbar>
-              </Col>
-            </Row>
-
-          </Form>
-
-        </div>
-      </div>
-    )
+      .catch(onApiError(dispatch, setValidation))
+    ;
   }
+
+  console.log(validation);
+
+  return (
+    <Grid container spacing={0} xs={12} alignItems="center" justify="center">
+
+      <Grid xs={6} container component="main" className={classes.root}>
+        <CssBaseline/>
+        <Grid item xs={false} sm={4} md={7} className={classes.image}/>
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockOutlinedIcon/>
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign in
+            </Typography>
+            <Formik
+              validationSchema={schema}
+              onSubmit={onSubmit}
+              initialValues={values}
+            >
+              {({
+                  handleSubmit,
+                  handleChange,
+                  handleBlur,
+                  values,
+                  touched,
+                  isValid,
+                  errors,
+                }) => (
+
+                <form className={classes.form} noValidate onSubmit={handleSubmit}>
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="username"
+                    label="Email Address"
+                    name="username"
+                    autoComplete="off"
+                    autoFocus
+                    value={values.username}
+                    onChange={handleChange}
+                  />
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="off"
+                    value={values.password}
+                    onChange={handleChange}
+                  />
+                  <FormControlLabel
+                    control={<Checkbox value="remember" color="primary"/>}
+                    label="Remember me"
+                  />
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                  >
+                    Sign In
+                  </Button>
+
+                </form>
+
+              )}
+            </Formik>
+          </div>
+        </Grid>
+      </Grid>
+    </Grid>
+  )
 
 }
 
+export default withStyles(styles)(LoginPage);

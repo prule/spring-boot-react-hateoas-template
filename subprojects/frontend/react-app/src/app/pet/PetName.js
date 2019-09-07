@@ -1,4 +1,4 @@
-import Str from "../common/Str";
+import Str from "../../common/Str";
 
 export default class PersonName {
   name;

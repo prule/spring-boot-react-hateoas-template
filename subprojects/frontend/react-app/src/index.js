@@ -2,47 +2,19 @@ import './index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter, Route} from 'react-router-dom';
-
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { ThemeProvider } from '@material-ui/styles';
 import App from './App';
-
+import theme from './theme';
 import * as serviceWorker from './serviceWorker';
 
-// function index(state, action) {
-//   switch (action.type) {
-//     case 'INDEX_LOAD':
-//       console.log('index_load', action.index);
-//       state = action.index;
-//       return state;
-//     default:
-//       return state;
-//   }
-// }
-//
-// function app(state = {}, action) {
-//   return {
-//     index: index(state, action)
-//   }
-// }
-//
-// function loadIndex(index) {
-//   return {
-//     type: 'INDEX_LOAD',
-//     index: index
-//   }
-// }
-//
-// const store = createStore(app);
-
-// Api.index().then((index) => {
-//     // store.dispatch(loadIndex(index));
-//   }
-// );
-
 ReactDOM.render(
+  <ThemeProvider theme={theme}>
     <BrowserRouter>
+      <CssBaseline />
       <Route component={App}/>
     </BrowserRouter>
-
+  </ThemeProvider>
   , document.getElementById('root')
 );
 

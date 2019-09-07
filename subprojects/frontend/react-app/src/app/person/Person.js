@@ -1,9 +1,9 @@
-import Api from '../Api';
+import Api from '../../Api';
 import App from '../../App';
-import Resource from "../common/Resource";
+import Resource from "../../common/Resource";
 import PersonName from "./PersonName";
-import Address from "../common/Address";
-import Page from "../common/Page";
+import Address from "../../common/Address";
+import Page from "../../common/Page";
 import Pet from "../pet/Pet";
 
 export default class Person extends Resource {
@@ -32,13 +32,13 @@ export default class Person extends Resource {
       );
   };
 
-  searchPets() {
-    return Pet.search({personKey: this.key});
+  searchPets(index) {
+    return Pet.search(index,{personKey: this.key});
   };
 
-  static find(key) {
+  static find(index, key) {
 
-    let link = App.index
+    let link = index
       .link('person-find')
       .pathParam('key', key);
 
@@ -49,9 +49,9 @@ export default class Person extends Resource {
 
   };
 
-  static search(params) {
+  static search(index, params) {
 
-    let link = App.index.link('person-search')
+    let link = index.link('person-search')
       .withQueryParams(params);
 
     return Api.get(link)

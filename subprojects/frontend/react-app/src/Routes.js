@@ -15,11 +15,11 @@ export default class Routes {
   static person = {
 
     persons() {
-      return '/persons'
+      return '/app/persons'
     },
 
     person(person) {
-      return `/persons/${person.key}`;
+      return `/app/persons/${person.key}`;
     },
 
     pet(person, pet) {

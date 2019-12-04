@@ -19,31 +19,26 @@ import Menu from "./app/Menu";
 import LoginPage from "./app/LoginPage";
 
 export default function App() {
-  const initialState = {
-    index: null
-  };
+  // const initialState = {
+  //   index: null
+  // };
 
-  const reducer = (state, action: ActionType) => {
-    console.log('action', action);
-    let func = ActionType.handlerMap[action.type];
-    if (func) {
-      return func(state, action);
-    } else {
-      console.error('No handler has been defined for action ', action);
-    }
-  };
+  // const reducer = (state, action: ActionType) => {
+  //   console.log('action', action);
+  //   let func = ActionType.handlerMap[action.type];
+  //   if (func) {
+  //     return func(state, action);
+  //   } else {
+  //     console.error('No handler has been defined for action ', action);
+  //   }
+  // };
 
   return (
-    <Router history={history}>
-      <StateProvider initialState={initialState} reducer={reducer}>
-          <Container maxWidth="false">
-            <Box my={8}>
-              <Route exact path="/login" component={LoginPage}/>
-              <Main/>
-            </Box>
-          </Container>
-      </StateProvider>
-    </Router>
+    <Container maxWidth="true">
+      <Box>
+        <Main/>
+      </Box>
+    </Container>
   )
 
 }

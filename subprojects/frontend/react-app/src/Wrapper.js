@@ -1,5 +1,5 @@
 import './index.css';
-import React from 'react';
+import React, {useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter, Route} from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,11 +14,14 @@ import LoginPage from "./app/LoginPage";
 import HomePage from "./app/home/HomePage";
 import Content from "./Content";
 import Box from "@material-ui/core/Box";
-import {StateProvider} from "./State";
+import {StateProvider, useStateValue} from "./State";
 import {withStyles} from "@material-ui/core/styles";
+import Container from "./Container";
+import ActionType from "./common/ActionType";
+import {onApiError} from "./Api";
 import Index from "./app/Index";
 
-function Container(props) {
+function Wrapper(props) {
   const {classes} = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -26,33 +29,27 @@ function Container(props) {
     setMobileOpen(!mobileOpen);
   };
 
+
+  const [{index, alert}, dispatch] = useStateValue();
+
+  useEffect(() => {
+    Index.load()
+      .then((index) => dispatch(ActionType.forResource(ActionType.INDEX, index)))
+      .catch(onApiError(dispatch))
+  }, []);
+
+  if (index == null) {
+    return null;
+  }
+
   return (
     <div className={classes.root}>
-      <CssBaseline/>
-      <nav className={classes.drawer}>
-        <Hidden smUp implementation="js">
-          <Navigator
-            PaperProps={{style: {width: drawerWidth}}}
-            variant="temporary"
-            open={mobileOpen}
-            onClose={handleDrawerToggle}
-          />
-        </Hidden>
-        <Hidden xsDown implementation="css">
-          <Navigator PaperProps={{style: {width: drawerWidth}}}/>
-        </Hidden>
-      </nav>
-      <div className={classes.app}>
-        <Header onDrawerToggle={handleDrawerToggle}/>
-        <main className={classes.main}>
-          <Route component={App}/>
-        </main>
-        <footer className={classes.footer}>
-          footer
-        </footer>
-      </div>
+
+      <Route exact path="/login" component={LoginPage}/>
+      <Route path="/app" component={Container}/>
+
     </div>
   )
 };
 
-export default withStyles(styles)(Container);
+export default withStyles(styles)(Wrapper);

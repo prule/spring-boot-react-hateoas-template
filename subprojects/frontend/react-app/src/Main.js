@@ -19,31 +19,18 @@ import PersonPetPage from "./app/person/PersonPetPage";
 import Content from "./Content";
 
 export default function Main(props) {
-  const [{index, alert}, dispatch] = useStateValue();
-
-  useEffect(() => {
-    Index.load()
-      .then((index) => dispatch(ActionType.forResource(ActionType.INDEX, index)))
-      .catch(onApiError(dispatch))
-  }, []);
-
-  if (index == null) {
-    return null;
-  }
 
   return (
     <div>
-
-
-          {alert &&
-          <Alert variant={alert.type}>{alert.message ? alert.message : 'Unknown alert'}</Alert>
-          }
-          <Content>
-            <Route exact path="/" component={HomePage}/>
-          <Route exact path="/persons" component={PersonsPage}/>
-          <Route exact path="/persons/:key" component={PersonPage}/>
-          <Route exact path="/persons/:personKey/pets/:petKey" component={PersonPetPage}/>
-          </Content>
+      {alert &&
+      <Alert variant={alert.type}>{alert.message ? alert.message : 'Unknown alert'}</Alert>
+      }
+      <Content>
+        <Route exact path="/" component={HomePage}/>
+        <Route exact path="/app/persons" component={PersonsPage}/>
+        <Route exact path="/app/persons/:key" component={PersonPage}/>
+        <Route exact path="/app/persons/:personKey/pets/:petKey" component={PersonPetPage}/>
+      </Content>
     </div>
   )
 

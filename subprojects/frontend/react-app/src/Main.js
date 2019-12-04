@@ -16,6 +16,7 @@ import LoginPage from "./app/LoginPage";
 import PersonsPage from "./app/person/PersonsPage";
 import PersonPage from "./app/person/PersonPage";
 import PersonPetPage from "./app/person/PersonPetPage";
+import Content from "./Content";
 
 export default function Main(props) {
   const [{index, alert}, dispatch] = useStateValue();
@@ -32,13 +33,17 @@ export default function Main(props) {
 
   return (
     <div>
+
+
           {alert &&
           <Alert variant={alert.type}>{alert.message ? alert.message : 'Unknown alert'}</Alert>
           }
-          <Route exact path="/" component={HomePage}/>
+          <Content>
+            <Route exact path="/" component={HomePage}/>
           <Route exact path="/persons" component={PersonsPage}/>
           <Route exact path="/persons/:key" component={PersonPage}/>
           <Route exact path="/persons/:personKey/pets/:petKey" component={PersonPetPage}/>
+          </Content>
     </div>
   )
 

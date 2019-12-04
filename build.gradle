@@ -63,7 +63,7 @@ allprojects {
         mavenCentral()
     }
     ext {
-        SPRING_BOOT_VERSION = "2.1.6.RELEASE"
+        SPRING_BOOT_VERSION = "2.1.9.RELEASE"
         LOMBOK_VERSION = "1.18.8"
         JUNIT_VERSION = "5.4.2"
         POSTGRES_DRIVER_VERSION = "42.2.5"

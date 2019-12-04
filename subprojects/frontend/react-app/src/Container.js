@@ -15,7 +15,7 @@ import HomePage from "./app/home/HomePage";
 import Content from "./Content";
 import Box from "@material-ui/core/Box";
 
-function Paperbase(props) {
+function Container(props) {
   const {classes} = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 

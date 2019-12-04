@@ -90,7 +90,7 @@ case "$1" in
     if [ -z "$2" ]; then
       echo "Version not specified!"
     else
-      ./gradlew wrapper --gradle-version $2
+      ./gradlew wrapper --gradle-version $2 --distribution-type=all
     fi
     echo ""
     ;;

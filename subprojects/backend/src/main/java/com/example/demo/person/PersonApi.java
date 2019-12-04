@@ -25,7 +25,7 @@ public class PersonApi {
 
     @GetMapping
     public HttpEntity<PagedResources<Person>> search(Pageable pageable, PagedResourcesAssembler assembler) {
-
+        System.out.println("here 2");
         Page<Person> page = repository.findAll(pageable);
 
         return new ResponseEntity<PagedResources<Person>>(assembler.toResource(page, (person) -> {

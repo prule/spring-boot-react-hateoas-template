@@ -12,6 +12,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import {makeStyles} from '@material-ui/core/styles';
 import TableBody from "@material-ui/core/TableBody";
+import Title from "../../components/Title";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -47,9 +48,9 @@ export default function PersonsPage(props) {
 
   return (
     <div>
-      <h2>Owners</h2>
 
       <Paper className={classes.root}>
+        <Title>Owners</Title>
         <Table className={classes.table}>
           <TableHead>
             <TableRow>

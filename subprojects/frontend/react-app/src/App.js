@@ -34,7 +34,7 @@ export default function App() {
   // };
 
   return (
-    <Container maxWidth="true">
+    <Container maxWidth="xl">
       <Box>
         <Main/>
       </Box>

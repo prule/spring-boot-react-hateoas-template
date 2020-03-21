@@ -18,6 +18,14 @@ export default class QueryString {
     }
   }
 
+  set(key: string, value: string) {
+    this.parsedQuery[key] = value;
+  }
+
+  get(key: string, defaultValue: string) {
+    return this.parsedQuery[key] ? this.parsedQuery[key] : defaultValue;
+  }
+
   getSize(): number {
     return this.parsedQuery.size;
   }

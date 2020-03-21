@@ -1,5 +1,6 @@
 package com.example.demo.common;
 
+import com.google.common.base.Strings;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 
@@ -16,6 +17,14 @@ public class PredicateBuilder {
             builder.and(expression.build());
         }
     }
+
+    public void and(String value, Expression expression) {
+        if (!Strings.isNullOrEmpty(value)) {
+            builder.and(expression.build());
+        }
+    }
+
+
 
     public Predicate toPredicate() {
         return builder;

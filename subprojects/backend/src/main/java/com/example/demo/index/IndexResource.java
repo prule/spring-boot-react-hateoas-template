@@ -16,7 +16,7 @@ public class IndexResource extends RepresentationModel<IndexResource> {
 
         add(linkTo(methodOn(AuthenticationApi.class).login( null)).withRel("login"));
 
-        add(linkTo(methodOn(PersonApi.class).search(null, null)).withRel("person-search"));
+        add(linkTo(methodOn(PersonApi.class).search(null, null, null)).withRel("person-search"));
         add(linkTo(methodOn(PersonApi.class).find(null)).withRel("person-find"));
 
         add(linkTo(methodOn(PetApi.class).search(null,null, null)).withRel("pet-search"));

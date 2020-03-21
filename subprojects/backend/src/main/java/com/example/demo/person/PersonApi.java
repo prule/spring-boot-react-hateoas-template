@@ -2,6 +2,7 @@ package com.example.demo.person;
 
 import com.example.demo.common.Key;
 import com.example.demo.common.NotFoundException;
+import com.example.demo.pet.PetSearchCriteria;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -24,8 +25,8 @@ public class PersonApi {
     }
 
     @GetMapping
-    public HttpEntity<PagedModel<PersonResource>> search(Pageable pageable, PagedResourcesAssembler<Person> assembler) {
-        Page<Person> page = repository.findAll(pageable);
+    public HttpEntity<PagedModel<PersonResource>> search(PersonSearchCriteria criteria, Pageable pageable, PagedResourcesAssembler<Person> assembler) {
+        Page<Person> page = repository.findAll(criteria.toPredicate(), pageable);
 
         return new ResponseEntity<>(assembler.toModel(page, (person) -> {
                     PersonResource resource = new PersonResource();

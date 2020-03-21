@@ -87,8 +87,7 @@ function PersonPage(props) {
         <Paper elevation={1} className={classes.paper}>
           <h1>Form</h1>
           <Formik>
-            <form onSubmit={() => {
-            }}>
+            <form onSubmit={() => {}}>
 
               <TextField
                 id="person.name.firstName"

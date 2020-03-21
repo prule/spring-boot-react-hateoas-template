@@ -7,7 +7,7 @@ import com.example.demo.person.PersonRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,13 +28,13 @@ public class PetApi {
     }
 
     @GetMapping
-    public HttpEntity<PagedResources<Pet>> search(PetSearchCriteria criteria, Pageable pageable, PagedResourcesAssembler assembler) {
+    public HttpEntity<PagedModel<PetResource>> search(PetSearchCriteria criteria, Pageable pageable, PagedResourcesAssembler<Pet> assembler) {
 
         Page<Pet> page = repository.findAll(criteria.toPredicate(), pageable);
 
-        return new ResponseEntity<PagedResources<Pet>>(assembler.toResource(page, (pet) -> {
+        return new ResponseEntity<>(assembler.toModel(page, (pet) -> {
                     PetResource resource = new PetResource();
-                    resource.fromModel((Pet) pet);
+                    resource.fromModel(pet);
                     return resource;
                 }
         ), HttpStatus.OK);

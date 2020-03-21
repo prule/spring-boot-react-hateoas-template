@@ -3,11 +3,11 @@ export default class Routes {
   static main = {
 
     home() {
-      return '/';
+      return new Path('/');
     },
 
     login() {
-      return "/login";
+      return new Path("/login");
     }
 
   };
@@ -15,17 +15,37 @@ export default class Routes {
   static person = {
 
     persons() {
-      return '/app/persons'
+      return new Path('/app/persons');
     },
 
     person(person) {
-      return `/app/persons/${person.key}`;
+      return new Path(`/app/persons/${person.key}`);
     },
 
     pet(person, pet) {
-      return Routes.person.person(person) + (pet ? `/pets/${pet.key}` : `/pets/new`);
+      return new Path(`/app/persons/${person.key}` + (pet ? `/pets/${pet.key}` : `/pets/new`));
     }
 
   };
 
+}
+
+
+class Path {
+  path;
+
+  constructor(path) {
+    this.path = path;
+  }
+
+  navigate(history, callback) {
+    history.push(this.path.toString());
+    if (callback) {
+      callback();
+    }
+  }
+
+  toString() {
+    return this.path;
+  }
 }

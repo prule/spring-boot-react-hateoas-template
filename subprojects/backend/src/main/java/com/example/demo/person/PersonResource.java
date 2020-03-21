@@ -3,15 +3,16 @@ package com.example.demo.person;
 import com.example.demo.common.Address;
 import com.example.demo.pet.PetApi;
 import lombok.Getter;
-import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.util.Date;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 
 @Getter
-public class PersonResource extends ResourceSupport {
+public class PersonResource extends RepresentationModel<PersonResource> {
 
     private String key;
     private PersonName name;

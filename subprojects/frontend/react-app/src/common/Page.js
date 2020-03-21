@@ -3,12 +3,15 @@ export default class Page {
   size;
   totalElements;
   totalPages;
+  number;
   list;
 
   constructor(result, resourceListName, itemFactory) {
-    this.size = result.size;
-    this.totalElements = result.totalElements;
-    this.totalPages = result.totalPages;
+    console.log('result', result);
+    this.size = result.page.size;
+    this.totalElements = result.page.totalElements;
+    this.totalPages = result.page.totalPages;
+    this.number = result.page.number;
     this.list = [];
 
     if (result._embedded && result._embedded[resourceListName]) {

@@ -5,7 +5,7 @@ import com.example.demo.common.NotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,13 +24,12 @@ public class PersonApi {
     }
 
     @GetMapping
-    public HttpEntity<PagedResources<Person>> search(Pageable pageable, PagedResourcesAssembler assembler) {
-        System.out.println("here 2");
+    public HttpEntity<PagedModel<PersonResource>> search(Pageable pageable, PagedResourcesAssembler<Person> assembler) {
         Page<Person> page = repository.findAll(pageable);
 
-        return new ResponseEntity<PagedResources<Person>>(assembler.toResource(page, (person) -> {
+        return new ResponseEntity<>(assembler.toModel(page, (person) -> {
                     PersonResource resource = new PersonResource();
-                    resource.fromModel((Person) person);
+                    resource.fromModel(person);
                     return resource;
                 }
         ), HttpStatus.OK);

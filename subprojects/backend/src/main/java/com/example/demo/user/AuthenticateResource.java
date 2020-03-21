@@ -2,10 +2,10 @@ package com.example.demo.user;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.RepresentationModel;
 
 @Getter @Setter
-public class AuthenticateResource extends ResourceSupport {
+public class AuthenticateResource extends RepresentationModel<AuthenticateResource> {
 
     private String username;
     private String password;

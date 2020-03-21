@@ -1,0 +1,82 @@
+{
+    "_embedded": {
+        "personResourceList": [
+            {
+                "key": "john-doe",
+                "name": {
+                    "firstName": "John",
+                    "lastName": "Doe",
+                    "otherNames": "Homer Jay"
+                },
+                "address": {
+                    "line1": "Level 3",
+                    "line2": "10000 York St",
+                    "city": "Sydney",
+                    "state": "NSW",
+                    "country": "Australia",
+                    "postcode": "2000"
+                },
+                "dateOfBirth": "1985-04-14T00:00:00.000+0000",
+                "_links": {
+                    "self": {
+                        "href": "http://localhost:8080/api/1/persons/john-doe"
+                    },
+                    "update": {
+                        "href": "http://localhost:8080/api/1/persons/john-doe"
+                    },
+                    "pet-create": {
+                        "href": "http://localhost:8080/api/1/pets"
+                    }
+                }
+            },
+            {
+                "key": "jane-doe",
+                "name": {
+                    "firstName": "Jane",
+                    "lastName": "Doe",
+                    "otherNames": "Marge Jay"
+                },
+                "address": {
+                    "line1": null,
+                    "line2": null,
+                    "city": null,
+                    "state": null,
+                    "country": null,
+                    "postcode": null
+                },
+                "dateOfBirth": null,
+                "_links": {
+                    "self": {
+                        "href": "http://localhost:8080/api/1/persons/jane-doe"
+                    },
+                    "update": {
+                        "href": "http://localhost:8080/api/1/persons/jane-doe"
+                    },
+                    "pet-create": {
+                        "href": "http://localhost:8080/api/1/pets"
+                    }
+                }
+            }
+        ]
+    },
+    "_links": {
+        "first": {
+            "href": "http://localhost:8080/api/1/persons?page=0&size=2"
+        },
+        "self": {
+            "href": "http://localhost:8080/api/1/persons?page=0&size=2"
+        },
+        "next": {
+            "href": "http://localhost:8080/api/1/persons?page=1&size=2"
+        },
+        "last": {
+            "href": "http://localhost:8080/api/1/persons?page=1&size=2"
+        }
+    },
+    "page": {
+        "size": 2,
+        "totalElements": 3,
+        "totalPages": 2,
+        "number": 0
+    }
+}

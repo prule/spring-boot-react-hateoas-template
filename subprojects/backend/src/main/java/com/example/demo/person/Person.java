@@ -5,6 +5,7 @@ import com.example.demo.common.Address;
 import com.example.demo.common.Key;
 import com.example.demo.pet.Pet;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -17,13 +18,13 @@ public class Person extends AbstractEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO) private Long id;
 
-    @Basic @Getter @Setter @Embedded @Valid private PersonName name;
-    @Basic @Getter @Setter @Embedded private Address address;
+    @Getter @Setter @Embedded @Valid private PersonName name;
+    @Getter @Setter @Embedded private Address address;
     @Basic @Getter @Setter private Date dateOfBirth;
 
     @OneToMany(mappedBy = "owner") @Getter private Set<Pet> pets;
 
-    Person() {
+    public Person() {
         super();
     }
 

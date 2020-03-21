@@ -1,34 +1,15 @@
 import './index.css';
 import React, {useEffect} from 'react';
-import ReactDOM from 'react-dom';
-import {BrowserRouter, Route} from 'react-router-dom';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import {ThemeProvider} from '@material-ui/styles';
-import App from './App';
-import theme, {drawerWidth, styles} from './theme';
-import * as serviceWorker from './serviceWorker';
-import Hidden from "@material-ui/core/Hidden";
-import Navigator from "./Navigator";
-import Header from "./Header";
-import LoginPage from "./app/LoginPage";
-import HomePage from "./app/home/HomePage";
-import Content from "./Content";
-import Box from "@material-ui/core/Box";
-import {StateProvider, useStateValue} from "./State";
-import {withStyles} from "@material-ui/core/styles";
-import Container from "./Container";
+import {useStateValue} from "./State";
 import ActionType from "./common/ActionType";
 import {onApiError} from "./Api";
 import Index from "./app/Index";
+import {Route} from "react-router";
+import LoginPage from "./app/LoginPage";
+import Container from "./Container";
+import Dashboard from "./dashboard/Dashboard";
 
 function Wrapper(props) {
-  const {classes} = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
 
   const [{index, alert}, dispatch] = useStateValue();
 
@@ -39,17 +20,17 @@ function Wrapper(props) {
   }, []);
 
   if (index == null) {
+    console.log("no index");
     return null;
   }
 
+  console.log("index loaded");
   return (
-    <div className={classes.root}>
-
+    <div>
       <Route exact path="/login" component={LoginPage}/>
-      <Route path="/app" component={Container}/>
-
+      <Route path="/app" component={Dashboard}/>
     </div>
   )
-};
+}
 
-export default withStyles(styles)(Wrapper);
+export default Wrapper;

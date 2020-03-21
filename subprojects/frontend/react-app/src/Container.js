@@ -5,7 +5,7 @@ import {BrowserRouter, Route} from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import {ThemeProvider} from '@material-ui/styles';
 import App from './App';
-import theme, {drawerWidth, styles} from './theme';
+import theme from './theme';
 import * as serviceWorker from './serviceWorker';
 import Hidden from "@material-ui/core/Hidden";
 import Navigator from "./Navigator";
@@ -17,6 +17,7 @@ import Box from "@material-ui/core/Box";
 import {StateProvider} from "./State";
 import {withStyles} from "@material-ui/core/styles";
 import Index from "./app/Index";
+const drawerWidth = 300;
 
 function Container(props) {
   const {classes} = props;
@@ -55,4 +56,5 @@ function Container(props) {
   )
 };
 
-export default withStyles(styles)(Container);
+// export default withStyles(styles)(Container);
+export default (Container);

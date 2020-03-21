@@ -5,7 +5,6 @@ import Routes from "../Routes";
 import Api, {onApiError} from '../Api';
 import App from "../App";
 
-import "react-datepicker/dist/react-datepicker.css";
 import {navigate} from "../common/PageUtil";
 import {useStateValue} from "../State";
 import {Formik} from "formik";
@@ -37,22 +36,6 @@ const values = {
   username: '',
   password: '',
 };
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'. Built with '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Material-UI.
-      </Link>
-    </Typography>
-  );
-}
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -94,12 +77,14 @@ function LoginPage(props) {
   }
 
   function onSubmit(values) {
+    console.log('submit');
     // clear();
     Api.post(index.link('login'), values)
       .then((response) => {
         App.token = response.token;
         Api.setToken(response.token);
-        navigate(props.history, Routes.person.persons())
+        // navigate(props.history, Routes.person.persons())
+        navigate(props.history, '/app')
       })
       .catch(onApiError(dispatch, setValidation))
     ;
@@ -189,4 +174,5 @@ function LoginPage(props) {
 
 }
 
-export default withStyles(styles)(LoginPage);
+// export default withStyles(styles)(LoginPage);
+export default (LoginPage);

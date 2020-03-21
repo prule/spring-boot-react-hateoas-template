@@ -46,6 +46,7 @@ pets:
   !!com.example.demo.person.Person
 key:
   key: jerry-doe
+dateOfBirth: 2010-01-13
 name:
   firstName: Jerry
   lastName: Doe
@@ -54,4 +55,21 @@ pets:
       key: tiger
     name:
       name: Tiger
+---
+  !!com.example.demo.person.Person
+key:
+  key: jerry-doe2
+dateOfBirth: 2010-01-14
+name:
+  firstName: Jerry
+  lastName: Doe
+---
+  !!com.example.demo.person.Person
+key:
+  key: jerry-doe3
+dateOfBirth: 2010-01-16
+name:
+  firstName: Jerry
+  lastName: Doe
+
 

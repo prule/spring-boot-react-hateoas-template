@@ -2,8 +2,7 @@
 
 import axios from "axios"
 import ApiError from "./common/ApiError"
-import App from "./App"
-import Link from "./common/Link"
+import {Link} from "./common/Link"
 import AlertMessage from "./common/AlertMessage"
 import ActionType from "./common/ActionType"
 
@@ -29,16 +28,20 @@ export function clearAlert(dispatch) {
 export default class Api {
 
   static logout = () => {
-    sessionStorage.removeItem('token');
+    localStorage.removeItem('token');
   };
 
   static setToken = (token) => {
-    sessionStorage.setItem('token', token);
+    localStorage.setItem('token', token);
   };
 
   static getToken = () => {
-    return sessionStorage.getItem('token');
+    return localStorage.getItem('token');
   };
+
+  static hasToken() {
+    return !!this.getToken();
+  }
 
   static get = async (link: Link) => {
     return await Api.do("get", link, null);

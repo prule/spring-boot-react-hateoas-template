@@ -2,15 +2,15 @@ package com.example.demo.pet;
 
 import com.example.demo.person.PersonResource;
 import lombok.Getter;
-import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.util.Date;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Getter
-class PetResource extends ResourceSupport {
+class PetResource extends RepresentationModel<PetResource> {
 
     private String key;
     private PetName name;

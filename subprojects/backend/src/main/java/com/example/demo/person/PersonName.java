@@ -13,7 +13,7 @@ public class PersonName {
     @NotBlank private String lastName;
     private String otherNames;
 
-    PersonName() {
+    public PersonName() {
     }
 
     public PersonName(String firstName, String lastName, String otherNames) {

@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = "2.1.9.RELEASE"
+        springBootVersion = "2.2.5.RELEASE"
     }
     repositories {
         mavenCentral()
@@ -12,11 +12,12 @@ buildscript {
 
 plugins {
     id "java"
-    id "org.springframework.boot" version "2.1.9.RELEASE"
+    id "org.springframework.boot" version "2.2.5.RELEASE"
 //    id "io.spring.dependency-management"
 //    id "net.ltgt.apt-idea" version "0.19" // https://github.com/tbroyer/gradle-apt-plugin#intellij-idea
     id "org.kordamp.gradle.build-info"
     id "org.kordamp.gradle.jar"
+
 }
 
 apply plugin: 'io.spring.dependency-management'

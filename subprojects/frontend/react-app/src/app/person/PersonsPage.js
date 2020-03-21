@@ -142,11 +142,11 @@ export default function PersonsPage(props) {
                   fullWidth
                   onChange={handleChange}
                   autoFocus
+                  helperText="Press enter to update search results"
                 />
               </form>
             )}
           </Formik>
-        </Container>
         {/*<form className={classes.root} noValidate autoComplete="off">*/}
         {/*  <div>*/}
         {/*    <TextField id="filter" label="Filter" variant="outlined" size="small" margin="normal" fullWidth/>*/}
@@ -162,7 +162,7 @@ export default function PersonsPage(props) {
                     direction={query.getSortDirection('name.firstName') ? query.getSortDirection('name.firstName') : 'asc'}
                     onClick={fn(handleSort, 'name.firstName')}
                   >
-                    Name
+                    <b>Name</b>
                   </TableSortLabel>
                 </TableCell>
                 <TableCell align="right">
@@ -171,10 +171,10 @@ export default function PersonsPage(props) {
                     direction={query.getSortDirection('dateOfBirth') ? query.getSortDirection('dateOfBirth') : 'asc'}
                     onClick={fn(handleSort, 'dateOfBirth')}
                   >
-                    Date of Birth
+                    <b>Date of Birth</b>
                   </TableSortLabel>
                 </TableCell>
-                <TableCell align="right">Detail</TableCell>
+                <TableCell align="right"><b>Detail</b></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -215,6 +215,7 @@ export default function PersonsPage(props) {
             </TableFooter>
           </Table>
         </TableContainer>
+        </Container>
       </div>
 
       }

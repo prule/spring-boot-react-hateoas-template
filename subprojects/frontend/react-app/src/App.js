@@ -33,6 +33,19 @@ export default function App() {
           ...state,
           index: action.resource
         };
+      case 'alert':
+        console.log('got alert');
+        return {
+          ...state,
+          alert: action.alert
+        };
+      case 'notification':
+         console.log('got notification', action);
+         return {
+           ...state,
+           notification: action.notification
+         };
+
       default:
         return state;
     }

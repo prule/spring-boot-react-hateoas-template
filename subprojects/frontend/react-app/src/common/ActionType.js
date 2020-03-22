@@ -13,6 +13,7 @@ export default class ActionType {
 
   static INDEX: string = 'index';
   static ALERT: string = 'alert';
+  static NOTIFICATION: string = 'notification';
 
   static handlerMap = {
     'index': (state, action: ActionType) => {
@@ -26,6 +27,13 @@ export default class ActionType {
       return {
         ...state,
         alert: action.alert
+      }
+    },
+
+    'notification': (state, action: ActionType) => {
+      return {
+        ...state,
+        notification: action.notification
       }
     }
   };
@@ -42,4 +50,9 @@ export default class ActionType {
     return actionType;
   }
 
+  static forNotification(notification: String) {
+    const actionType = new ActionType(ActionType.NOTIFICATION);
+    actionType.notification = notification;
+    return actionType;
+  }
 }

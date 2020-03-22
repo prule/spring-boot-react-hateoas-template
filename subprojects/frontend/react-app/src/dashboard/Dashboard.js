@@ -31,7 +31,8 @@ import PersonsPage from "../app/person/PersonsPage";
 // import PersonPage from "../app/person/PersonPage";
 // import PersonPetPage from "../app/person/PersonPetPage";
 import Content from "../Content";
-import LoginPage from "../app/LoginPage"; // IMPORT withRouter
+import LoginPage from "../app/LoginPage";
+import PersonPage from "../app/person/PersonPage"; // IMPORT withRouter
 
 const drawerWidth = 300;
 
@@ -229,7 +230,7 @@ export default function Dashboard(props) {
             <Grid item xs={12}>
               <Route exact path="/app" component={HomePage}/>
               <Route exact path="/app/persons" component={PersonsPage}/>
-              {/*<Route exact path="/app/persons/:key" component={PersonPage}/>*/}
+              <Route exact path="/app/persons/:key" component={PersonPage}/>
               {/*<Route exact path="/app/persons/:personKey/pets/:petKey" component={PersonPetPage}/>*/}
 
             </Grid>

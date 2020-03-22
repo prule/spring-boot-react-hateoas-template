@@ -7,7 +7,7 @@ import App from "../App";
 
 import {navigate} from "../common/PageUtil";
 import {useStateValue} from "../State";
-import {Formik} from "formik";
+import {Field, Form, Formik} from "formik";
 import * as yup from 'yup';
 import {withStyles} from '@material-ui/core/styles';
 
@@ -24,17 +24,21 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
-
+import {ErrorMessage} from '../common/ErrorMessage';
 const styles = {};
 
 const schema = yup.object({
-  username: yup.string().required(),
-  password: yup.string().required()
+  credentials: yup.object().shape({
+    username: yup.string().required('Required'),
+    password: yup.string().required('Required'),
+  })
 });
 
 const values = {
-  username: '',
-  password: '',
+  credentials: {
+    username: '',
+    password: '',
+  }
 };
 
 const useStyles = makeStyles(theme => ({
@@ -79,7 +83,7 @@ function LoginPage(props) {
   function onSubmit(values) {
     console.log('submit');
     // clear();
-    Api.post(index.link('login'), values)
+    Api.post(index.link('login'), values.credentials)
       .then((response) => {
         App.token = response.token;
         Api.setToken(response.token);
@@ -106,65 +110,69 @@ function LoginPage(props) {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
+
+
+            <ErrorMessage message={alert ? alert.message : null}/>
+
             <Formik
               validationSchema={schema}
               onSubmit={onSubmit}
               initialValues={values}
             >
-              {({
-                  handleSubmit,
-                  handleChange,
-                  handleBlur,
-                  values,
-                  touched,
-                  isValid,
-                  errors,
-                }) => (
-
-                <form className={classes.form} noValidate onSubmit={handleSubmit}>
-                  <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="username"
-                    label="Email Address"
-                    name="username"
-                    autoComplete="off"
-                    autoFocus
-                    value={values.username}
-                    onChange={handleChange}
-                  />
-                  <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    autoComplete="off"
-                    value={values.password}
-                    onChange={handleChange}
-                  />
-                  <FormControlLabel
-                    control={<Checkbox value="remember" color="primary"/>}
-                    label="Remember me"
-                  />
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={classes.submit}
-                  >
-                    Sign In
-                  </Button>
-
-                </form>
-
-              )}
+              {({handleSubmit, handleChange, handleBlur, values, touched, isValid, errors}) => {
+                console.log(errors);
+                return (
+                  <Form className={classes.form} noValidate onSubmit={handleSubmit}>
+                    <Field name="credentials.username" id="credentials.username" value={values.credentials.username} onChange={handleChange} component={TextField} variant="outlined" margin="normal" label="Email Address" fullWidth
+                           error={!!(errors.credentials && errors.credentials.username)}
+                           helperText={(errors.credentials && errors.credentials.username)}
+                    />
+                    <Field name="credentials.password" id="credentials.password" value={values.credentials.password} onChange={handleChange} component={TextField} variant="outlined" margin="normal" label="Password" fullWidth type="password"
+                           error={!!(errors.credentials && errors.credentials.password)}
+                           helperText={(errors.credentials && errors.credentials.password)}
+                    />
+                    {/*<TextField*/}
+                    {/*  variant="outlined"*/}
+                    {/*  margin="normal"*/}
+                    {/*  required*/}
+                    {/*  fullWidth*/}
+                    {/*  id="username"*/}
+                    {/*  label="Email Address"*/}
+                    {/*  name="username"*/}
+                    {/*  autoComplete="off"*/}
+                    {/*  autoFocus*/}
+                    {/*  value={values.username}*/}
+                    {/*  onChange={handleChange}*/}
+                    {/*/>*/}
+                    {/*<TextField*/}
+                    {/*  variant="outlined"*/}
+                    {/*  margin="normal"*/}
+                    {/*  required*/}
+                    {/*  fullWidth*/}
+                    {/*  name="password"*/}
+                    {/*  label="Password"*/}
+                    {/*  type="password"*/}
+                    {/*  id="password"*/}
+                    {/*  autoComplete="off"*/}
+                    {/*  value={values.password}*/}
+                    {/*  onChange={handleChange}*/}
+                    {/*/>*/}
+                    {/*<FormControlLabel*/}
+                    {/*  control={<Checkbox value="remember" color="primary"/>}*/}
+                    {/*  label="Remember me"*/}
+                    {/*/>*/}
+                    <Button
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      color="primary"
+                      className={classes.submit}
+                    >
+                      Sign In
+                    </Button>
+                  </Form>
+                )
+              }}
             </Formik>
           </div>
         </Grid>
@@ -175,4 +183,4 @@ function LoginPage(props) {
 }
 
 // export default withStyles(styles)(LoginPage);
-export default (LoginPage);
+export default LoginPage;

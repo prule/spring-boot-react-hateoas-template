@@ -1,7 +1,6 @@
 // @flow
 
 import React, {useEffect, useState} from "react";
-import "react-datepicker/dist/react-datepicker.css";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 import Routes from "../../Routes";
@@ -11,29 +10,50 @@ import {navigate, fn} from '../../common/PageUtil';
 
 import Person from "./Person";
 import {useStateValue} from "../../State";
-import {Formik} from "formik";
+import {Field, Form, Formik} from "formik";
 import * as yup from "yup";
 import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import Toolbar from "@material-ui/core/Toolbar";
+import {Box, Container} from "@material-ui/core";
+import {positions} from '@material-ui/system';
+import ActionType from "../../common/ActionType";
 
 const schema = yup.object({
-  firstName: yup.string().required(),
-  lastName: yup.string().required()
+  person: yup.object().shape({
+    name: yup.object().shape({
+      firstName: yup.string().max(15, 'Must be 15 characters or less').required('Required'),
+      lastName: yup.string().max(15, 'Must be 15 characters or less').required('Required'),
+    })
+  })
 });
 
 const styles = theme => ({
- paper: {
-   marginTop: theme.spacing.unit * 8,
-   display: "flex",
-   flexDirection: "column",
-   alignItems: "center",
-   padding: `${theme.spacing.unit * 5}px ${theme.spacing.unit * 5}px ${theme
-     .spacing.unit * 5}px`
- },
- container: {
-   maxWidth: "200px"
- }
+  paper: {
+    marginTop: theme.spacing.unit * 8,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: `${theme.spacing.unit * 5}px ${theme.spacing.unit * 5}px ${theme
+      .spacing.unit * 5}px`
+  },
+  container: {
+    maxWidth: "200px"
+  },
+  buttons: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+    textAlign: "right",
+  },
+  form: {
+    '& > *': {
+      marginTop: theme.spacing(2),
+      marginBottom: theme.spacing(2),
+    },
+  },
 });
 
 function PersonPage(props) {
@@ -46,6 +66,12 @@ function PersonPage(props) {
   const [validation, setValidation] = useState(null);
   const [person, setPerson] = useState(null);
   const [pets, setPets] = useState(null);
+
+  console.log('personKey', personKey);
+
+  const values = {
+    person: person
+  };
 
   useEffect(() => {
     Person.find(index, personKey)
@@ -61,10 +87,11 @@ function PersonPage(props) {
     navigate(props.history, Routes.person.persons());
   }
 
-  function onSave() {
-    person.save()
+  function onSave(values) {
+    values.person.save()
       .then(setPerson)
-      .then(() => navigate(Routes.person.persons()))
+      .then(() => dispatch(ActionType.forNotification("Person Saved")))
+      .then(() => navigate(props.history, Routes.person.persons()))
       .catch(onApiError);
   }
 
@@ -76,38 +103,113 @@ function PersonPage(props) {
     navigate(props.history, Routes.person.pet(person, null));
   }
 
+  function onSubmit(values) {
+    console.log(values)
+  }
+
   return (
-    <div>
-      <h2>Owner</h2>
-      <br/>
 
+    <Paper className={classes.root}>
+      <Toolbar className={classes.toolbar}>
+        <Typography variant="h6" gutterBottom>
+          Owner
+        </Typography>
+      </Toolbar>
       {person &&
+      <Container>
 
-      <div className={classes.container}>
-        <Paper elevation={1} className={classes.paper}>
-          <h1>Form</h1>
-          <Formik>
-            <form onSubmit={() => {}}>
 
-              <TextField
-                id="person.name.firstName"
-                name="name"
-                label="Name"
-                value={person.name.firstName}
-                fullWidth
+        <div>
+          <h1>Social Profiles</h1>
+          <Formik
+            validationSchema={{
+              social: {
+                facebook: yup.string().max(15, 'Must be 15 characters or less').required('Required'),
+                twitter: yup.string().max(15, 'Must be 15 characters or less').required('Required'),
+              }
+            }}
+            initialValues={{
+              social: {
+                facebook: '',
+                twitter: '',
+              },
+            }}
+            onSubmit={values => {
+              // same shape as initial values
+              console.log(values);
+            }}
+          >
+            <Form>
+              <Field name="social.facebook" component={TextField}/>
+              <Field name="social.twitter" component={TextField}/>
+              <button type="submit">Submit</button>
+            </Form>
+          </Formik>
+        </div>
+
+
+        <Formik validationSchema={schema} onSubmit={onSave} initialValues={values}>
+          {({handleSubmit, handleChange, handleBlur, values, touched, isValid, errors}) => (
+
+            <Form className={classes.form} noValidate onSubmit={handleSubmit}>
+
+              <Field name="person.name.firstName" id="person.name.firstName" value={values.person.name.firstName} onChange={handleChange} component={TextField} label="First Name" fullWidth
+                     error={!!(errors.person && errors.person.name && errors.person.name.firstName)}
+                     helperText={(errors.person && errors.person.name && errors.person.name.firstName)}
               />
 
-              <Button type="submit">Save</Button>
-              <Button onClick={onCancel}>Cancel</Button>
+              <Field name="person.name.otherNames" id="person.name.otherNames" value={values.person.name.otherNames} onChange={handleChange} component={TextField} label="Other Names" fullWidth
+                     error={!!(errors.person && errors.person.name && errors.person.name.otherNames)}
+                     helperText={(errors.person && errors.person.name && errors.person.name.otherNames)}
+              />
 
-            </form>
+              <Field name="person.name.lastName" id="person.name.lastName" value={values.person.name.lastName} onChange={handleChange} component={TextField} label="Last Name" fullWidth
+                     error={!!(errors.person && errors.person.name && errors.person.name.lastName)}
+                     helperText={(errors.person && errors.person.name && errors.person.name.lastName)}
+              />
 
+              {/*<Field component={TextField}*/}
+              {/*       name="person.name.firstName"*/}
+              {/*       label="First Name"*/}
+              {/*       value={person.name.firstName}*/}
+              {/*       autoComplete="off"*/}
+              {/*       fullWidth*/}
+              {/*/>*/}
 
-          </Formik>
-        </Paper>
-      </div>
+              {/*<TextField*/}
+              {/*  id="person.name.otherNames"*/}
+              {/*  name="person.name.otherNames"*/}
+              {/*  label="Other Names"*/}
+              {/*  value={person.name.otherNames}*/}
+              {/*  autoComplete="off"*/}
+              {/*  onChange={handleChange}*/}
+              {/*  fullWidth*/}
+              {/*/>*/}
+
+              {/*<TextField*/}
+              {/*  id="person.name.lastName"*/}
+              {/*  name="person.name.lastName"*/}
+              {/*  label="Last Name"*/}
+              {/*  value={person.name.lastName}*/}
+              {/*  autoComplete="off"*/}
+              {/*  onChange={handleChange}*/}
+              {/*  fullWidth*/}
+              {/*/>*/}
+
+              <Box p={1} className={classes.buttons}>
+                <Button type="submit" variant="contained" color="primary" className={classes.submit}>
+                  Save
+                </Button>
+                <Button onClick={onCancel} variant="contained" color="default">
+                  Cancel
+                </Button>
+              </Box>
+            </Form>
+          )}
+        </Formik>
+      </Container>
       }
-    </div>
+    </Paper>
   )
 }
 

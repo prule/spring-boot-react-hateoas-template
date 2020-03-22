@@ -42,6 +42,9 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
     color: theme.palette.text.secondary,
   },
+  clickable: {
+    cursor: 'pointer'
+  }
 }));
 
 export default function PersonsPage(props) {
@@ -117,19 +120,9 @@ export default function PersonsPage(props) {
       {persons != null &&
       <div>
         <Container>
-          <Formik
-            initialValues={values}
-            onSubmit={onFilter}
-          >
-            {({
-                handleSubmit,
-                handleChange,
-                handleBlur,
-                values,
-                touched,
-                isValid,
-                errors,
-              }) => (
+          <Formik initialValues={values} onSubmit={onFilter}>
+            {({handleSubmit, handleChange, handleBlur, values, touched, isValid, errors}) => (
+
               <form className={classes.form} noValidate onSubmit={handleSubmit}>
                 <TextField
                   id="filter"
@@ -179,7 +172,7 @@ export default function PersonsPage(props) {
             </TableHead>
             <TableBody>
               {persons && persons.list.map((row) => (
-                <TableRow key={row.key} onClick={fn(onSelectPerson, row)} className="clickable">
+                <TableRow key={row.key} onClick={fn(onSelectPerson, row)} className={classes.clickable}>
                   <TableCell component="th" scope="row">
                     {row.name.fullName()}
                   </TableCell>

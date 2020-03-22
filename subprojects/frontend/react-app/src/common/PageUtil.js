@@ -1,6 +1,7 @@
 import Routes from "../Routes"
 
 export function navigate(history, path, callback) {
+    console.log('navigate', path);
     if (path) {
         history.push(path.toString())
         if (callback) {

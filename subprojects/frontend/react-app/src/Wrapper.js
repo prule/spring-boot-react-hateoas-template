@@ -11,6 +11,7 @@ import Dashboard from "./dashboard/Dashboard";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from '@material-ui/icons/Close';
+import {ErrorMessage} from "./common/ErrorMessage";
 
 function Wrapper(props) {
 
@@ -26,10 +27,16 @@ function Wrapper(props) {
   }, []);
 
   if (index == null) {
+
+    if (alert) {
+      return (
+        <ErrorMessage message={"An unexpected error has occurred. Please check your network is working and the server can be contacted."}/>
+      );
+    }
+
     console.log("no index");
     return null;
   }
-
 
   const handleClose = (event, reason) => {
     // setOpen(false);

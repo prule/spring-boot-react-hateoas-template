@@ -1,8 +1,11 @@
 package com.example.demo.common.security;
 
+import com.example.demo.common.errorhandling.RestExceptionHandler;
 import com.example.demo.user.UserDetailsService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -12,18 +15,27 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private JwtTokenProvider jwtTokenProvider;
-
     private UserDetailsService userDetailsService;
+    private RestExceptionHandler restExceptionHandler;
+    private ObjectMapper objectMapper;
 
-    public SecurityConfig(JwtTokenProvider jwtTokenProvider, UserDetailsService userDetailsService) {
+    public SecurityConfig(JwtTokenProvider jwtTokenProvider, UserDetailsService userDetailsService, RestExceptionHandler restExceptionHandler, ObjectMapper objectMapper) {
         super();
         this.jwtTokenProvider = jwtTokenProvider;
         this.userDetailsService = userDetailsService;
+        this.restExceptionHandler = restExceptionHandler;
+        this.objectMapper = objectMapper;
     }
 
     @Bean
@@ -52,8 +64,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
-                .apply(new JwtConfigurer(jwtTokenProvider))
-                ;
+                .apply(new JwtConfigurer(jwtTokenProvider, restExceptionHandler, objectMapper))
+        ;
     }
 
     @Override

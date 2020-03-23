@@ -21,8 +21,10 @@ import {useStateValue} from '../State';
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import LibraryAddIcon from "@material-ui/icons/LibraryAdd";
+import FeaturedPlayListIcon from "@material-ui/icons/FeaturedPlayList";
 import AssignmentIcon from "@material-ui/icons/Assignment";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import HomeIcon from "@material-ui/icons/Home";
 import Routes from "../Routes";
 import {Route, useHistory} from 'react-router-dom'
 import Api from "../Api";
@@ -32,7 +34,8 @@ import PersonsPage from "../app/person/PersonsPage";
 // import PersonPetPage from "../app/person/PersonPetPage";
 import Content from "../Content";
 import LoginPage from "../app/LoginPage";
-import PersonPage from "../app/person/PersonPage"; // IMPORT withRouter
+import PersonPage from "../app/person/PersonPage";
+import {ErrorMessage} from "../common/ErrorMessage"; // IMPORT withRouter
 
 const drawerWidth = 300;
 
@@ -177,8 +180,9 @@ export default function Dashboard(props) {
         <Divider/>
         <List>
           <ListItem button className={classes.nested}>
-            <ListItemText inset secondary="Competition Planner"/>
+            <ListItemText inset secondary="Menu"/>
           </ListItem>
+
           <List component="div" disablePadding>
             {Object.keys(competitions).map( (key)=> {
               const competition = competitions[key];
@@ -193,12 +197,23 @@ export default function Dashboard(props) {
             })}
             <ListItem button className={classes.nested} >
               <ListItemIcon>
-                <LibraryAddIcon/>
+                <HomeIcon/>
+              </ListItemIcon>
+              <ListItemText secondary="Home"  onClick={() => Routes.main.home().navigate(history)} />
+            </ListItem>
+            <ListItem button className={classes.nested} >
+              <ListItemIcon>
+                <FeaturedPlayListIcon/>
               </ListItemIcon>
               <ListItemText secondary="Owners"  onClick={() => Routes.person.persons().navigate(history)} />
-              <ListItemText secondary="Logout"/>
-
             </ListItem>
+            <ListItem button className={classes.nested} >
+              <ListItemIcon>
+                <ExitToAppIcon/>
+              </ListItemIcon>
+              <ListItemText secondary="Logout"/>
+            </ListItem>
+
           </List>
         </List>
         <Divider/>
@@ -208,26 +223,11 @@ export default function Dashboard(props) {
         <div className={classes.appBarSpacer}/>
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            {/* Chart */}
-            {/*<Grid item xs={12} md={8} lg={9}>*/}
-            {/*  <Paper className={fixedHeightPaper}>*/}
-            {/*    <Chart/>*/}
-            {/*  </Paper>*/}
-            {/*</Grid>*/}
-            {/* Recent Deposits */}
-            {/*<Grid item xs={12} md={4} lg={3}>*/}
-            {/*  <Paper className={fixedHeightPaper}>*/}
-            {/*    <Deposits/>*/}
-            {/*  </Paper>*/}
-            {/*</Grid>*/}
-            {/* Recent Orders */}
-            {/*<Grid item xs={12}>*/}
-            {/*  <Paper className={classes.paper}>*/}
-            {/*    <Orders/>*/}
-            {/*  </Paper>*/}
-            {/*</Grid>*/}
 
             <Grid item xs={12}>
+
+              <ErrorMessage message={alert ? alert.message : null}/>
+
               <Route exact path="/app" component={HomePage}/>
               <Route exact path="/app/persons" component={PersonsPage}/>
               <Route exact path="/app/persons/:key" component={PersonPage}/>

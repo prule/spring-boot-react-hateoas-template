@@ -20,6 +20,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import {Box, Container} from "@material-ui/core";
 import {positions} from '@material-ui/system';
 import ActionType from "../../common/ActionType";
+import {ErrorMessage} from "../../common/ErrorMessage";
 
 const schema = yup.object({
   person: yup.object().shape({
@@ -89,10 +90,17 @@ function PersonPage(props) {
 
   function onSave(values) {
     values.person.save()
-      .then(setPerson)
-      .then(() => dispatch(ActionType.forNotification("Person Saved")))
-      .then(() => navigate(props.history, Routes.person.persons()))
-      .catch(onApiError);
+      .then((resource)=> {
+        setPerson(resource);
+        dispatch(ActionType.forNotification("Person Saved"));
+        navigate(props.history, Routes.person.persons());
+      })
+      // .then(() => dispatch(ActionType.forNotification("Person Saved")))
+      // .then(() => navigate(props.history, Routes.person.persons()))
+      .catch((e) => {
+        console.log('error is ', e);
+        return onApiError(dispatch, setValidation)
+      })
   }
 
   function onSelectPet(pet) {
@@ -109,107 +117,54 @@ function PersonPage(props) {
 
   return (
 
-    <Paper className={classes.root}>
-      <Toolbar className={classes.toolbar}>
-        <Typography variant="h6" gutterBottom>
-          Owner
-        </Typography>
-      </Toolbar>
-      {person &&
-      <Container>
+    <div>
+      <ErrorMessage message={alert ? alert.message : null}/>
 
+      <Paper className={classes.root}>
+        <Toolbar className={classes.toolbar}>
+          <Typography variant="h6" gutterBottom>
+            Owner
+          </Typography>
+        </Toolbar>
+        {person &&
+        <Container>
 
-        <div>
-          <h1>Social Profiles</h1>
-          <Formik
-            validationSchema={{
-              social: {
-                facebook: yup.string().max(15, 'Must be 15 characters or less').required('Required'),
-                twitter: yup.string().max(15, 'Must be 15 characters or less').required('Required'),
-              }
-            }}
-            initialValues={{
-              social: {
-                facebook: '',
-                twitter: '',
-              },
-            }}
-            onSubmit={values => {
-              // same shape as initial values
-              console.log(values);
-            }}
-          >
-            <Form>
-              <Field name="social.facebook" component={TextField}/>
-              <Field name="social.twitter" component={TextField}/>
-              <button type="submit">Submit</button>
-            </Form>
+          <Formik validationSchema={schema} onSubmit={onSave} initialValues={values}>
+            {({handleSubmit, handleChange, handleBlur, values, touched, isValid, errors}) => (
+
+              <Form className={classes.form} noValidate onSubmit={handleSubmit}>
+
+                <Field name="person.name.firstName" value={values.person.name.firstName} onChange={handleChange} component={TextField} label="First Name" fullWidth
+                       error={!!(errors.person && errors.person.name && errors.person.name.firstName)}
+                       helperText={(errors.person && errors.person.name && errors.person.name.firstName)}
+                />
+
+                <Field name="person.name.otherNames" id="person.name.otherNames" value={values.person.name.otherNames} onChange={handleChange} component={TextField} label="Other Names" fullWidth
+                       error={!!(errors.person && errors.person.name && errors.person.name.otherNames)}
+                       helperText={(errors.person && errors.person.name && errors.person.name.otherNames)}
+                />
+
+                <Field name="person.name.lastName" id="person.name.lastName" value={values.person.name.lastName} onChange={handleChange} component={TextField} label="Last Name" fullWidth
+                       error={!!(errors.person && errors.person.name && errors.person.name.lastName)}
+                       helperText={(errors.person && errors.person.name && errors.person.name.lastName)}
+                />
+
+                <Box p={1} className={classes.buttons}>
+                  <Button type="submit" variant="contained" color="primary" className={classes.submit}>
+                    Save
+                  </Button>
+                  <Button onClick={onCancel} variant="contained" color="default">
+                    Cancel
+                  </Button>
+                </Box>
+              </Form>
+            )}
           </Formik>
-        </div>
+        </Container>
+        }
+      </Paper>
+    </div>
 
-
-        <Formik validationSchema={schema} onSubmit={onSave} initialValues={values}>
-          {({handleSubmit, handleChange, handleBlur, values, touched, isValid, errors}) => (
-
-            <Form className={classes.form} noValidate onSubmit={handleSubmit}>
-
-              <Field name="person.name.firstName" id="person.name.firstName" value={values.person.name.firstName} onChange={handleChange} component={TextField} label="First Name" fullWidth
-                     error={!!(errors.person && errors.person.name && errors.person.name.firstName)}
-                     helperText={(errors.person && errors.person.name && errors.person.name.firstName)}
-              />
-
-              <Field name="person.name.otherNames" id="person.name.otherNames" value={values.person.name.otherNames} onChange={handleChange} component={TextField} label="Other Names" fullWidth
-                     error={!!(errors.person && errors.person.name && errors.person.name.otherNames)}
-                     helperText={(errors.person && errors.person.name && errors.person.name.otherNames)}
-              />
-
-              <Field name="person.name.lastName" id="person.name.lastName" value={values.person.name.lastName} onChange={handleChange} component={TextField} label="Last Name" fullWidth
-                     error={!!(errors.person && errors.person.name && errors.person.name.lastName)}
-                     helperText={(errors.person && errors.person.name && errors.person.name.lastName)}
-              />
-
-              {/*<Field component={TextField}*/}
-              {/*       name="person.name.firstName"*/}
-              {/*       label="First Name"*/}
-              {/*       value={person.name.firstName}*/}
-              {/*       autoComplete="off"*/}
-              {/*       fullWidth*/}
-              {/*/>*/}
-
-              {/*<TextField*/}
-              {/*  id="person.name.otherNames"*/}
-              {/*  name="person.name.otherNames"*/}
-              {/*  label="Other Names"*/}
-              {/*  value={person.name.otherNames}*/}
-              {/*  autoComplete="off"*/}
-              {/*  onChange={handleChange}*/}
-              {/*  fullWidth*/}
-              {/*/>*/}
-
-              {/*<TextField*/}
-              {/*  id="person.name.lastName"*/}
-              {/*  name="person.name.lastName"*/}
-              {/*  label="Last Name"*/}
-              {/*  value={person.name.lastName}*/}
-              {/*  autoComplete="off"*/}
-              {/*  onChange={handleChange}*/}
-              {/*  fullWidth*/}
-              {/*/>*/}
-
-              <Box p={1} className={classes.buttons}>
-                <Button type="submit" variant="contained" color="primary" className={classes.submit}>
-                  Save
-                </Button>
-                <Button onClick={onCancel} variant="contained" color="default">
-                  Cancel
-                </Button>
-              </Box>
-            </Form>
-          )}
-        </Formik>
-      </Container>
-      }
-    </Paper>
   )
 }
 

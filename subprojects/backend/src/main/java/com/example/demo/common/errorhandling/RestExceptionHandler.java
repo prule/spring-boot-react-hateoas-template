@@ -41,9 +41,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
      * @return the ApiError object
      */
     @Override
-    protected ResponseEntity<Object> handleMissingServletRequestParameter(
-            MissingServletRequestParameterException ex, HttpHeaders headers,
-            HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         String error = ex.getParameterName() + " parameter is missing";
         return buildResponseEntity(new ApiError(BAD_REQUEST, error, ex));
     }
@@ -164,8 +162,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
      * @return
      */
     @Override
-    protected ResponseEntity<Object> handleNoHandlerFoundException(
-            NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         ApiError apiError = new ApiError(BAD_REQUEST);
         apiError.setMessage(String.format("Could not find the %s method for URL %s", ex.getHttpMethod(), ex.getRequestURL()));
         apiError.setDebugMessage(ex.getMessage());
@@ -202,8 +199,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
      * @return the ApiError object
      */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    protected ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex,
-                                                                      WebRequest request) {
+    protected ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex, WebRequest request) {
         ApiError apiError = new ApiError(BAD_REQUEST);
         apiError.setMessage(String.format("The parameter '%s' of value '%s' could not be converted to type '%s'", ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName()));
         apiError.setDebugMessage(ex.getMessage());
@@ -211,7 +207,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(InvalidAuthenticationTokenException.class)
-    protected ResponseEntity<Object> handleInvalidAuthenticationToken(InvalidAuthenticationTokenException ex, WebRequest request) {
+    public ResponseEntity<Object> handleInvalidAuthenticationToken(InvalidAuthenticationTokenException ex, WebRequest request) {
         ApiError apiError = new ApiError(UNAUTHORIZED);
         apiError.setMessage(String.format("Expired or invalid authentication token"));
         apiError.setDebugMessage(ex.getMessage());

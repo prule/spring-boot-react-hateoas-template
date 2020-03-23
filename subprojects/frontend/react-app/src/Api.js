@@ -56,7 +56,17 @@ export default class Api {
   };
 
   static do = async (method: string, link: Link, body: object) => {
-
+// Add a response interceptor
+//     axios.interceptors.response.use(function (response) {
+//       // Any status code that lie within the range of 2xx cause this function to trigger
+//       // Do something with response data
+//       return response;
+//     }, function (error) {
+//       // Any status codes that falls outside the range of 2xx cause this function to trigger
+//       // Do something with response error
+//       console.log(error);
+//       return Promise.reject(error);
+//     });
     try {
 
       const headers = {
@@ -80,17 +90,29 @@ export default class Api {
 
     } catch (error) {
 
+      console.log('error caught', error);
       const response = error.response;
 
       if (response) {
         // 400
         if (response.status === 0 || (response.status >= 400 && response.status < 500)) {
           console.log('response is ', response);
-          const apiError = response.data.apierror ? response.data.apierror : response.data;
-          throw new ApiError(apiError);
+          if (response.data.apierror) {
+            console.log('throwing response.data.apiError', response.data.apierror);
+            throw new ApiError(response.data.apierror);
+          }
+          if (response.data.body) {
+            console.log('throwing response.data.body', response.data.body);
+            throw new ApiError(response.data.body);
+          }
+          if (response.data) {
+            console.log('throwing response.data', response.data);
+            throw new ApiError(response.data);
+          }
         }
       }
 
+      console.log('throwing unexpected');
       // unexpected errors
       throw new ApiError({
         status: 0,

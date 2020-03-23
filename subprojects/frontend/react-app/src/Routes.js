@@ -3,7 +3,7 @@ export default class Routes {
   static main = {
 
     home() {
-      return new Path('/');
+      return new Path('/app');
     },
 
     login() {

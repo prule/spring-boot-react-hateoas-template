@@ -29,7 +29,7 @@ export default class Person extends Resource {
         (response) => {
           return new Person(response);
         }
-      );
+      )
   };
 
   searchPets(index) {

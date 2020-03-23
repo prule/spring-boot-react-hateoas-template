@@ -27,6 +27,7 @@ import {Container} from "@material-ui/core";
 import {Formik} from "formik";
 import * as yup from "yup";
 import Box from "@material-ui/core/Box";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -44,6 +45,10 @@ const useStyles = makeStyles(theme => ({
   },
   clickable: {
     cursor: 'pointer'
+  },
+  content: {
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3),
   }
 }));
 
@@ -112,11 +117,15 @@ export default function PersonsPage(props) {
   return (
 
     <Paper className={classes.root}>
-      <Toolbar className={classes.toolbar}>
+      <Container>
         <Typography variant="h6" gutterBottom>
           Owners
         </Typography>
-      </Toolbar>
+        <Typography className={classes.content}>
+          This page lists the owners in the database. You can filter the results, and sort by clicking on the column headers.
+          Click a row to edit its content.
+        </Typography>
+      </Container>
       {persons != null &&
       <div>
         <Container>
@@ -140,74 +149,74 @@ export default function PersonsPage(props) {
               </form>
             )}
           </Formik>
-        {/*<form className={classes.root} noValidate autoComplete="off">*/}
-        {/*  <div>*/}
-        {/*    <TextField id="filter" label="Filter" variant="outlined" size="small" margin="normal" fullWidth/>*/}
-        {/*  </div>*/}
-        {/*</form>*/}
-        <TableContainer>
-          <Table className={classes.table}>
-            <TableHead>
-              <TableRow>
-                <TableCell sortDirection={query.getSortDirection('name.firstName') ? query.getSortDirection('name.firstName') : false}>
-                  <TableSortLabel
-                    active={query.isSorted('name.firstName')}
-                    direction={query.getSortDirection('name.firstName') ? query.getSortDirection('name.firstName') : 'asc'}
-                    onClick={fn(handleSort, 'name.firstName')}
-                  >
-                    <b>Name</b>
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell align="right">
-                  <TableSortLabel
-                    active={query.isSorted('dateOfBirth')}
-                    direction={query.getSortDirection('dateOfBirth') ? query.getSortDirection('dateOfBirth') : 'asc'}
-                    onClick={fn(handleSort, 'dateOfBirth')}
-                  >
-                    <b>Date of Birth</b>
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell align="right"><b>Detail</b></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {persons && persons.list.map((row) => (
-                <TableRow key={row.key} onClick={fn(onSelectPerson, row)} className={classes.clickable}>
-                  <TableCell component="th" scope="row">
-                    {row.name.fullName()}
+          {/*<form className={classes.root} noValidate autoComplete="off">*/}
+          {/*  <div>*/}
+          {/*    <TextField id="filter" label="Filter" variant="outlined" size="small" margin="normal" fullWidth/>*/}
+          {/*  </div>*/}
+          {/*</form>*/}
+          <TableContainer>
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <TableCell sortDirection={query.getSortDirection('name.firstName') ? query.getSortDirection('name.firstName') : false}>
+                    <TableSortLabel
+                      active={query.isSorted('name.firstName')}
+                      direction={query.getSortDirection('name.firstName') ? query.getSortDirection('name.firstName') : 'asc'}
+                      onClick={fn(handleSort, 'name.firstName')}
+                    >
+                      <b>Name</b>
+                    </TableSortLabel>
                   </TableCell>
-                  <TableCell align="right">{Str.formatDate(row.dateOfBirth)}</TableCell>
-                  <TableCell align="right">]</TableCell>
+                  <TableCell align="right">
+                    <TableSortLabel
+                      active={query.isSorted('dateOfBirth')}
+                      direction={query.getSortDirection('dateOfBirth') ? query.getSortDirection('dateOfBirth') : 'asc'}
+                      onClick={fn(handleSort, 'dateOfBirth')}
+                    >
+                      <b>Date of Birth</b>
+                    </TableSortLabel>
+                  </TableCell>
+                  <TableCell align="right"><b>Detail</b></TableCell>
                 </TableRow>
-              ))}
-              {persons && persons.list.length===0 &&
+              </TableHead>
+              <TableBody>
+                {persons && persons.list.map((row) => (
+                  <TableRow key={row.key} onClick={fn(onSelectPerson, row)} className={classes.clickable}>
+                    <TableCell component="th" scope="row">
+                      {row.name.fullName()}
+                    </TableCell>
+                    <TableCell align="right">{Str.formatDate(row.dateOfBirth)}</TableCell>
+                    <TableCell align="right"><ChevronRightIcon/></TableCell>
+                  </TableRow>
+                ))}
+                {persons && persons.list.length === 0 &&
                 <TableRow>
                   <TableCell colSpan={3}>
                     <Box fontStyle="italic">No results found</Box>
                   </TableCell>
                 </TableRow>
-              }
-            </TableBody>
-            <TableFooter>
-              <TableRow>
-                <TablePagination
-                  rowsPerPageOptions={[2, 10, 20]}
-                  colSpan={3}
-                  count={persons.totalElements}
-                  rowsPerPage={persons.size}
-                  page={persons.number}
-                  SelectProps={{
-                    inputProps: {'aria-label': 'rows per page'},
-                    native: true,
-                  }}
-                  onChangePage={handleChangePage}
-                  onChangeRowsPerPage={handleChangeRowsPerPage}
-                  // ActionsComponent={TablePaginationActions}
-                />
-              </TableRow>
-            </TableFooter>
-          </Table>
-        </TableContainer>
+                }
+              </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TablePagination
+                    rowsPerPageOptions={[2, 10, 20]}
+                    colSpan={3}
+                    count={persons.totalElements}
+                    rowsPerPage={persons.size}
+                    page={persons.number}
+                    SelectProps={{
+                      inputProps: {'aria-label': 'rows per page'},
+                      native: true,
+                    }}
+                    onChangePage={handleChangePage}
+                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                    // ActionsComponent={TablePaginationActions}
+                  />
+                </TableRow>
+              </TableFooter>
+            </Table>
+          </TableContainer>
         </Container>
       </div>
 

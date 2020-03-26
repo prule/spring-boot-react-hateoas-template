@@ -103,7 +103,7 @@ export default class Api {
           console.log('response is ', response);
 
           if (response.status === 401) {
-            Api.setToken(null);
+            Api.logout();
           }
 
           if (response.data.apierror) {

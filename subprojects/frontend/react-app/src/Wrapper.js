@@ -7,7 +7,6 @@ import Index from "./app/Index";
 import {Route, useHistory} from 'react-router-dom'
 // import {Route} from "react-router";
 import LoginPage from "./app/LoginPage";
-import Container from "./Container";
 import Dashboard from "./dashboard/Dashboard";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -48,12 +47,14 @@ function Wrapper(props) {
   console.log("index loaded");
   return (
     <div>
+
       <Switch>
         <Route exact path="/login" component={LoginPage}/>
         <PrivateRoute path="/app">
           <Route path="/" component={Dashboard}/>
         </PrivateRoute>
       </Switch>
+
       <Snackbar
         anchorOrigin={{
           vertical: 'bottom',
@@ -78,8 +79,6 @@ function Wrapper(props) {
 }
 
 function PrivateRoute({children, ...rest}) {
-  console.log('hastoken', Api.hasToken());
-  console.log('token', Api.getToken());
   return (
     <Route
       {...rest}

@@ -1,7 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -12,7 +11,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -27,15 +25,13 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import HomeIcon from "@material-ui/icons/Home";
 import Routes from "../Routes";
 import {Route, useHistory} from 'react-router-dom'
-import Api from "../Api";
 import HomePage from "../app/home/HomePage";
 import PersonsPage from "../app/person/PersonsPage";
 // import PersonPage from "../app/person/PersonPage";
 // import PersonPetPage from "../app/person/PersonPetPage";
-import Content from "../Content";
-import LoginPage from "../app/LoginPage";
 import PersonPage from "../app/person/PersonPage";
 import {ErrorMessage} from "../common/ErrorMessage"; // IMPORT withRouter
+import Api from '../Api';
 
 const drawerWidth = 300;
 
@@ -185,7 +181,7 @@ function Dashboard(props) {
           </ListItem>
 
           <List component="div" disablePadding>
-            {Object.keys(competitions).map( (key)=> {
+            {Object.keys(competitions).map((key) => {
               const competition = competitions[key];
               return (
                 <ListItem key={competition.id} button className={classes.nested} onClick={() => Routes.main.competitionPlanner(competition.id).navigate(history)}>
@@ -196,23 +192,26 @@ function Dashboard(props) {
                 </ListItem>
               )
             })}
-            <ListItem button className={classes.nested} >
+            <ListItem button className={classes.nested}>
               <ListItemIcon>
                 <HomeIcon/>
               </ListItemIcon>
-              <ListItemText secondary="Home"  onClick={() => Routes.main.home().navigate(history)} />
+              <ListItemText secondary="Home" onClick={() => Routes.main.home().navigate(history)}/>
             </ListItem>
-            <ListItem button className={classes.nested} >
+            <ListItem button className={classes.nested}>
               <ListItemIcon>
                 <FeaturedPlayListIcon/>
               </ListItemIcon>
-              <ListItemText secondary="Owners"  onClick={() => Routes.person.persons().navigate(history)} />
+              <ListItemText secondary="Owners" onClick={() => Routes.person.persons().navigate(history)}/>
             </ListItem>
-            <ListItem button className={classes.nested} >
+            <ListItem button className={classes.nested}>
               <ListItemIcon>
                 <ExitToAppIcon/>
               </ListItemIcon>
-              <ListItemText secondary="Logout"/>
+              <ListItemText secondary="Logout" onClick={() => {
+                Api.logout();
+                Routes.main.login().navigate(history);
+              }}/>
             </ListItem>
 
           </List>

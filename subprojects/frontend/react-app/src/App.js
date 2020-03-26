@@ -2,12 +2,16 @@ import React from 'react';
 import Dashboard from "./dashboard/Dashboard";
 import {StateProvider} from "./State";
 import Wrapper from "./Wrapper";
-import LoginPage from "./app/LoginPage";
-import {Route} from "react-router";
-import Container from "./Container";
-import PersonsPage from "./app/person/PersonsPage";
+import {withStyles} from "@material-ui/core";
+import {useHistory} from 'react-router-dom'
 
-export default function App() {
+const styles = {
+
+};
+
+function App(props) {
+  const history = useHistory();
+
   const initialState = {
     theme: {primary: 'green'},
     title: 'Dashboard'
@@ -55,8 +59,9 @@ export default function App() {
     <StateProvider initialState={initialState} reducer={reducer}>
       <Wrapper>
         <Dashboard/>
-        {/*<Route exact path="/login" component={LoginPage}/>*/}
       </Wrapper>
     </StateProvider>
   );
 }
+
+export default withStyles(styles)(App);

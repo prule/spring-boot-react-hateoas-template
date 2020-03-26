@@ -2,9 +2,10 @@ import './index.css';
 import React, {useEffect} from 'react';
 import {useStateValue} from "./State";
 import ActionType from "./common/ActionType";
-import {onApiError} from "./Api";
+import Api, {onApiError} from "./Api";
 import Index from "./app/Index";
-import {Route} from "react-router";
+import {Route, useHistory} from 'react-router-dom'
+// import {Route} from "react-router";
 import LoginPage from "./app/LoginPage";
 import Container from "./Container";
 import Dashboard from "./dashboard/Dashboard";
@@ -12,6 +13,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from '@material-ui/icons/Close';
 import {ErrorMessage} from "./common/ErrorMessage";
+import {Redirect, Switch} from "react-router";
 
 function Wrapper(props) {
 
@@ -46,9 +48,12 @@ function Wrapper(props) {
   console.log("index loaded");
   return (
     <div>
-      <Route exact path="/login" component={LoginPage}/>
-      <Route path="/app" component={Dashboard}/>
-
+      <Switch>
+        <Route exact path="/login" component={LoginPage}/>
+        <PrivateRoute path="/app">
+          <Route path="/" component={Dashboard}/>
+        </PrivateRoute>
+      </Switch>
       <Snackbar
         anchorOrigin={{
           vertical: 'bottom',
@@ -70,6 +75,28 @@ function Wrapper(props) {
 
 
   )
+}
+
+function PrivateRoute({children, ...rest}) {
+  console.log('hastoken', Api.hasToken());
+  console.log('token', Api.getToken());
+  return (
+    <Route
+      {...rest}
+      render={({location}) =>
+        Api.hasToken() ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/login",
+              state: {from: location}
+            }}
+          />
+        )
+      }
+    />
+  );
 }
 
 export default Wrapper;

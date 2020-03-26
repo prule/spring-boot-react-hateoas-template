@@ -12,36 +12,36 @@ export function navigate(history, path, callback) {
     }
 }
 
-export function onApiError(apiError) {
-    console.log(apiError)
-    switch (apiError.status) {
-        case 403:
-            this.navigate(Routes.main.login())
-            break
-        case "BAD_REQUEST":
-            this.setState({
-                errorMessage: "A validation error has occurred.",
-                apiError: apiError
-            })
-            break
-        case "NOT_FOUND":
-            this.setState({
-                errorMessage: "Could not find object.",
-                apiError: apiError
-            })
-            break
-        case "UNAUTHORIZED":
-            this.setState({
-                errorMessage: "Invalid credentials.",
-                apiError: apiError
-            })
-            break
-        default:
-            this.setState({
-                errorMessage: "An unknown error has occurred. Please try again later."
-            })
-    }
-}
+// export function onApiError(apiError) {
+//     console.log(apiError);
+//     switch (apiError.status) {
+//         case 403:
+//             this.navigate(Routes.main.login());
+//             break;
+//         case "BAD_REQUEST":
+//             this.setState({
+//                 errorMessage: "A validation error has occurred.",
+//                 apiError: apiError
+//             });
+//             break;
+//         case "NOT_FOUND":
+//             this.setState({
+//                 errorMessage: "Could not find object.",
+//                 apiError: apiError
+//             });
+//             break;
+//         case "UNAUTHORIZED":
+//             this.setState({
+//                 errorMessage: "Invalid credentials.",
+//                 apiError: apiError
+//             });
+//             break;
+//         default:
+//             this.setState({
+//                 errorMessage: "An unknown error has occurred. Please try again later."
+//             });
+//     }
+// }
 
 
 export function isActiveLink(url) {

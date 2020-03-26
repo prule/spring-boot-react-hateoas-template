@@ -118,13 +118,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Dashboard(props) {
+function Dashboard(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const [competitions, setCompetitions] = React.useState([]);
   const [{title}, dispatch] = useStateValue();
   const history = useHistory();
 
+  console.log('dash');
   React.useEffect(() => {
     dispatch({
       type: 'changeTitle',
@@ -228,7 +229,7 @@ export default function Dashboard(props) {
 
               <ErrorMessage message={alert ? alert.message : null}/>
 
-              <Route exact path="/app" component={HomePage}/>
+              <Route path="/app/home" component={HomePage}/>
               <Route exact path="/app/persons" component={PersonsPage}/>
               <Route exact path="/app/persons/:key" component={PersonPage}/>
               {/*<Route exact path="/app/persons/:personKey/pets/:petKey" component={PersonPetPage}/>*/}
@@ -241,3 +242,5 @@ export default function Dashboard(props) {
     </div>
   );
 }
+
+export default Dashboard;

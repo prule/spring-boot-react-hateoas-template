@@ -3,7 +3,8 @@ import Typography from "@material-ui/core/Typography";
 import {Container} from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import {makeStyles} from "@material-ui/core/styles";
-
+import baseStyles from '../../baseStyles'
+import {Route, useHistory} from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -21,7 +22,7 @@ export default function HomePage(props) {
 
       <Container>
 
-        <Typography variant="h6">
+        <Typography variant="h6" className={baseStyles.content}>
           Pet and Owner Sample Application
         </Typography>
 
@@ -35,6 +36,10 @@ export default function HomePage(props) {
             <li>Gradle, Intellij IDEA, Bootstrap</li>
           </ul>
           <p>Click the "Owners" menu item in the navigation bar above to get started.</p>
+          <p>This app uses:</p>
+          <ul>
+            <li>The dashboard template from https://material-ui.com/getting-started/templates/</li>
+          </ul>
         </Typography>
 
       </Container>

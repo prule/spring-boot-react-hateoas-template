@@ -32,7 +32,11 @@ export default class Api {
   };
 
   static setToken = (token) => {
-    localStorage.setItem('token', token);
+    if (token) {
+      localStorage.setItem('token', token);
+    } else {
+      localStorage.removeItem('token');
+    }
   };
 
   static getToken = () => {
@@ -40,7 +44,7 @@ export default class Api {
   };
 
   static hasToken() {
-    return !!this.getToken();
+    return !(this.getToken() === undefined || this.getToken() === null);
   }
 
   static get = async (link: Link) => {
@@ -97,6 +101,11 @@ export default class Api {
         // 400
         if (response.status === 0 || (response.status >= 400 && response.status < 500)) {
           console.log('response is ', response);
+
+          if (response.status === 401) {
+            Api.setToken(null);
+          }
+
           if (response.data.apierror) {
             console.log('throwing response.data.apiError', response.data.apierror);
             throw new ApiError(response.data.apierror);

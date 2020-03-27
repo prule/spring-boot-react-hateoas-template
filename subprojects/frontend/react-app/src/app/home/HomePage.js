@@ -1,17 +1,18 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Typography from "@material-ui/core/Typography";
 import {Container} from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import {makeStyles} from "@material-ui/core/styles";
-import useStylesBase from '../../baseStyles'
-import {Route, useHistory} from 'react-router-dom'
-import Box from "@material-ui/core/Box";
+import Title from "../../components/Title";
 
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
     overflowX: 'auto',
   },
+  contentHeader: {
+    marginTop: theme.spacing(2)
+  }
 }));
 
 export default function HomePage(props) {
@@ -22,23 +23,23 @@ export default function HomePage(props) {
 
       <Container>
 
-          <Typography variant="h6">
-            Pet and Owner Sample Application
-          </Typography>
+        <Title>
+          Pet and Owner Sample Application
+        </Title>
 
-          <p>
-            This is a sample application (which is still a work in progress) which demonstrates basic capability using:
-          </p>
-          <ul>
-            <li>Java, Spring-Boot, JPA, HATEOAS</li>
-            <li>React.js, JavaScript</li>
-            <li>Gradle, Intellij IDEA, Bootstrap</li>
-          </ul>
-          <p>Click the "Owners" menu item in the navigation bar above to get started.</p>
-          <p>This app uses:</p>
-          <ul>
-            <li>The dashboard template from https://material-ui.com/getting-started/templates/</li>
-          </ul>
+        <p>
+          This is a sample application (which is still a work in progress) which demonstrates basic capability using:
+        </p>
+        <ul>
+          <li>Java, Spring-Boot, JPA, HATEOAS</li>
+          <li>React.js, JavaScript</li>
+          <li>Gradle, Intellij IDEA, Bootstrap</li>
+        </ul>
+        <p>Click the "Owners" menu item in the navigation bar above to get started.</p>
+        <p>This app uses:</p>
+        <ul>
+          <li>The dashboard template from https://material-ui.com/getting-started/templates/</li>
+        </ul>
 
       </Container>
 

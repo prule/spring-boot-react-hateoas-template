@@ -32,6 +32,7 @@ import PersonsPage from "../app/person/PersonsPage";
 import PersonPage from "../app/person/PersonPage";
 import {ErrorMessage} from "../common/ErrorMessage"; // IMPORT withRouter
 import Api from '../Api';
+import {Redirect, Switch} from "react-router";
 
 const drawerWidth = 300;
 
@@ -228,10 +229,13 @@ function Dashboard(props) {
 
               <ErrorMessage message={alert ? alert.message : null}/>
 
-              <Route path="/app/home" component={HomePage}/>
-              <Route exact path="/app/persons" component={PersonsPage}/>
-              <Route exact path="/app/persons/:key" component={PersonPage}/>
-              {/*<Route exact path="/app/persons/:personKey/pets/:petKey" component={PersonPetPage}/>*/}
+              <Switch>
+                <Route path="/app/home" component={HomePage}/>
+                <Route exact path="/app/persons" component={PersonsPage}/>
+                <Route exact path="/app/persons/:key" component={PersonPage}/>
+                {/*<Route exact path="/app/persons/:personKey/pets/:petKey" component={PersonPetPage}/>*/}
+                <Route render={() => <Redirect to="/app/home" />} />
+              </Switch>
 
             </Grid>
           </Grid>

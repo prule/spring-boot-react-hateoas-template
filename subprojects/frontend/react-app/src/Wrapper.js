@@ -17,9 +17,7 @@ import {Redirect, Switch} from "react-router";
 function Wrapper(props) {
 
   const [{index, alert, notification}, dispatch] = useStateValue();
-  console.log('notif', notification);
   const [open, setOpen] = React.useState(notification !== undefined);
-  console.log('open', open);
 
   useEffect(() => {
     Index.load()
@@ -35,7 +33,6 @@ function Wrapper(props) {
       );
     }
 
-    console.log("no index");
     return null;
   }
 
@@ -44,13 +41,12 @@ function Wrapper(props) {
     dispatch(ActionType.forResource(ActionType.NOTIFICATION, undefined))
   };
 
-  console.log("index loaded");
   return (
     <div>
 
       <Switch>
         <Route exact path="/login" component={LoginPage}/>
-        <PrivateRoute path="/app">
+        <PrivateRoute path="/">
           <Route path="/" component={Dashboard}/>
         </PrivateRoute>
       </Switch>

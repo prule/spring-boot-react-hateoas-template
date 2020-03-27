@@ -92,9 +92,9 @@ function LoginPage(props) {
   console.log(validation);
 
   return (
-    <Grid container spacing={0} xs={12} alignItems="center" justify="center">
+    <Grid item container spacing={0} xs={12} alignItems="center" justify="center">
 
-      <Grid xs={6} container component="main" className={classes.root}>
+      <Grid item xs={6} container component="main" className={classes.root}>
         <CssBaseline/>
         <Grid item xs={false} sm={4} md={7} className={classes.image}/>
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>

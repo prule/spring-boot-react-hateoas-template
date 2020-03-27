@@ -16,24 +16,20 @@ import {makeStyles} from '@material-ui/core/styles';
 import TableBody from "@material-ui/core/TableBody";
 import Typography from "@material-ui/core/Typography";
 import TableContainer from "@material-ui/core/TableContainer";
-import Toolbar from "@material-ui/core/Toolbar";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableFooter from "@material-ui/core/TableFooter";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import QueryString from "../../common/QueryString";
 import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
 import {Container} from "@material-ui/core";
 import {Formik} from "formik";
-import * as yup from "yup";
 import Box from "@material-ui/core/Box";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import {Route, useHistory} from 'react-router-dom'
+import Title from "../../components/Title";
 
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing(3),
     overflowX: 'auto',
   },
   table: {
@@ -91,26 +87,21 @@ export default function PersonsPage(props) {
   }
 
   function handleChangeRowsPerPage(event: object, size: number) {
-    console.log('event', event);
-    console.log('event.target.value', event.target.value);
     query.setSize(event.target.value);
     doNavigate();
   }
 
   function handleSort(id: string) {
-    console.log('handlesort')
     query.toggleDirection(id);
     doNavigate();
 
   }
 
   function doNavigate() {
-    console.log('navigating', query.toString());
     navigate(props.history, query.toString());
   }
 
   function onFilter(values) {
-    console.log('onFilter', values);
     query.set('filter', values.filter);
     doNavigate();
   }
@@ -119,9 +110,11 @@ export default function PersonsPage(props) {
 
     <Paper className={classes.root}>
       <Container>
-        <Typography variant="h6" gutterBottom>
+
+        <Title>
           Owners
-        </Typography>
+        </Title>
+
         <Typography className={classes.content}>
           This page lists the owners in the database. You can filter the results, and sort by clicking on the column headers.
           Click a row to edit its content.

@@ -20,8 +20,10 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {ErrorMessage} from '../common/ErrorMessage';
+import {withStyles} from "@material-ui/core";
 
-const styles = {};
+const styles = {
+};
 
 const schema = yup.object({
   credentials: yup.object().shape({
@@ -77,8 +79,6 @@ function LoginPage(props) {
   }
 
   function onSubmit(values) {
-    console.log('submit');
-    // clear();
     Api.post(index.link('login'), values.credentials)
       .then((response) => {
         App.token = response.token;
@@ -89,13 +89,10 @@ function LoginPage(props) {
     ;
   }
 
-  console.log(validation);
-
   return (
-    <Grid item container spacing={0} xs={12} alignItems="center" justify="center">
+    <Grid item container spacing={0} xs={12} alignItems="center" justify="center" style={{ minHeight: '100vh' }}>
 
-      <Grid item xs={6} container component="main" className={classes.root}>
-        <CssBaseline/>
+      <Grid item xs={6} container className={classes.root}>
         <Grid item xs={false} sm={4} md={7} className={classes.image}/>
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <div className={classes.paper}>
@@ -105,7 +102,6 @@ function LoginPage(props) {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-
 
             <ErrorMessage message={alert ? alert.message : null}/>
 
@@ -126,36 +122,6 @@ function LoginPage(props) {
                            error={!!(errors.credentials && errors.credentials.password)}
                            helperText={(errors.credentials && errors.credentials.password)}
                     />
-                    {/*<TextField*/}
-                    {/*  variant="outlined"*/}
-                    {/*  margin="normal"*/}
-                    {/*  required*/}
-                    {/*  fullWidth*/}
-                    {/*  id="username"*/}
-                    {/*  label="Email Address"*/}
-                    {/*  name="username"*/}
-                    {/*  autoComplete="off"*/}
-                    {/*  autoFocus*/}
-                    {/*  value={values.username}*/}
-                    {/*  onChange={handleChange}*/}
-                    {/*/>*/}
-                    {/*<TextField*/}
-                    {/*  variant="outlined"*/}
-                    {/*  margin="normal"*/}
-                    {/*  required*/}
-                    {/*  fullWidth*/}
-                    {/*  name="password"*/}
-                    {/*  label="Password"*/}
-                    {/*  type="password"*/}
-                    {/*  id="password"*/}
-                    {/*  autoComplete="off"*/}
-                    {/*  value={values.password}*/}
-                    {/*  onChange={handleChange}*/}
-                    {/*/>*/}
-                    {/*<FormControlLabel*/}
-                    {/*  control={<Checkbox value="remember" color="primary"/>}*/}
-                    {/*  label="Remember me"*/}
-                    {/*/>*/}
                     <Button
                       type="submit"
                       fullWidth
@@ -177,5 +143,4 @@ function LoginPage(props) {
 
 }
 
-// export default withStyles(styles)(LoginPage);
-export default LoginPage;
+export default withStyles(styles)(LoginPage);

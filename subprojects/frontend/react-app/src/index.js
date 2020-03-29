@@ -11,7 +11,6 @@ ReactDOM.render(
     <ThemeProvider theme={theme}>
       <CssBaseline/>
       <App/>
-      {/*<Redirect to={"/app/home"}/>*/}
     </ThemeProvider>
   </BrowserRouter>,
   document.querySelector('#root'),

@@ -1,4 +1,4 @@
-import Str from "./Str";
+import Str from "../Str";
 
 export default class Address {
   line1;

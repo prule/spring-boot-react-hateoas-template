@@ -10,18 +10,18 @@ import org.springframework.context.event.EventListener;
 @SpringBootApplication
 public class Main {
 
-	private final SampleLoader sampleLoader;
+    private final SampleLoader sampleLoader;
 
-	public Main(SampleLoader sampleLoader) {
-		this.sampleLoader = sampleLoader;
-	}
+    public Main(SampleLoader sampleLoader) {
+        this.sampleLoader = sampleLoader;
+    }
 
-	@EventListener(ApplicationReadyEvent.class)
-	public void postStartup() {
-	    sampleLoader.load();
-	}
+    @EventListener(ApplicationReadyEvent.class)
+    public void postStartup() {
+        sampleLoader.load();
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(Main.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(Main.class, args);
+    }
 }

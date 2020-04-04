@@ -1,9 +1,9 @@
 // @flow
 
 import axios from "axios"
-import ApiError from "./common/ApiError"
-import {Link} from "./common/Link"
-import AlertMessage from "./common/AlertMessage"
+import ApiError from "./common/domain/ApiError"
+import {Link} from "./common/domain/Link"
+import AlertMessage from "./common/domain/AlertMessage"
 import ActionType from "./common/ActionType"
 
 export function onApiError(dispatch, setter) {
@@ -29,6 +29,7 @@ export default class Api {
 
   static logout = () => {
     localStorage.removeItem('token');
+
   };
 
   static setToken = (token) => {

@@ -1,9 +1,8 @@
 import Api from '../../Api';
-import App from '../../App';
-import Resource from "../../common/Resource";
+import Resource from "../../common/domain/Resource";
 import PersonName from "./PersonName";
-import Address from "../../common/Address";
-import Page from "../../common/Page";
+import Address from "../../common/domain/Address";
+import Page from "../../common/domain/Page";
 import Pet from "../pet/Pet";
 
 export default class Person extends Resource {

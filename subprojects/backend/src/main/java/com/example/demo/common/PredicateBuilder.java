@@ -12,19 +12,19 @@ public class PredicateBuilder {
         builder = new BooleanBuilder();
     }
 
-    public void and(boolean include, Expression expression) {
+    public PredicateBuilder and(boolean include, Expression expression) {
         if (include) {
             builder.and(expression.build());
         }
+        return this;
     }
 
-    public void and(String value, Expression expression) {
+    public PredicateBuilder and(String value, Expression expression) {
         if (!Strings.isNullOrEmpty(value)) {
             builder.and(expression.build());
         }
+        return this;
     }
-
-
 
     public Predicate toPredicate() {
         return builder;

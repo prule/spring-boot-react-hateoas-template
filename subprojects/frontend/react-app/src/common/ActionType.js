@@ -1,6 +1,6 @@
 // @flow
 
-import AlertMessage from "./AlertMessage"
+import AlertMessage from "./domain/AlertMessage"
 
 export default class ActionType {
   type: string;

@@ -177,42 +177,31 @@ function Dashboard(props) {
         </div>
         <Divider/>
         <List>
-          <ListItem button className={classes.nested}>
+          <ListItem  className={classes.nested}>
             <ListItemText inset secondary="Menu"/>
           </ListItem>
 
           <List component="div" disablePadding>
-            {Object.keys(competitions).map((key) => {
-              const competition = competitions[key];
-              return (
-                <ListItem key={competition.id} button className={classes.nested} onClick={() => Routes.main.competitionPlanner(competition.id).navigate(history)}>
-                  <ListItemIcon>
-                    <AssignmentIcon/>
-                  </ListItemIcon>
-                  <ListItemText primary={competition.meta.name ? competition.meta.name : 'Unnamed'}/>
-                </ListItem>
-              )
-            })}
-            <ListItem button className={classes.nested}>
+            <ListItem button className={classes.nested} onClick={() => Routes.main.home().navigate(history)}>
               <ListItemIcon>
                 <HomeIcon/>
               </ListItemIcon>
-              <ListItemText secondary="Home" onClick={() => Routes.main.home().navigate(history)}/>
+              <ListItemText secondary="Home"/>
             </ListItem>
-            <ListItem button className={classes.nested}>
+            <ListItem button className={classes.nested} onClick={() => Routes.person.persons().navigate(history)}>
               <ListItemIcon>
                 <FeaturedPlayListIcon/>
               </ListItemIcon>
-              <ListItemText secondary="Owners" onClick={() => Routes.person.persons().navigate(history)}/>
+              <ListItemText secondary="Owners"/>
             </ListItem>
-            <ListItem button className={classes.nested}>
+            <ListItem button className={classes.nested} onClick={() => {
+              Api.logout();
+              Routes.main.login().navigate(history);
+            }}>
               <ListItemIcon>
                 <ExitToAppIcon/>
               </ListItemIcon>
-              <ListItemText secondary="Logout" onClick={() => {
-                Api.logout();
-                Routes.main.login().navigate(history);
-              }}/>
+              <ListItemText secondary="Logout"/>
             </ListItem>
 
           </List>
@@ -234,7 +223,7 @@ function Dashboard(props) {
                 <Route exact path="/app/persons" component={PersonsPage}/>
                 <Route exact path="/app/persons/:key" component={PersonPage}/>
                 {/*<Route exact path="/app/persons/:personKey/pets/:petKey" component={PersonPetPage}/>*/}
-                <Route render={() => <Redirect to="/app/home" />} />
+                <Route render={() => <Redirect to="/app/home"/>}/>
               </Switch>
 
             </Grid>

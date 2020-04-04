@@ -1,6 +1,7 @@
 // @flow
 
 import queryString, {ParsedQuery} from 'query-string';
+import dateFnsParse from 'date-fns/parse';
 
 export default class QueryString {
 
@@ -24,6 +25,10 @@ export default class QueryString {
 
   get(key: string, defaultValue: string) {
     return this.parsedQuery[key] ? this.parsedQuery[key] : defaultValue;
+  }
+
+  getDate(key: string, defaultValue: string) {
+    return this.parsedQuery[key] ? dateFnsParse(this.parsedQuery[key], 'yyyy-MM-dd', new Date()) : defaultValue;
   }
 
   getSize(): number {

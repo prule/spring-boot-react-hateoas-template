@@ -1,8 +1,7 @@
 import Api from '../../Api';
-import App from '../../App';
-import Resource from "../../common/Resource";
+import Resource from "../../common/domain/Resource";
 import PetName from "./PetName";
-import Page from "../../common/Page";
+import Page from "../../common/domain/Page";
 import Person from "../person/Person";
 
 export default class Pet extends Resource {

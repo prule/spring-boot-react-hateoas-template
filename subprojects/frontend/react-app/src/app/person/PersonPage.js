@@ -18,7 +18,6 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Toolbar from "@material-ui/core/Toolbar";
 import {Box, Container} from "@material-ui/core";
-import {positions} from '@material-ui/system';
 import ActionType from "../../common/ActionType";
 import {ErrorMessage} from "../../common/ErrorMessage";
 

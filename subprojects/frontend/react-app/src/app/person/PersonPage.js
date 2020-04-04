@@ -66,8 +66,6 @@ function PersonPage(props) {
   const [person, setPerson] = useState(null);
   const [pets, setPets] = useState(null);
 
-  console.log('personKey', personKey);
-
   const values = {
     person: person
   };

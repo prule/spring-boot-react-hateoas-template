@@ -29,7 +29,7 @@ export default class Api {
 
   static logout = () => {
     localStorage.removeItem('token');
-
+    window.location.href='/login';
   };
 
   static setToken = (token) => {

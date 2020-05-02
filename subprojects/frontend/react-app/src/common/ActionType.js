@@ -14,29 +14,30 @@ export default class ActionType {
   static INDEX: string = 'index';
   static ALERT: string = 'alert';
   static NOTIFICATION: string = 'notification';
+  static USER: string = 'user';
 
-  static handlerMap = {
-    'index': (state, action: ActionType) => {
-      return {
-        ...state,
-        index: action.resource
-      }
-    },
-
-    'alert': (state, action: ActionType) => {
-      return {
-        ...state,
-        alert: action.alert
-      }
-    },
-
-    'notification': (state, action: ActionType) => {
-      return {
-        ...state,
-        notification: action.notification
-      }
-    }
-  };
+  // static handlerMap = {
+  //   'index': (state, action: ActionType) => {
+  //     return {
+  //       ...state,
+  //       index: action.resource
+  //     }
+  //   },
+  //
+  //   'alert': (state, action: ActionType) => {
+  //     return {
+  //       ...state,
+  //       alert: action.alert
+  //     }
+  //   },
+  //
+  //   'notification': (state, action: ActionType) => {
+  //     return {
+  //       ...state,
+  //       notification: action.notification
+  //     }
+  //   }
+  // };
 
   static forResource(type: string, resource: Object) {
     const actionType = new ActionType(type);

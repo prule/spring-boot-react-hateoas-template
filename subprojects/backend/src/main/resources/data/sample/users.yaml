@@ -5,3 +5,16 @@ key:
 username: bob
 password: password
 enabled: true
+groups:
+  - key:
+      key: user
+---
+  !!com.example.demo.user.User
+key:
+  key: boss
+username: boss
+password: password
+enabled: true
+groups:
+  - key:
+      key: admin

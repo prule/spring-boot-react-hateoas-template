@@ -1,9 +1,11 @@
+// @flow
+
 import Str from "../../common/Str";
 
 export default class PersonName {
-  firstName;
-  lastName;
-  otherNames;
+  firstName: string;
+  lastName: string;
+  otherNames: string;
 
   constructor(name = {}) {
     this.firstName = Str.valueOrEmpty(name.firstName);
@@ -11,7 +13,7 @@ export default class PersonName {
     this.otherNames = Str.valueOrEmpty(name.otherNames);
   }
 
-  fullName() {
+  fullName(): string {
     return Str.join([this.firstName, this.otherNames, this.lastName], " ");
   }
 }

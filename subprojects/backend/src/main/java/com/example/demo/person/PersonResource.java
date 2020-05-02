@@ -3,7 +3,9 @@ package com.example.demo.person;
 import com.example.demo.common.Address;
 import com.example.demo.pet.PetApi;
 import lombok.Getter;
+import org.springframework.hateoas.LinkRelation;
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.http.HttpMethod;
 
 import java.util.Date;
 
@@ -26,9 +28,9 @@ public class PersonResource extends RepresentationModel<PersonResource> {
         address = model.getAddress();
         dateOfBirth = model.getDateOfBirth();
 
-        add(linkTo(methodOn(PersonApi.class).find(model.getKey().getKey())).withSelfRel());
-        add(linkTo(methodOn(PersonApi.class).update(model.getKey().getKey(), null)).withRel("update"));
-        add(linkTo(methodOn(PetApi.class).create(null)).withRel("pet-create"));
+        add(linkTo(methodOn(PersonApi.class).find(model.getKey().getKey())).withSelfRel().withType(HttpMethod.GET.name()));
+        add(linkTo(methodOn(PersonApi.class).update(model.getKey().getKey(), null)).withRel("update").withType(HttpMethod.PUT.name()));
+        add(linkTo(methodOn(PetApi.class).create(null)).withRel("pet-create").withType(HttpMethod.POST.name()));
 
         return this;
 

@@ -60,7 +60,7 @@ export default class Api {
     return await Api.do("post", link, body);
   };
 
-  static do = async (method: string, link: Link, body: object) => {
+  static do = async (link: Link, body: object) => {
 // Add a response interceptor
 //     axios.interceptors.response.use(function (response) {
 //       // Any status code that lie within the range of 2xx cause this function to trigger
@@ -72,6 +72,9 @@ export default class Api {
 //       console.log(error);
 //       return Promise.reject(error);
 //     });
+
+    const method = link.type;
+
     try {
 
       const headers = {

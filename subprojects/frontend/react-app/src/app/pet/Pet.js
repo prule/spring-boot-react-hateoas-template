@@ -3,6 +3,7 @@ import Resource from "../../common/domain/Resource";
 import PetName from "./PetName";
 import Page from "../../common/domain/Page";
 import Person from "../person/Person";
+import LinkRelations from "../LinkRelations";
 
 export default class Pet extends Resource {
 
@@ -20,19 +21,18 @@ export default class Pet extends Resource {
   }
 
   save() {
-    const link = this.key ? this.link('update') : this.owner.link('pet-create');
-    const method = this.key ? 'put' : 'post';
+    const link = this.key ? this.link(LinkRelations.update) : this.owner.link(LinkRelations.petCreate);
 
-    return Api.do(method, link, this)
+    return Api.do(link, this)
       .then((response) => {
         return new Pet(response);
       })
   };
 
-  static find(index, key) {
+  static find(user, key) {
 
-    let link = index
-      .link('pet-find')
+    let link = user
+      .link(LinkRelations.petFind)
       .pathParam('key', key);
 
     return Api.get(link)
@@ -44,7 +44,7 @@ export default class Pet extends Resource {
   static search(index, searchCriteria) {
 
     let link = index
-      .link('pet-search')
+      .link(LinkRelations.petSearch)
       .withQueryParams(searchCriteria);
 
     return Api.get(link)

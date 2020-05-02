@@ -11,7 +11,7 @@ export default class Index extends Resource {
   static load() {
 
     const href = new Link("/api/1/index");
-    return Api.get(href)
+    return Api.do(href)
       .then((response) => {
         return new Index(response);
       });

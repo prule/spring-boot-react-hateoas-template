@@ -55,7 +55,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function PersonsPage(props) {
-    const [{index, alert}, dispatch] = useStateValue();
+    const [{user, alert}, dispatch] = useStateValue();
     const classes = useStyles();
 
     const [validation, setValidation] = useState(null);
@@ -69,13 +69,10 @@ export default function PersonsPage(props) {
         to: query.get('to', null)
     };
 
-    console.log('search', props.location.search);
-    console.log('values', values);
-
     useEffect(() => {
 
         // let params = {size: size, page: page};
-        Person.search(index, query.parsedQuery)
+        Person.search(user, query.parsedQuery)
             .then((resource) => {
                 query.setSize(resource.size);
                 query.setPage(resource.number);
@@ -84,7 +81,7 @@ export default function PersonsPage(props) {
             .then(setPersons)
             .catch(onApiError);
 
-    }, [index, props.location.search]);
+    }, [user, props.location.search]);
 
     function onSelectPerson(person) {
         navigate(props.history, Routes.person.person(person));
@@ -110,11 +107,9 @@ export default function PersonsPage(props) {
     }
 
     function onFilter(values) {
-        console.log('onfilter');
         query.set('filter', values.filter);
         query.set('from', values.from);
         query.set('to', values.to);
-        // query.set('filter', values.filter);
         doNavigate();
     }
 

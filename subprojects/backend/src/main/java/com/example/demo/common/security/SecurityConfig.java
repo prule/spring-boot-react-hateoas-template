@@ -49,22 +49,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/h2-console/**");
         web.ignoring().antMatchers("/static/**");
         web.ignoring().antMatchers("/api/*/index");
-        web.ignoring().antMatchers("/api/*/login");
+        web.ignoring().antMatchers("/api/1/auth/*");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .httpBasic().disable()
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .cors() // so that the OPTIONS requests will return 200 instead of 403
-                .and()
-                .authorizeRequests()
-                .anyRequest().authenticated()
-                .and()
-                .apply(new JwtConfigurer(jwtTokenProvider, restExceptionHandler, objectMapper))
+            .httpBasic().disable()
+            .csrf().disable()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .cors() // so that the OPTIONS requests will return 200 instead of 403
+            .and()
+            .authorizeRequests()
+            .anyRequest().authenticated()
+            .and()
+            .apply(new JwtConfigurer(jwtTokenProvider, restExceptionHandler, objectMapper))
         ;
     }
 

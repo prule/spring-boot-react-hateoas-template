@@ -58,7 +58,7 @@ const styles = theme => ({
 function PersonPage(props) {
   const {classes} = props;
 
-  const [{index, alert}, dispatch] = useStateValue();
+  const [{user, alert}, dispatch] = useStateValue();
 
   const personKey = props.match.params.key;
 
@@ -71,7 +71,7 @@ function PersonPage(props) {
   };
 
   useEffect(() => {
-    Person.find(index, personKey)
+    Person.find(user, personKey)
       .then(setPerson)
       .then((person) => person.searchPets()
         .then(setPets)

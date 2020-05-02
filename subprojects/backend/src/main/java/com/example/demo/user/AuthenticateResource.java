@@ -11,11 +11,14 @@ public class AuthenticateResource extends RepresentationModel<AuthenticateResour
     private String password;
     private String token;
 
+    private UserResource user;
+
     public AuthenticateResource() {
     }
 
-    AuthenticateResource(String username, String token) {
+    AuthenticateResource(String username, String token, User user) {
         this.username = username;
         this.token = token;
+        this.user = new UserResource().fromModel(user);
     }
 }

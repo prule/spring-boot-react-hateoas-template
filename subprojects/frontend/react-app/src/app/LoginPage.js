@@ -13,7 +13,6 @@ import {makeStyles} from '@material-ui/core/styles';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -21,9 +20,12 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {ErrorMessage} from '../common/ErrorMessage';
 import {withStyles} from "@material-ui/core";
+import ActionType from "../common/ActionType";
+import LinkRelations from "./LinkRelations";
+import {Redirect} from "react-router";
+import User from "./user/User";
 
-const styles = {
-};
+const styles = {};
 
 const schema = yup.object({
   credentials: yup.object().shape({
@@ -71,7 +73,7 @@ const useStyles = makeStyles(theme => ({
 
 function LoginPage(props) {
   const classes = useStyles();
-  const [{index, alert}, dispatch] = useStateValue();
+  const [{index, user, alert}, dispatch] = useStateValue();
   const [validation, setValidation] = useState({});
 
   function onCancel() {
@@ -79,18 +81,28 @@ function LoginPage(props) {
   }
 
   function onSubmit(values) {
-    Api.post(index.link('login'), values.credentials)
+    Api.do(index.link(LinkRelations.login), values.credentials)
       .then((response) => {
         App.token = response.token;
         Api.setToken(response.token);
-        navigate(props.history, Routes.main.home())
+        dispatch(ActionType.forResource(ActionType.USER, new User(response.user)));
       })
       .catch(onApiError(dispatch, setValidation))
     ;
   }
 
+  if (user) {
+    return (
+      <Redirect
+        to={{
+          pathname: Routes.main.home()
+        }}
+      />
+    )
+  }
+
   return (
-    <Grid item container spacing={0} xs={12} alignItems="center" justify="center" style={{ minHeight: '100vh' }}>
+    <Grid item container spacing={0} xs={12} alignItems="center" justify="center" style={{minHeight: '100vh'}}>
 
       <Grid item xs={6} container className={classes.root}>
         <Grid item xs={false} sm={4} md={7} className={classes.image}/>
@@ -114,11 +126,15 @@ function LoginPage(props) {
                 console.log(errors);
                 return (
                   <Form className={classes.form} noValidate onSubmit={handleSubmit}>
-                    <Field name="credentials.username" id="credentials.username" value={values.credentials.username} onChange={handleChange} component={TextField} variant="outlined" margin="normal" label="Email Address" fullWidth
+                    <Field name="credentials.username" id="credentials.username" value={values.credentials.username}
+                           onChange={handleChange} component={TextField} variant="outlined" margin="normal"
+                           label="Email Address" fullWidth
                            error={!!(errors.credentials && errors.credentials.username)}
                            helperText={(errors.credentials && errors.credentials.username)}
                     />
-                    <Field name="credentials.password" id="credentials.password" value={values.credentials.password} onChange={handleChange} component={TextField} variant="outlined" margin="normal" label="Password" fullWidth type="password"
+                    <Field name="credentials.password" id="credentials.password" value={values.credentials.password}
+                           onChange={handleChange} component={TextField} variant="outlined" margin="normal"
+                           label="Password" fullWidth type="password"
                            error={!!(errors.credentials && errors.credentials.password)}
                            helperText={(errors.credentials && errors.credentials.password)}
                     />

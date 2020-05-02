@@ -13,23 +13,38 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from '@material-ui/icons/Close';
 import {ErrorMessage} from "./common/ErrorMessage";
 import {Redirect, Switch} from "react-router";
+import User from "./app/user/User";
 
 function Wrapper(props) {
 
-  const [{index, alert, notification}, dispatch] = useStateValue();
+  const [{index, user, alert, notification}, dispatch] = useStateValue();
   const [open, setOpen] = React.useState(notification !== undefined);
 
   useEffect(() => {
     Index.load()
-      .then((index) => dispatch(ActionType.forResource(ActionType.INDEX, index)))
-      .catch(onApiError(dispatch))
+      .then((index) => {
+        dispatch(ActionType.forResource(ActionType.INDEX, index))
+        return index;
+      })
+      .then(User.me)
+      .then(user => dispatch(ActionType.forResource(ActionType.USER, user)))
+      .catch((error) => {
+        console.log(error);
+        if (error.status === 403) {
+          // not logged on
+          dispatch(ActionType.forResource(ActionType.USER, null));
+        } else {
+          onApiError(dispatch)(error);
+        }
+      })
   }, []);
 
   if (index == null) {
 
     if (alert) {
       return (
-        <ErrorMessage message={"An unexpected error has occurred. Please check your network is working and the server can be contacted."}/>
+        <ErrorMessage
+          message={"An unexpected error has occurred. Please check your network is working and the server can be contacted."}/>
       );
     }
 
@@ -41,12 +56,15 @@ function Wrapper(props) {
     dispatch(ActionType.forResource(ActionType.NOTIFICATION, undefined))
   };
 
+  console.log('render wrapper, user=', user)
+  console.log('render wrapper, props=', props)
+
   return (
     <div>
 
       <Switch>
         <Route exact path="/login" component={LoginPage}/>
-        <PrivateRoute path="/">
+        <PrivateRoute path="/" user={user}>
           <Route path="/" component={Dashboard}/>
         </PrivateRoute>
       </Switch>
@@ -74,21 +92,25 @@ function Wrapper(props) {
   )
 }
 
-function PrivateRoute({children, ...rest}) {
+function PrivateRoute({children, user, ...rest}) {
+  console.log('token', Api.hasToken());
+  console.log('user', user);
+
+
   return (
     <Route
       {...rest}
       render={({location}) =>
-        Api.hasToken() ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: {from: location}
-            }}
-          />
-        )
+        Api.hasToken() && user ?
+          (children)
+          : (
+            <Redirect
+              to={{
+                pathname: "/login",
+                state: {from: location}
+              }}
+            />
+          )
       }
     />
   );

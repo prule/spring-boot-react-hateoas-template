@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = "2.2.5.RELEASE"
+        springBootVersion = "2.2.6.RELEASE"
     }
     repositories {
         mavenCentral()
@@ -12,7 +12,7 @@ buildscript {
 
 plugins {
     id "java"
-    id "org.springframework.boot" version "2.2.5.RELEASE"
+    id "org.springframework.boot" version "2.2.6.RELEASE"
 //    id "io.spring.dependency-management"
 //    id "net.ltgt.apt-idea" version "0.19" // https://github.com/tbroyer/gradle-apt-plugin#intellij-idea
     id "org.kordamp.gradle.build-info"
@@ -59,6 +59,10 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-security"
     implementation "org.springframework.data:spring-data-jpa"
     implementation "org.flywaydb:flyway-core"
+
+    implementation "org.togglz:togglz-spring-boot-starter:2.6.1.Final"
+    implementation("org.togglz:togglz-spring-security:2.6.1.Final")
+    implementation("com.github.heneke.thymeleaf:thymeleaf-extras-togglz:1.0.1.RELEASE")
 
     implementation "org.projectlombok:lombok:${LOMBOK_VERSION}"
     implementation "com.querydsl:querydsl-jpa:${QUERYDSL_VERSION}"

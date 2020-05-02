@@ -1,13 +1,16 @@
+// @flow
+
 import React from 'react';
 import Dashboard from "./dashboard/Dashboard";
 import {StateProvider} from "./State";
 import Wrapper from "./Wrapper";
 import {withStyles} from "@material-ui/core";
 import {useHistory} from 'react-router-dom'
+import ActionType from "./common/ActionType";
+import {navigate} from "./common/PageUtil";
+import Routes from "./Routes";
 
-const styles = {
-
-};
+const styles = {};
 
 function App(props) {
   const history = useHistory();
@@ -17,7 +20,7 @@ function App(props) {
     title: 'Dashboard'
   };
 
-  const reducer = (state, action) => {
+  const reducer = (state: Object, action: ActionType) => {
     console.log('state', state);
     console.log('action', action);
     switch (action.type) {
@@ -26,29 +29,32 @@ function App(props) {
           ...state,
           title: action.title
         };
-      case 'changeTheme':
-        return {
-          ...state,
-          theme: action.newTheme
-        };
-      case 'index':
-        console.log('got index');
+      case ActionType.INDEX:
         return {
           ...state,
           index: action.resource
         };
-      case 'alert':
-        console.log('got alert');
+      case ActionType.USER:
+        // if (action.resource) {
+        //   navigate(history, Routes.main.home());
+        // }
+        // else {
+        //   navigate(history, Routes.main.login());
+        // }
+        return {
+          ...state,
+          user: action.resource
+        };
+      case ActionType.ALERT:
         return {
           ...state,
           alert: action.alert
         };
-      case 'notification':
-         console.log('got notification', action);
-         return {
-           ...state,
-           notification: action.notification
-         };
+      case ActionType.NOTIFICATION:
+        return {
+          ...state,
+          notification: action.notification
+        };
 
       default:
         return state;

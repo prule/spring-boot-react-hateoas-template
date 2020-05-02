@@ -33,6 +33,7 @@ import PersonPage from "../app/person/PersonPage";
 import {ErrorMessage} from "../common/ErrorMessage"; // IMPORT withRouter
 import Api from '../Api';
 import {Redirect, Switch} from "react-router";
+import LinkRelations from "../app/LinkRelations";
 
 const drawerWidth = 300;
 
@@ -118,11 +119,10 @@ const useStyles = makeStyles(theme => ({
 function Dashboard(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
-  const [competitions, setCompetitions] = React.useState([]);
-  const [{title}, dispatch] = useStateValue();
+  const [{title, user}, dispatch] = useStateValue();
   const history = useHistory();
 
-  console.log('dash');
+  console.log('user', user);
   React.useEffect(() => {
     dispatch({
       type: 'changeTitle',
@@ -188,6 +188,7 @@ function Dashboard(props) {
               </ListItemIcon>
               <ListItemText secondary="Home"/>
             </ListItem>
+            {user && user.hasLink(LinkRelations.personSearch)}
             <ListItem button className={classes.nested} onClick={() => Routes.person.persons().navigate(history)}>
               <ListItemIcon>
                 <FeaturedPlayListIcon/>
@@ -222,7 +223,7 @@ function Dashboard(props) {
                 <Route path="/app/home" component={HomePage}/>
                 <Route exact path="/app/persons" component={PersonsPage}/>
                 <Route exact path="/app/persons/:key" component={PersonPage}/>
-                {/*<Route exact path="/app/persons/:personKey/pets/:petKey" component={PersonPetPage}/>*/}
+                {/*<Route exact path="/app/persons/:personKey/pets/:petKey" component={PersonPetPage} render={!!user}/>*/}
                 <Route render={() => <Redirect to="/app/home"/>}/>
               </Switch>
 

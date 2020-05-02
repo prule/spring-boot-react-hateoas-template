@@ -15,7 +15,8 @@ public class Pet extends AbstractEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO) private Long id;
 
-    @Basic @Getter @Setter @Embedded @Valid private PetName name;
+    @Getter @Setter @Embedded @Valid private PetName name;
+
     @Basic @Getter @Setter private Date dateOfBirth;
 
     @ManyToOne @Getter @Setter private Person owner;

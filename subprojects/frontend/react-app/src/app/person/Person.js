@@ -1,14 +1,18 @@
+// @flow
+
 import Api from '../../Api';
 import Resource from "../../common/domain/Resource";
 import PersonName from "./PersonName";
 import Address from "../../common/domain/Address";
 import Page from "../../common/domain/Page";
 import Pet from "../pet/Pet";
+import LinkRelations from "../LinkRelations";
+import User from "../user/User";
 
 export default class Person extends Resource {
 
-  key;
-  name;
+  key: string;
+  name: PersonName;
   address;
   dateOfBirth;
 
@@ -22,8 +26,8 @@ export default class Person extends Resource {
 
   save() {
     // todo handle create
-    let link = this.link('update');
-    return Api.put(link, this)
+    let link = this.link(LinkRelations.update);
+    return Api.do(link, this)
       .then(
         (response) => {
           return new Person(response);
@@ -31,29 +35,29 @@ export default class Person extends Resource {
       )
   };
 
-  searchPets(index) {
-    return Pet.search(index,{personKey: this.key});
+  searchPets(user) {
+    return Pet.search(user,{personKey: this.key});
   };
 
-  static find(index, key) {
+  static find(user: User, key) {
 
-    let link = index
-      .link('person-find')
+    let link = user
+      .link(LinkRelations.personFind)
       .pathParam('key', key);
 
-    return Api.get(link)
+    return Api.do(link)
       .then(response => {
         return new Person(response);
       });
 
   };
 
-  static search(index, params) {
+  static search(user, params) {
 
-    let link = index.link('person-search')
+    let link = user.link(LinkRelations.personSearch)
       .withQueryParams(params);
 
-    return Api.get(link)
+    return Api.do(link)
       .then(response => {
         return new Page(response, 'personResourceList', (item) => new Person(item));
       });

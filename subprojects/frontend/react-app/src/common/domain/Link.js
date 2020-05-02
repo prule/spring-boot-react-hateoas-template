@@ -1,16 +1,20 @@
+// @flow
+
 import Environment from '../Environment';
 import Str from "../Str";
 import queryString from 'query-string';
 
 export class Link {
 
-  href = null;
-  pathParams = {};
-  queryParams;
+  href: string = null;
+  type: string; // contains http method
+  pathParams: Object = {};
+  queryParams: Object;
 
-  constructor(href) {
+  constructor(href, type) {
     const env = Environment.instance();
     this.href = href.startsWith('http') ? href : env.api + href;
+    this.type = type;
   }
 
   pathParam(key, value) {

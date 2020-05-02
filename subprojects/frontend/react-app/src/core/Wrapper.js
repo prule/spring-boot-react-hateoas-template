@@ -3,7 +3,7 @@ import React, {Fragment, useEffect} from 'react';
 import {useStateValue} from "./State";
 import ActionType from "../common/ActionType";
 import Api, {onApiError} from "./Api";
-import Index from "../app/Index";
+import IndexResource from "../app/IndexResource";
 import {Route, useHistory} from 'react-router-dom'
 import LoginPage from "../app/LoginPage";
 import Dashboard from "../dashboard/Dashboard";
@@ -21,7 +21,7 @@ function Wrapper(props) {
   const [open, setOpen] = React.useState(notification !== undefined);
 
   useEffect(() => {
-    Index.load()
+    IndexResource.load()
       .then((index) => {
         dispatch(ActionType.forResource(ActionType.INDEX, index))
         return index;
@@ -43,8 +43,7 @@ function Wrapper(props) {
 
     if (alert) {
       return (
-        <ErrorMessage
-          message={"An unexpected error has occurred. Please check your network is working and the server can be contacted."}/>
+        <ErrorMessage message={"An unexpected error has occurred. Please check your network is working and the server can be contacted."}/>
       );
     }
 

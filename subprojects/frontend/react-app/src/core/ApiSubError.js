@@ -1,8 +1,8 @@
 export default class ApiSubError {
   object;
-  field;
+  field: string;
   rejectedValue;
-  message;
+  message: string;
 
   constructor(subError) {
     this.object = subError.object;

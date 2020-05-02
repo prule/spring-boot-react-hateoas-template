@@ -1,13 +1,14 @@
-export default class Page {
+// @flow
 
-  size;
-  totalElements;
-  totalPages;
-  number;
-  list;
+export default class SearchPage<T> {
+
+  size: number;
+  totalElements: number;
+  totalPages: number;
+  number: number; // current page
+  list: Array<T>;
 
   constructor(result, resourceListName, itemFactory) {
-    console.log('result', result);
     this.size = result.page.size;
     this.totalElements = result.page.totalElements;
     this.totalPages = result.page.totalPages;

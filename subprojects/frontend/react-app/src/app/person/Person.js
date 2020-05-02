@@ -4,7 +4,7 @@ import Api from '../../core/Api';
 import Resource from "../../common/domain/Resource";
 import PersonName from "./PersonName";
 import Address from "../../common/domain/Address";
-import Page from "../../common/domain/Page";
+import SearchPage from "../../common/domain/SearchPage";
 import Pet from "../pet/Pet";
 import LinkRelations from "../LinkRelations";
 import User from "../user/User";
@@ -24,7 +24,7 @@ export default class Person extends Resource {
     this.dateOfBirth = new Date(data.dateOfBirth);
   }
 
-  save() {
+  save(): Promise<Person> {
     // todo handle create
     let link = this.link(LinkRelations.update);
     return Api.do(link, this)
@@ -35,11 +35,11 @@ export default class Person extends Resource {
       )
   };
 
-  searchPets(user) {
+  searchPets(user): Promise<SearchPage<Pet>> {
     return Pet.search(user,{personKey: this.key});
   };
 
-  static find(user: User, key) {
+  static find(user: User, key): Promise<Person> {
 
     let link = user
       .link(LinkRelations.personFind)
@@ -52,14 +52,14 @@ export default class Person extends Resource {
 
   };
 
-  static search(user, params) {
+  static search(user, params): Promise<SearchPage<Person>> {
 
     let link = user.link(LinkRelations.personSearch)
       .withQueryParams(params);
 
     return Api.do(link)
       .then(response => {
-        return new Page(response, 'personResourceList', (item) => new Person(item));
+        return new SearchPage(response, 'personResourceList', (item) => new Person(item));
       });
 
   };

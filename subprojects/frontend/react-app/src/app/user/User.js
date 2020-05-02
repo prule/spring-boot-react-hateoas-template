@@ -2,9 +2,9 @@
 
 import Api from '../../core/Api';
 import Resource from "../../common/domain/Resource";
-import Page from "../../common/domain/Page";
+import SearchPage from "../../common/domain/SearchPage";
 import LinkRelations from "../LinkRelations";
-import Index from "../Index";
+import IndexResource from "../IndexResource";
 
 export default class User extends Resource {
 
@@ -19,7 +19,7 @@ export default class User extends Resource {
     this.lastName = data.lastName;
   }
 
-  save() {
+  save(): Promise<User> {
     // todo handle create
     let link = this.link(LinkRelations.update);
     return Api.put(link, this)
@@ -30,14 +30,10 @@ export default class User extends Resource {
       )
   };
 
-  static me(index: Index) {
-
-    console.log(index);
+  static me(index: IndexResource): Promise<User> {
 
     let link = index
       .link(LinkRelations.me);
-
-    console.log('link', link);
 
     return Api.do(link)
       .then(response => {
@@ -46,10 +42,10 @@ export default class User extends Resource {
 
   };
 
-  static find(index, key) {
+  static find(index, key): Promise<User> {
 
     let link = index
-      .link('user-find')
+      .link(LinkRelations.userFind)
       .pathParam('key', key);
 
     return Api.get(link)
@@ -59,14 +55,14 @@ export default class User extends Resource {
 
   };
 
-  static search(index, params) {
+  static search(index, params): Promise<SearchPage<User>> {
 
-    let link = index.link('user-search')
+    let link = index.link(LinkRelations.userSearch)
       .withQueryParams(params);
 
     return Api.get(link)
       .then(response => {
-        return new Page(response, 'userResourceList', (item) => new User(item));
+        return new SearchPage(response, 'userResourceList', (item) => new User(item));
       });
 
   };

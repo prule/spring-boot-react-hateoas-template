@@ -55,10 +55,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function PersonsPage(props) {
-    const [{user, alert}, dispatch] = useStateValue();
+    const [{user}] = useStateValue();
     const classes = useStyles();
 
-    const [validation, setValidation] = useState(null);
+    // const [validation, setValidation] = useState(null);
     const [persons, setPersons] = useState(null);
 
     const query = new QueryString(props.location.search);
@@ -71,7 +71,6 @@ export default function PersonsPage(props) {
 
     useEffect(() => {
 
-        // let params = {size: size, page: page};
         Person.search(user, query.parsedQuery)
             .then((resource) => {
                 query.setSize(resource.size);
@@ -81,7 +80,7 @@ export default function PersonsPage(props) {
             .then(setPersons)
             .catch(onApiError);
 
-    }, [user, props.location.search]);
+    }, [user, props.location.search,query]);
 
     function onSelectPerson(person) {
         navigate(props.history, Routes.person.person(person));
@@ -228,11 +227,6 @@ export default function PersonsPage(props) {
                         <Divider light={true}/>
                     </Box>
 
-                    {/*<form className={classes.root} noValidate autoComplete="off">*/}
-                    {/*  <div>*/}
-                    {/*    <TextField id="filter" label="Filter" variant="outlined" size="small" margin="normal" fullWidth/>*/}
-                    {/*  </div>*/}
-                    {/*</form>*/}
                     <TableContainer>
                         <Table className={classes.table}>
                             <TableHead>
@@ -261,8 +255,7 @@ export default function PersonsPage(props) {
                             </TableHead>
                             <TableBody>
                                 {persons && persons.list.map((row) => (
-                                    <TableRow key={row.key} onClick={fn(onSelectPerson, row)}
-                                              className={classes.clickable}>
+                                    <TableRow key={row.key} onClick={fn(onSelectPerson, row)} className={classes.clickable}>
                                         <TableCell component="th" scope="row">
                                             {row.name.fullName()}
                                         </TableCell>

@@ -1,5 +1,3 @@
-import Routes from "../Routes"
-
 export function navigate(history, path, callback) {
     console.log('navigate', path);
     if (path) {
@@ -25,9 +23,9 @@ export function merge(target, source) {
 }
 
 export function stopEvent(e) {
-    // if (e.stopPropagation) {
-    //     e.stopPropagation()
-    // }
+    if (e.stopPropagation) {
+        e.stopPropagation()
+    }
     if (e.preventDefault) {
         e.preventDefault()
     }

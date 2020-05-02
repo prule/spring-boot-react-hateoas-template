@@ -1,7 +1,7 @@
 // @flow
 
 import axios from "axios"
-import ApiError from "../common/domain/ApiError"
+import ApiError from "./ApiError"
 import {Link} from "../common/domain/Link"
 import AlertMessage from "../common/domain/AlertMessage"
 import ActionType from "../common/ActionType"

@@ -1,5 +1,25 @@
 // @flow
 
+
+class Path {
+  path: string;
+
+  constructor(path) {
+    this.path = path;
+  }
+
+  navigate(history, callback) {
+    history.push(this.path.toString());
+    if (callback) {
+      callback();
+    }
+  }
+
+  toString(): string {
+    return this.path;
+  }
+}
+
 export default class Routes {
 
   static main = {
@@ -30,24 +50,4 @@ export default class Routes {
 
   };
 
-}
-
-
-class Path {
-  path: string;
-
-  constructor(path) {
-    this.path = path;
-  }
-
-  navigate(history, callback) {
-    history.push(this.path.toString());
-    if (callback) {
-      callback();
-    }
-  }
-
-  toString(): string {
-    return this.path;
-  }
 }

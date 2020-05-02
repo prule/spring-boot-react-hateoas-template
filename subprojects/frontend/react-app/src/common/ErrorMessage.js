@@ -28,3 +28,7 @@ export function ErrorMessage(props) {
       </div>
   )
 }
+
+ErrorMessage.propTypes = {
+  message: PropTypes.string,
+};

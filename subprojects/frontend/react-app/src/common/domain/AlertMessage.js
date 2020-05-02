@@ -1,3 +1,5 @@
+// @flow
+
 export default class AlertMessage {
   type: string;
   message: string;

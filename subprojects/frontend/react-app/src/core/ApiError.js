@@ -1,11 +1,13 @@
+// @flow
+
 import ApiSubError from "./ApiSubError";
 
 export default class ApiError {
-  status;
+  status: number;
   timestamp;
-  message;
-  debugMessage;
-  subErrors;
+  message: string;
+  debugMessage: string;
+  subErrors: Array<ApiSubError>;
 
   constructor(apiError) {
     this.status = apiError.status;
@@ -22,11 +24,11 @@ export default class ApiError {
     }
   }
 
-  error(field) {
+  error(field): Array<ApiSubError> {
     return this.subErrors.filter((subError) => subError.field === field);
   }
 
-  hasError(field) {
+  hasError(field): boolean {
     return this.error(field).length > 0;
   }
 

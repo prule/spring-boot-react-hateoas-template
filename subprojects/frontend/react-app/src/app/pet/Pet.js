@@ -1,16 +1,18 @@
+// @flow
+
 import Api from '../../core/Api';
 import Resource from "../../common/domain/Resource";
 import PetName from "./PetName";
-import Page from "../../common/domain/Page";
+import SearchPage from "../../common/domain/SearchPage";
 import Person from "../person/Person";
 import LinkRelations from "../LinkRelations";
 
 export default class Pet extends Resource {
 
-  key;
-  name;
-  dateOfBirth;
-  owner;
+  key: string;
+  name: PetName;
+  dateOfBirth: Date;
+  owner: Person;
 
   constructor(data = {}) {
     super(data._links);
@@ -20,7 +22,7 @@ export default class Pet extends Resource {
     this.owner = new Person(data.owner);
   }
 
-  save() {
+  save(): Promise<Pet> {
     const link = this.key ? this.link(LinkRelations.update) : this.owner.link(LinkRelations.petCreate);
 
     return Api.do(link, this)
@@ -35,7 +37,7 @@ export default class Pet extends Resource {
       .link(LinkRelations.petFind)
       .pathParam('key', key);
 
-    return Api.get(link)
+    return Api.do(link)
       .then((response) => {
         return new Pet(response);
       });
@@ -47,9 +49,9 @@ export default class Pet extends Resource {
       .link(LinkRelations.petSearch)
       .withQueryParams(searchCriteria);
 
-    return Api.get(link)
+    return Api.do(link)
       .then((response) => {
-        return new Page(response, 'petResourceList', (item) => new Pet(item));
+        return new SearchPage(response, 'petResourceList', (item) => new Pet(item));
       });
   };
 

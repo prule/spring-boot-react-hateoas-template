@@ -91,8 +91,6 @@ function PersonPage(props) {
         dispatch(ActionType.forNotification("Person Saved"));
         navigate(props.history, Routes.person.persons());
       })
-      // .then(() => dispatch(ActionType.forNotification("Person Saved")))
-      // .then(() => navigate(props.history, Routes.person.persons()))
       .catch((e) => {
         console.log('error is ', e);
         return onApiError(dispatch, setValidation)
@@ -105,10 +103,6 @@ function PersonPage(props) {
 
   function onAddPet() {
     navigate(props.history, Routes.person.pet(person, null));
-  }
-
-  function onSubmit(values) {
-    console.log(values)
   }
 
   return (

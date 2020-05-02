@@ -3,7 +3,7 @@
 import React, {useState} from "react";
 import Routes from "../Routes";
 import Api, {onApiError} from '../core/Api';
-import App from "../App";
+import App from "../core/App";
 
 import {navigate} from "../common/PageUtil";
 import {useStateValue} from "../core/State";

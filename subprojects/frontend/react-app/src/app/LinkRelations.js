@@ -12,6 +12,8 @@ export default class LinkRelations {
   static petFind = new LinkRelation('pet-find');
   static petSearch = new LinkRelation('pet-search');
 
+  static userFind = new LinkRelation('user-find');
+  static userSearch = new LinkRelation('user-search');
 
   static me = new LinkRelation('user-me');
   static login = new LinkRelation('login');

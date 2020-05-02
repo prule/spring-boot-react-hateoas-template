@@ -35,12 +35,6 @@ function App(props) {
           index: action.resource
         };
       case ActionType.USER:
-        // if (action.resource) {
-        //   navigate(history, Routes.main.home());
-        // }
-        // else {
-        //   navigate(history, Routes.main.login());
-        // }
         return {
           ...state,
           user: action.resource

@@ -1,12 +1,14 @@
+// @flow
+
 export default class Routes {
 
   static main = {
 
-    home() {
+    home(): Path {
       return new Path('/app/home');
     },
 
-    login() {
+    login(): Path {
       return new Path("/login");
     }
 
@@ -14,15 +16,15 @@ export default class Routes {
 
   static person = {
 
-    persons() {
+    persons(): Path {
       return new Path('/app/persons');
     },
 
-    person(person) {
+    person(person): Path {
       return new Path(`/app/persons/${person.key}`);
     },
 
-    pet(person, pet) {
+    pet(person, pet): Path {
       return new Path(`/app/persons/${person.key}` + (pet ? `/pets/${pet.key}` : `/pets/new`));
     }
 
@@ -32,7 +34,7 @@ export default class Routes {
 
 
 class Path {
-  path;
+  path: string;
 
   constructor(path) {
     this.path = path;
@@ -45,7 +47,7 @@ class Path {
     }
   }
 
-  toString() {
+  toString(): string {
     return this.path;
   }
 }

@@ -224,7 +224,7 @@ function Dashboard(props) {
                 <Route exact path="/app/persons" component={PersonsPage}/>
                 <Route exact path="/app/persons/:key" component={PersonPage}/>
                 {/*<Route exact path="/app/persons/:personKey/pets/:petKey" component={PersonPetPage} render={!!user}/>*/}
-                <Route render={() => <Redirect to="/app/home"/>}/>
+                {/*<Route render={() => <Redirect to="/app/home"/>}/>*/}
               </Switch>
 
             </Grid>

@@ -34,17 +34,17 @@ export default class User extends Resource {
 
     console.log(index);
 
-      let link = index
-        .link(LinkRelations.me);
+    let link = index
+      .link(LinkRelations.me);
 
-      console.log('link', link);
+    console.log('link', link);
 
-      return Api.do(link)
-        .then(response => {
-          return new User(response);
-        });
+    return Api.do(link)
+      .then(response => {
+        return new User(response);
+      });
 
-    };
+  };
 
   static find(index, key) {
 

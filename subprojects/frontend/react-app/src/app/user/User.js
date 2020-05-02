@@ -1,6 +1,6 @@
 // @flow
 
-import Api from '../../Api';
+import Api from '../../core/Api';
 import Resource from "../../common/domain/Resource";
 import Page from "../../common/domain/Page";
 import LinkRelations from "../LinkRelations";

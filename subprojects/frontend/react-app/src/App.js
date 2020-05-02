@@ -2,18 +2,14 @@
 
 import React from 'react';
 import Dashboard from "./dashboard/Dashboard";
-import {StateProvider} from "./State";
-import Wrapper from "./Wrapper";
+import {StateProvider} from "./core/State";
+import Wrapper from "./core/Wrapper";
 import {withStyles} from "@material-ui/core";
-import {useHistory} from 'react-router-dom'
 import ActionType from "./common/ActionType";
-import {navigate} from "./common/PageUtil";
-import Routes from "./Routes";
 
 const styles = {};
 
 function App(props) {
-  const history = useHistory();
 
   const initialState = {
     theme: {primary: 'green'},

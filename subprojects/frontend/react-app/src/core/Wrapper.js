@@ -1,19 +1,18 @@
-import './index.css';
+import '../index.css';
 import React, {Fragment, useEffect} from 'react';
 import {useStateValue} from "./State";
-import ActionType from "./common/ActionType";
+import ActionType from "../common/ActionType";
 import Api, {onApiError} from "./Api";
-import Index from "./app/Index";
+import Index from "../app/Index";
 import {Route, useHistory} from 'react-router-dom'
-// import {Route} from "react-router";
-import LoginPage from "./app/LoginPage";
-import Dashboard from "./dashboard/Dashboard";
+import LoginPage from "../app/LoginPage";
+import Dashboard from "../dashboard/Dashboard";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from '@material-ui/icons/Close';
-import {ErrorMessage} from "./common/ErrorMessage";
+import {ErrorMessage} from "../common/ErrorMessage";
 import {Redirect, Switch} from "react-router";
-import User from "./app/user/User";
+import User from "../app/user/User";
 import logger from './Logging';
 
 function Wrapper(props) {

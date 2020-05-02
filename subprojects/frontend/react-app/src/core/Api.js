@@ -1,10 +1,10 @@
 // @flow
 
 import axios from "axios"
-import ApiError from "./common/domain/ApiError"
-import {Link} from "./common/domain/Link"
-import AlertMessage from "./common/domain/AlertMessage"
-import ActionType from "./common/ActionType"
+import ApiError from "../common/domain/ApiError"
+import {Link} from "../common/domain/Link"
+import AlertMessage from "../common/domain/AlertMessage"
+import ActionType from "../common/ActionType"
 
 export function onApiError(dispatch, setter) {
   return (error) => {

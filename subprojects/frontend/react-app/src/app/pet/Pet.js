@@ -1,4 +1,4 @@
-import Api from '../../Api';
+import Api from '../../core/Api';
 import Resource from "../../common/domain/Resource";
 import PetName from "./PetName";
 import Page from "../../common/domain/Page";

@@ -1,5 +1,5 @@
 import {Link} from "../common/domain/Link";
-import Api from "../Api";
+import Api from "../core/Api";
 import Resource from "../common/domain/Resource";
 
 export default class Index extends Resource {

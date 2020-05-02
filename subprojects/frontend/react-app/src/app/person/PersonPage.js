@@ -4,12 +4,12 @@ import React, {useEffect, useState} from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 import Routes from "../../Routes";
-import {onApiError} from "../../Api";
+import {onApiError} from "../../core/Api";
 
 import {navigate, fn} from '../../common/PageUtil';
 
 import Person from "./Person";
-import {useStateValue} from "../../State";
+import {useStateValue} from "../../core/State";
 import {Field, Form, Formik} from "formik";
 import * as yup from "yup";
 import Paper from "@material-ui/core/Paper";

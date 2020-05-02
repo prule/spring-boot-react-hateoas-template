@@ -15,7 +15,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import {secondaryListItems} from './listItems';
-import {useStateValue} from '../State';
+import {useStateValue} from '../core/State';
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -27,11 +27,9 @@ import Routes from "../Routes";
 import {Route, useHistory} from 'react-router-dom'
 import HomePage from "../app/home/HomePage";
 import PersonsPage from "../app/person/PersonsPage";
-// import PersonPage from "../app/person/PersonPage";
-// import PersonPetPage from "../app/person/PersonPetPage";
 import PersonPage from "../app/person/PersonPage";
 import {ErrorMessage} from "../common/ErrorMessage"; // IMPORT withRouter
-import Api from '../Api';
+import Api from '../core/Api';
 import {Redirect, Switch} from "react-router";
 import LinkRelations from "../app/LinkRelations";
 

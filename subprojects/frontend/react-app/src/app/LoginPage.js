@@ -2,11 +2,11 @@
 
 import React, {useState} from "react";
 import Routes from "../Routes";
-import Api, {onApiError} from '../Api';
+import Api, {onApiError} from '../core/Api';
 import App from "../App";
 
 import {navigate} from "../common/PageUtil";
-import {useStateValue} from "../State";
+import {useStateValue} from "../core/State";
 import {Field, Form, Formik} from "formik";
 import * as yup from 'yup';
 import {makeStyles} from '@material-ui/core/styles';

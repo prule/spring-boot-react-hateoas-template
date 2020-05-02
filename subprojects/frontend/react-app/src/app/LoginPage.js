@@ -123,7 +123,6 @@ function LoginPage(props) {
               initialValues={values}
             >
               {({handleSubmit, handleChange, handleBlur, values, touched, isValid, errors}) => {
-                console.log(errors);
                 return (
                   <Form className={classes.form} noValidate onSubmit={handleSubmit}>
                     <Field name="credentials.username" id="credentials.username" value={values.credentials.username}

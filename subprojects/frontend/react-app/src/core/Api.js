@@ -1,5 +1,6 @@
 // @flow
 
+import log from './Logging';
 import axios from "axios"
 import ApiError from "./ApiError"
 import {Link} from "../common/domain/Link"
@@ -8,7 +9,6 @@ import ActionType from "../common/ActionType"
 
 export function onApiError(dispatch, setter) {
   return (error) => {
-    console.log('onApiError', error);
     const alert = new AlertMessage('danger', error.message);
     dispatch(ActionType.forAlert(alert));
     if (setter) {
@@ -98,34 +98,31 @@ export default class Api {
 
     } catch (error) {
 
-      console.log('error caught', error);
+      log('error caught', error);
       const response = error.response;
 
       if (response) {
         // 400
         if (response.status === 0 || (response.status >= 400 && response.status < 500)) {
-          console.log('response is ', response);
+          log('response is ', response);
 
           if (response.status === 401) {
             Api.logout();
           }
 
           if (response.data.apierror) {
-            console.log('throwing response.data.apiError', response.data.apierror);
             throw new ApiError(response.data.apierror);
           }
           if (response.data.body) {
-            console.log('throwing response.data.body', response.data.body);
             throw new ApiError(response.data.body);
           }
           if (response.data) {
-            console.log('throwing response.data', response.data);
             throw new ApiError(response.data);
           }
         }
       }
 
-      console.log('throwing unexpected');
+      log('throwing unexpected');
       // unexpected errors
       throw new ApiError({
         status: 0,

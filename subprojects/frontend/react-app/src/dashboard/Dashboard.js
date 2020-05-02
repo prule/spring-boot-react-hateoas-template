@@ -20,7 +20,6 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import FeaturedPlayListIcon from "@material-ui/icons/FeaturedPlayList";
-import AssignmentIcon from "@material-ui/icons/Assignment";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import HomeIcon from "@material-ui/icons/Home";
 import Routes from "../Routes";
@@ -32,6 +31,7 @@ import {ErrorMessage} from "../common/ErrorMessage"; // IMPORT withRouter
 import Api from '../core/Api';
 import {Redirect, Switch} from "react-router";
 import LinkRelations from "../app/LinkRelations";
+import Menu from "../components/Menu";
 
 const drawerWidth = 300;
 
@@ -120,14 +120,12 @@ function Dashboard(props) {
   const [{title, user}, dispatch] = useStateValue();
   const history = useHistory();
 
-  console.log('user', user);
   React.useEffect(() => {
     dispatch({
       type: 'changeTitle',
       title: 'Template'
     });
   }, []);
-
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -137,7 +135,6 @@ function Dashboard(props) {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-  console.log('rendering dashboard');
   return (
     <div className={classes.root}>
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
@@ -161,8 +158,7 @@ function Dashboard(props) {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Drawer
-        variant="permanent"
+      <Drawer variant="permanent"
         classes={{
           paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
         }}
@@ -173,41 +169,33 @@ function Dashboard(props) {
             <ChevronLeftIcon/>
           </IconButton>
         </div>
-        <Divider/>
-        <List>
-          <ListItem  className={classes.nested}>
-            <ListItemText inset secondary="Menu"/>
-          </ListItem>
 
-          <List component="div" disablePadding>
-            <ListItem button className={classes.nested} onClick={() => Routes.main.home().navigate(history)}>
-              <ListItemIcon>
-                <HomeIcon/>
-              </ListItemIcon>
-              <ListItemText secondary="Home"/>
-            </ListItem>
-            {user && user.hasLink(LinkRelations.personSearch)}
-            <ListItem button className={classes.nested} onClick={() => Routes.person.persons().navigate(history)}>
-              <ListItemIcon>
-                <FeaturedPlayListIcon/>
-              </ListItemIcon>
-              <ListItemText secondary="Owners"/>
-            </ListItem>
-            <ListItem button className={classes.nested} onClick={() => {
-              Api.logout();
-              Routes.main.login().navigate(history);
-            }}>
-              <ListItemIcon>
-                <ExitToAppIcon/>
-              </ListItemIcon>
-              <ListItemText secondary="Logout"/>
-            </ListItem>
-
-          </List>
-        </List>
         <Divider/>
-        <List>{secondaryListItems}</List>
+
+        <Menu menuKey="main-menu" title="Menu" classes={classes}
+              items={[
+                {
+                  name: 'Home',
+                  onClick: () => Routes.main.home().navigate(history),
+                  icon: <HomeIcon/>,
+                },
+                {
+                  name: 'Owners',
+                  onClick: () => Routes.person.persons().navigate(history),
+                  icon: <FeaturedPlayListIcon/>,
+                },
+                {
+                  name: 'Logout',
+                  onClick: () => {
+                    Api.logout();
+                    Routes.main.login().navigate(history);
+                  },
+                  icon: <ExitToAppIcon/>,
+                },
+              ]}
+        />
       </Drawer>
+
       <main className={classes.content}>
         <div className={classes.appBarSpacer}/>
         <Container maxWidth="lg" className={classes.container}>
@@ -222,7 +210,7 @@ function Dashboard(props) {
                 <Route exact path="/app/persons" component={PersonsPage}/>
                 <Route exact path="/app/persons/:key" component={PersonPage}/>
                 {/*<Route exact path="/app/persons/:personKey/pets/:petKey" component={PersonPetPage} render={!!user}/>*/}
-                {/*<Route render={() => <Redirect to="/app/home"/>}/>*/}
+                <Route render={() => <Redirect to="/app/home"/>}/>
               </Switch>
 
             </Grid>

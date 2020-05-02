@@ -1,12 +1,13 @@
+import log from '../core/Logging';
+
 export function navigate(history, path, callback) {
-    console.log('navigate', path);
     if (path) {
         history.push(path.toString())
         if (callback) {
             callback()
         }
     } else {
-        console.log('No path to navigate to')
+        log('No path to navigate to')
     }
 }
 

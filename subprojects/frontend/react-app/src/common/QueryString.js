@@ -74,20 +74,16 @@ export default class QueryString {
     const sort = this.getSort();
     const index = this.indexOfSortDirection(id);
     if (index != null) {
-      console.log('before', sort);
       sort.splice(index, 1);
-      console.log('after', this.parsedQuery.sort);
     }
   }
 
   indexOfSortDirection(id: string): string {
     const sort = this.getSort();
-    console.log(sort);
     for (let i = 0; i < sort.length; i++) {
       const value = sort[i];
       const values = value.split(',');
       if (values[0] === id) {
-        console.log('found index ', i);
         return i;
       }
     }

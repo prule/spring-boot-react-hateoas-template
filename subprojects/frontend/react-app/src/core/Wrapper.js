@@ -1,10 +1,10 @@
 import '../index.css';
-import React, {Fragment, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {useStateValue} from "./State";
 import ActionType from "../common/ActionType";
 import Api, {onApiError} from "./Api";
 import IndexResource from "../app/IndexResource";
-import {Route, useHistory} from 'react-router-dom'
+import {Route} from 'react-router-dom'
 import LoginPage from "../app/LoginPage";
 import Dashboard from "../dashboard/Dashboard";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -13,12 +13,12 @@ import CloseIcon from '@material-ui/icons/Close';
 import {ErrorMessage} from "../common/ErrorMessage";
 import {Redirect, Switch} from "react-router";
 import User from "../app/user/User";
-import logger from './Logging';
+import log from './Logging';
 
 function Wrapper(props) {
 
   const [{index, user, alert, notification}, dispatch] = useStateValue();
-  const [open, setOpen] = React.useState(notification !== undefined);
+  // const [open, setOpen] = React.useState(notification !== undefined);
 
   useEffect(() => {
     IndexResource.load()
@@ -29,7 +29,6 @@ function Wrapper(props) {
       .then(User.me)
       .then(user => dispatch(ActionType.forResource(ActionType.USER, user)))
       .catch((error) => {
-        console.log(error);
         if (error.status === 403) {
           // not logged on
           dispatch(ActionType.forResource(ActionType.USER, null));
@@ -55,7 +54,7 @@ function Wrapper(props) {
     dispatch(ActionType.forResource(ActionType.NOTIFICATION, undefined))
   };
 
-  // logger.debug('render wrapper, user=', user);
+  log( 'render wrapper, user=%o', user);
   // logger.debug('render wrapper, props=', props);
 
   if (user !== undefined) {
@@ -95,9 +94,6 @@ function Wrapper(props) {
 }
 
 function PrivateRoute({children, user, ...rest}) {
-  console.log('token', Api.hasToken());
-  console.log('user', user);
-
   return (
     <Route
       {...rest}

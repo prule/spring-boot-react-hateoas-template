@@ -1,10 +1,11 @@
 // @flow
 
+import log from './core/Logging';
 import ActionType from "./common/ActionType";
 
 const reducer = (state: Object, action: ActionType) => {
-  console.log('state', state);
-  console.log('action', action);
+  log('state', state);
+  log('action', action);
   switch (action.type) {
     case 'changeTitle':
       return {

@@ -27,9 +27,9 @@ export default function HomePage(props) {
           Pet and Owner Sample Application
         </Title>
 
-        <p>
+        <Typography>
           This is a sample application (which is still a work in progress) which demonstrates basic capability using:
-        </p>
+        </Typography>
         <ul>
           <li>Java, Spring-Boot, JPA, HATEOAS</li>
           <li>React.js, JavaScript</li>

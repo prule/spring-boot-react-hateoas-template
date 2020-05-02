@@ -6,7 +6,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Routes from "../../Routes";
 import {onApiError} from "../../core/Api";
 
-import {navigate, fn} from '../../common/PageUtil';
+import {navigate} from '../../common/PageUtil';
 
 import Person from "./Person";
 import {useStateValue} from "../../core/State";
@@ -92,7 +92,6 @@ function PersonPage(props) {
         navigate(props.history, Routes.person.persons());
       })
       .catch((e) => {
-        console.log('error is ', e);
         return onApiError(dispatch, setValidation)
       })
   }
@@ -124,7 +123,7 @@ function PersonPage(props) {
 
               <Form className={classes.form} noValidate onSubmit={handleSubmit}>
 
-                <Field name="person.name.firstName" value={values.person.name.firstName} onChange={handleChange} component={TextField} label="First Name" fullWidth
+                <Field name="person.name.firstName" id="person.name.firstName" value={values.person.name.firstName} onChange={handleChange} component={TextField} label="First Name" fullWidth
                        error={!!(errors.person && errors.person.name && errors.person.name.firstName)}
                        helperText={(errors.person && errors.person.name && errors.person.name.firstName)}
                 />

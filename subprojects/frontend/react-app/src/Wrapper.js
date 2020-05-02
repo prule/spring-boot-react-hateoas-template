@@ -107,13 +107,12 @@ function PrivateRoute({children, user, ...rest}) {
         Api.hasToken() && user ?
           (children)
           : (
-            // <Redirect
-            //   to={{
-            //     pathname: "/login",
-            //     state: {from: location}
-            //   }}
-            // />
-            <Fragment></Fragment>
+            <Redirect
+              to={{
+                pathname: "/login",
+                state: {from: location}
+              }}
+            />
           )
       }
     />

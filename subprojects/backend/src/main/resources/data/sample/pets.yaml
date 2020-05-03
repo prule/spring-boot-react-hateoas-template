@@ -1,12 +1,30 @@
 ---
   !!com.example.demo.pet.Pet
 key:
-  key: "kitty"
-name:
-  name: "Kitty"
----
-  !!com.example.demo.pet.Pet
-key:
   key: "fido"
 name:
   name: "Fido"
+---
+  !!com.example.demo.pet.Pet
+key:
+  key: "dido"
+name:
+  name: "Dido"
+---
+  !!com.example.demo.pet.Pet
+key:
+  key: "tiger"
+name:
+  name: "Tiger"
+---
+  !!com.example.demo.pet.Pet
+key:
+  key: "jaws"
+name:
+  name: "Jaws"
+---
+  !!com.example.demo.pet.Pet
+key:
+  key: "paws"
+name:
+  name: "Paws"

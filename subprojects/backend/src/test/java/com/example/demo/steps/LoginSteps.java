@@ -23,7 +23,7 @@ public class LoginSteps {
                 .contentType("application/json")
                 .body(body.toString())
                 .when()
-                .post("/api/1/login");
+                .post("/api/1/auth/login");
 
         AuthenticateResource s = response.body().as(AuthenticateResource.class);
         System.out.println(s.getToken());

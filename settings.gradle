@@ -1,24 +1,16 @@
-rootProject.name = 'spring-boot-react-rest'
-
-def includeProject = { String projectDirName, String projectName ->
-    File baseDir = new File(settingsDir, projectDirName)
-    File projectDir = new File(baseDir, projectName)
-    String buildFileName = "${projectName}.gradle"
-
-    assert projectDir.isDirectory()
-    assert new File(projectDir, buildFileName).isFile()
-
-    include projectName
-    project(":${projectName}").projectDir    = projectDir
-    project(":${projectName}").buildFileName = buildFileName
+buildscript {
+    repositories {
+        gradlePluginPortal()
 }
-
-['docs', 'subprojects'].each { dirName ->
-    File subdir = new File(rootDir, dirName)
-    subdir.eachDir { dir ->
-        File buildFile = new File(dir, "${dir.name}.gradle")
-        if (buildFile.exists()) {
-            includeProject dirName, dir.name
+    dependencies {
+        classpath 'org.kordamp.gradle:settings-gradle-plugin:0.35.0'
         }
     }
+apply plugin: 'org.kordamp.gradle.settings'
+
+rootProject.name = 'root'
+
+projects {
+    directories = ['subprojects']
+//    directories = ['docs', 'subprojects']
 }

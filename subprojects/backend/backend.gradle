@@ -13,11 +13,13 @@ buildscript {
 plugins {
     id "java"
     id "org.springframework.boot" version "2.2.6.RELEASE"
-//    id "io.spring.dependency-management"
-//    id "net.ltgt.apt-idea" version "0.19" // https://github.com/tbroyer/gradle-apt-plugin#intellij-idea
-    id "org.kordamp.gradle.build-info"
     id "org.kordamp.gradle.jar"
+    id "com.gorylenko.gradle-git-properties" version "2.2.2"
+}
 
+// generate a git.properties file so the application knows what version it is
+gitProperties {
+    keys = ['git.branch','git.commit.id','git.commit.time']
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -27,7 +29,7 @@ version = "0.0.1-SNAPSHOT"
 sourceCompatibility = 1.8
 
 springBoot {
-	mainClassName = "com.example.demo.Main"
+    mainClassName = "com.example.demo.Main"
 }
 
 repositories {
@@ -75,12 +77,13 @@ dependencies {
     runtimeOnly "org.postgresql:postgresql:${POSTGRES_DRIVER_VERSION}"
 
     testImplementation "io.rest-assured:rest-assured:3.2.0"
-    testImplementation "io.rest-assured:rest-assured:3.2.0"
+
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude group: 'junit', module: 'junit' //by both name and group
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine' //by both name and group
     }
+
     testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc"
-    testImplementation "org.junit.jupiter:junit-jupiter-engine:${JUNIT_VERSION}"
 
 }
 

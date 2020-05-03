@@ -1,3 +1,10 @@
-plugins {
-  id "org.kordamp.gradle.guide" version "0.15.1"
+buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
 }
+
+plugins {
+    id 'org.kordamp.gradle.guide'
+}
+

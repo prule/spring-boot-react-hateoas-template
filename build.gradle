@@ -1,10 +1,10 @@
 plugins {
-    id 'org.kordamp.gradle.project' version '0.21.0'
+    id 'org.kordamp.gradle.java-project' version '0.35.0'
+    id 'org.kordamp.gradle.bintray'      version '0.35.0'
 }
 
 config {
-//    release = (rootProject.findProperty('release') ?: false).toBoolean()
-    release = true
+    release = (rootProject.findProperty('release') ?: false).toBoolean()
 
     info {
         name = 'Demo'
@@ -26,8 +26,7 @@ config {
         }
     }
 
-    license {
-        enabled = false
+    licensing {
         licenses {
             license {
                 id = 'Apache-2.0'
@@ -35,25 +34,28 @@ config {
         }
     }
 
-    jacoco {
-        enabled
-        mergeExecFile
-        mergeReportHtmlFile
-        mergeReportXmlFile
-        additionalSourceDirs
-        additionalClassDirs
-    }
-
     bintray {
         enabled = false
 //        credentials {
-//            username = 'project.bintrayUsername'
-//            password = 'project.bintrayApiKey'
+//            username = project.bintrayUsername
+//            password = project.bintrayApiKey
 //        }
 //        userOrg    = 'joecool'
 //        name       = rootProject.name
 //        githubRepo = 'joecool/sample'
     }
+
+//    coverage {
+//        jacoco {
+//            enabled
+//            mergeExecFile
+//            mergeReportHtmlFile
+//            mergeReportXmlFile
+//            additionalSourceDirs
+//            additionalClassDirs
+//        }
+//    }
+
 }
 
 allprojects {
@@ -63,9 +65,8 @@ allprojects {
         mavenCentral()
     }
     ext {
-        SPRING_BOOT_VERSION = "2.1.9.RELEASE"
-        LOMBOK_VERSION = "1.18.8"
-        JUNIT_VERSION = "5.4.2"
+        SPRING_BOOT_VERSION = "2.2.6.RELEASE"
+        LOMBOK_VERSION = "1.18.12"
         POSTGRES_DRIVER_VERSION = "42.2.5"
         QUERYDSL_VERSION = "4.2.1"
         VSCORE_VERSION = "0.0.2-SNAPSHOT"
@@ -74,16 +75,16 @@ allprojects {
 
 task copyClientResources(dependsOn: ':frontend:build', type: Copy) {
     doLast {
-    println("Copying frontend resources to include in spring boot jar")
+        println("Copying frontend resources to include in spring boot jar")
 
-    group = 'build'
-    description = 'Copy client resources into server'
-    def src = "${project(':frontend').projectDir}/react-app/build"
-    def dest = "${project(':backend').buildDir}/resources/main/static"
-    println("Copying ${src} to ${dest}")
-    copy {
-        from "${project(':frontend').projectDir}/react-app/build"
-        into "${project(':backend').buildDir}/resources/main/static"
+        group = 'build'
+        description = 'Copy client resources into server'
+        def src = "${project(':frontend').projectDir}/react-app/build"
+        def dest = "${project(':backend').buildDir}/resources/main/static"
+        println("Copying ${src} to ${dest}")
+        copy {
+            from "${project(':frontend').projectDir}/react-app/build"
+            into "${project(':backend').buildDir}/resources/main/static"
         }
     }
 }

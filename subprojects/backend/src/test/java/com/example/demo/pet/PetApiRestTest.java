@@ -38,11 +38,11 @@ public class PetApiRestTest {
         given()
                 .header(JwtTokenProvider.AUTH_HEADER, loginSteps.authToken())
                 .when()
-                .get("/api/1/pets/{key}", "fido")
+                .get("/api/1/pets/{key}", "jaws")
                 .then()
                 .statusCode(200)
-                .body("key", equalTo("fido"))
-                .body("name.name", equalTo("Fido"));
+                .body("key", equalTo("jaws"))
+                .body("name.name", equalTo("Jaws"));
     }
 
     @Test

@@ -9,7 +9,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-public class UserGroup extends AbstractEntity {
+public class UserGroup extends AbstractEntity<String> {
 
     public enum Group { ADMIN, USER }
 

@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.Set;
 
 @Entity
-public class Person extends AbstractEntity {
+public class Person extends AbstractEntity<String> {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO) private Long id;
 

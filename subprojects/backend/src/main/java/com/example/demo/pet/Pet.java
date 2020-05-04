@@ -11,7 +11,7 @@ import javax.validation.Valid;
 import java.util.Date;
 
 @Entity
-public class Pet extends AbstractEntity {
+public class Pet extends AbstractEntity<String> {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO) private Long id;
 

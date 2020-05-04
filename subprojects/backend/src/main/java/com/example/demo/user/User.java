@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity(name = "usr") // name of table is changed to avoid naming conflicts with database
-public class User extends AbstractEntity {
+public class User extends AbstractEntity<String> {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO) private Long id;
 

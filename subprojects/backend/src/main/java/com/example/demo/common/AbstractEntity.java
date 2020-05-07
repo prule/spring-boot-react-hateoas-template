@@ -8,6 +8,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 @EntityListeners(AuditingEntityListener.class)
@@ -16,8 +17,8 @@ public class AbstractEntity<U> {
 
     @Getter @Embedded private Key key;
     @Basic @Getter @Version private long version;
-    @CreatedDate private Date createdDate;
-    @LastModifiedDate private Date lastModifiedDate;
+    @CreatedDate private ZonedDateTime createdDate;
+    @LastModifiedDate private ZonedDateTime lastModifiedDate;
     @CreatedBy private U createdBy;
     @LastModifiedBy private U lastModifiedBy;
 

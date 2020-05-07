@@ -32,4 +32,5 @@ public class User extends AbstractEntity<String> {
         super(key);
         this.username = username;
     }
+
 }

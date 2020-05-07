@@ -29,6 +29,10 @@ public class AuthenticatedUser {
         return false;
     }
 
+    public boolean isAdmin() {
+        return hasGroup(UserGroup.Group.ADMIN);
+    }
+
     public boolean is(String username) {
         return getPrincipal().getUsername().equals(username);
     }

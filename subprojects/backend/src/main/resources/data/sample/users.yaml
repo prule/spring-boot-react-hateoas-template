@@ -4,6 +4,8 @@ key:
   key: bob
 username: bob
 password: password
+firstName: Bob
+lastName: Doe
 enabled: true
 groups:
   - key:
@@ -14,6 +16,8 @@ key:
   key: boss
 username: boss
 password: password
+firstName: Boss
+lastName: Almighty
 enabled: true
 groups:
   - key:

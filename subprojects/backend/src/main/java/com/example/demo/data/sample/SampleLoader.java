@@ -60,6 +60,8 @@ public class SampleLoader {
 
         final User user = userRepository.findByKey(newUser.getKey()).orElse(newUser);
         user.setPassword(passwordEncoder.encode(newUser.getPassword()));
+        user.setFirstName(newUser.getFirstName());
+        user.setLastName(newUser.getLastName());
         user.getGroups().clear();
         user.getGroups().addAll(newGroups);
 

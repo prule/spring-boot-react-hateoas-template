@@ -120,6 +120,8 @@ function Dashboard(props) {
   const [{title, user}, dispatch] = useStateValue();
   const history = useHistory();
 
+  console.log ('user', user);
+
   React.useEffect(() => {
     dispatch({
       type: 'changeTitle',
@@ -156,6 +158,9 @@ function Dashboard(props) {
               <NotificationsIcon/>
             </Badge>
           </IconButton>
+          {user &&
+            <b>{user.key}</b>
+          }
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent"

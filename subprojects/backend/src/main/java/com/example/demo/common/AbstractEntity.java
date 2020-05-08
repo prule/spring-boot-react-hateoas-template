@@ -1,5 +1,6 @@
 package com.example.demo.common;
 
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -15,7 +16,7 @@ import java.util.Date;
 @MappedSuperclass
 public class AbstractEntity<U> {
 
-    @Getter @Embedded private Key key;
+    @NotNull  @Getter @Embedded private Key key;
     @Basic @Getter @Version private long version;
     @CreatedDate private ZonedDateTime createdDate;
     @LastModifiedDate private ZonedDateTime lastModifiedDate;

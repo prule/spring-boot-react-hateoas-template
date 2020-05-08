@@ -14,11 +14,13 @@ import {ErrorMessage} from "../common/ErrorMessage";
 import {Redirect, Switch} from "react-router";
 import User from "../app/user/User";
 import log from './Logging';
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 function Wrapper(props) {
 
   const [{index, user, alert, notification}, dispatch] = useStateValue();
-  // const [open, setOpen] = React.useState(notification !== undefined);
+
+  Api.dispatch = dispatch;
 
   useEffect(() => {
     IndexResource.load()
@@ -85,6 +87,7 @@ function Wrapper(props) {
             </React.Fragment>
           }
         />
+
       </div>
     )
   }

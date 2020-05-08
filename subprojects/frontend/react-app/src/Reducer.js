@@ -32,6 +32,11 @@ const reducer = (state: Object, action: ActionType) => {
         ...state,
         notification: action.notification
       };
+    case ActionType.LOADING:
+      return {
+        ...state,
+        loading: action.resource
+      };
 
     default:
       return state;

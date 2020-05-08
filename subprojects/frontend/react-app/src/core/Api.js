@@ -27,9 +27,13 @@ export function clearAlert(dispatch) {
 
 export default class Api {
 
+  static requestCount = 0;
+
+  static dispatch;
+
   static logout = () => {
     localStorage.removeItem('token');
-    window.location.href='/login';
+    window.location.href = '/login';
   };
 
   static setToken = (token) => {
@@ -61,17 +65,6 @@ export default class Api {
   };
 
   static do = async (link: Link, body: object) => {
-// Add a response interceptor
-//     axios.interceptors.response.use(function (response) {
-//       // Any status code that lie within the range of 2xx cause this function to trigger
-//       // Do something with response data
-//       return response;
-//     }, function (error) {
-//       // Any status codes that falls outside the range of 2xx cause this function to trigger
-//       // Do something with response error
-//       console.log(error);
-//       return Promise.reject(error);
-//     });
 
     const method = link.type;
 
@@ -87,6 +80,8 @@ export default class Api {
         headers['Authorization'] = `Bearer ${token}`;
       }
 
+      Api.updateLoading(1);
+
       const response = await axios({
         method: method,
         url: link.toString(),
@@ -94,9 +89,13 @@ export default class Api {
         headers: headers
       });
 
+      Api.updateLoading(-1);
+
       return response.data;
 
     } catch (error) {
+
+      Api.updateLoading(-1);
 
       log('error caught', error);
       const response = error.response;
@@ -134,4 +133,11 @@ export default class Api {
 
   }
 
+  static updateLoading(delta: number) {
+    Api.requestCount += delta;
+    console.log('requestCount', Api.requestCount);
+    if (Api.requestCount <= 1) {
+      Api.dispatch(ActionType.forResource(ActionType.LOADING, Api.requestCount === 1));
+    }
+  }
 }

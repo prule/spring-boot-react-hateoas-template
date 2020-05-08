@@ -4,7 +4,6 @@ import {makeStyles} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
@@ -14,11 +13,7 @@ import Grid from '@material-ui/core/Grid';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import {secondaryListItems} from './listItems';
 import {useStateValue} from '../core/State';
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
 import FeaturedPlayListIcon from "@material-ui/icons/FeaturedPlayList";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import HomeIcon from "@material-ui/icons/Home";
@@ -30,8 +25,8 @@ import PersonPage from "../app/person/PersonPage";
 import {ErrorMessage} from "../common/ErrorMessage"; // IMPORT withRouter
 import Api from '../core/Api';
 import {Redirect, Switch} from "react-router";
-import LinkRelations from "../app/LinkRelations";
 import Menu from "../components/Menu";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 const drawerWidth = 300;
 
@@ -117,10 +112,8 @@ const useStyles = makeStyles(theme => ({
 function Dashboard(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
-  const [{title, user}, dispatch] = useStateValue();
+  const [{title, user, loading}, dispatch] = useStateValue();
   const history = useHistory();
-
-  console.log ('user', user);
 
   React.useEffect(() => {
     dispatch({
@@ -139,7 +132,11 @@ function Dashboard(props) {
 
   return (
     <div className={classes.root}>
+
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+        {loading &&
+        <LinearProgress style={{position: 'fixed', top: '0', zIndex: '1000', width:'100%', height:'2px'}}/>
+        }
         <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
@@ -159,15 +156,15 @@ function Dashboard(props) {
             </Badge>
           </IconButton>
           {user &&
-            <b>{user.key}</b>
+          <b>{user.key}</b>
           }
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-        }}
-        open={open}
+              classes={{
+                paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+              }}
+              open={open}
       >
         <div className={classes.toolbarIcon}>
           <IconButton onClick={handleDrawerClose}>

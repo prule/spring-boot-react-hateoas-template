@@ -25,6 +25,7 @@ class WebConfiguration implements WebMvcConfigurer {
             registry.addMapping("/**")
                     .allowCredentials(true)
                     .allowedOrigins(corsOrigins)
+                    .exposedHeaders("app-version")
                     .allowedMethods(
                             HttpMethod.OPTIONS.name(),
                             HttpMethod.HEAD.name(),

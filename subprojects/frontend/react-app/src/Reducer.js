@@ -37,6 +37,11 @@ const reducer = (state: Object, action: ActionType) => {
         ...state,
         loading: action.resource
       };
+    case ActionType.RELOAD:
+      return {
+        ...state,
+        reload: action.resource
+      };
 
     default:
       return state;

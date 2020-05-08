@@ -16,6 +16,7 @@ export default class ActionType {
   static NOTIFICATION: string = 'notification';
   static USER: string = 'user';
   static LOADING: string = 'loading';
+  static RELOAD: string = 'reload';
 
   static forResource(type: string, resource: Object) {
     const actionType = new ActionType(type);

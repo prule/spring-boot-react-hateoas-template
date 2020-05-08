@@ -90,6 +90,7 @@ export default class Api {
       });
 
       Api.updateLoading(-1);
+      Api.checkVersion(response.headers['app-version']);
 
       return response.data;
 
@@ -119,6 +120,9 @@ export default class Api {
             throw new ApiError(response.data);
           }
         }
+
+        Api.checkVersion(response.headers['app-version']);
+
       }
 
       log('throwing unexpected');
@@ -135,9 +139,18 @@ export default class Api {
 
   static updateLoading(delta: number) {
     Api.requestCount += delta;
-    console.log('requestCount', Api.requestCount);
     if (Api.requestCount <= 1) {
       Api.dispatch(ActionType.forResource(ActionType.LOADING, Api.requestCount === 1));
+    }
+  }
+
+  static checkVersion(version: string) {
+    if (!Api.version) {
+      Api.version = version;
+    }
+
+    if (Api.version !== version) {
+      Api.dispatch(ActionType.forResource(ActionType.RELOAD, true));
     }
   }
 }

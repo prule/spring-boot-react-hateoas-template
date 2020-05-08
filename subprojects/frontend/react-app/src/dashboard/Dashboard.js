@@ -156,7 +156,7 @@ function Dashboard(props) {
             </Badge>
           </IconButton>
           {user &&
-          <b>{user.key}</b>
+          <b>{user.firstName}</b>
           }
         </Toolbar>
       </AppBar>

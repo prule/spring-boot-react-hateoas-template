@@ -15,10 +15,16 @@ import {Redirect, Switch} from "react-router";
 import User from "../app/user/User";
 import log from './Logging';
 import LinearProgress from "@material-ui/core/LinearProgress";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import Typography from "@material-ui/core/Typography";
+import DialogActions from "@material-ui/core/DialogActions";
+import Button from "@material-ui/core/Button";
 
 function Wrapper(props) {
 
-  const [{index, user, alert, notification}, dispatch] = useStateValue();
+  const [{index, user, alert, notification, reload}, dispatch] = useStateValue();
 
   Api.dispatch = dispatch;
 
@@ -56,6 +62,8 @@ function Wrapper(props) {
     dispatch(ActionType.forResource(ActionType.NOTIFICATION, undefined))
   };
 
+  const handleReload = () => { window.location.reload() }
+
   log( 'render wrapper, user=%o', user);
   // logger.debug('render wrapper, props=', props);
 
@@ -88,6 +96,21 @@ function Wrapper(props) {
           }
         />
 
+        <Dialog onClose={handleReload} aria-labelledby="customized-dialog-title" open={!!reload}>
+           <DialogTitle id="customized-dialog-title" onClose={handleReload}>
+             Application Updated
+           </DialogTitle>
+           <DialogContent dividers>
+             <Typography gutterBottom>
+               This application has been updated and must be reloaded.
+             </Typography>
+           </DialogContent>
+           <DialogActions>
+             <Button autoFocus onClick={handleReload} color="primary">
+               Reload
+             </Button>
+           </DialogActions>
+         </Dialog>
       </div>
     )
   }

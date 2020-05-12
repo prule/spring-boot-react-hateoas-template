@@ -3,6 +3,7 @@ package com.example.demo.common.errorhandling;
 import com.example.demo.common.NotFoundException;
 import com.example.demo.common.security.InvalidAuthenticationTokenException;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.dialect.lock.OptimisticEntityLockException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -98,8 +99,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
      * @return the ApiError object
      */
     @ExceptionHandler(javax.validation.ConstraintViolationException.class)
-    protected ResponseEntity<Object> handleConstraintViolation(
-            javax.validation.ConstraintViolationException ex) {
+    protected ResponseEntity<Object> handleConstraintViolation(javax.validation.ConstraintViolationException ex) {
         ApiError apiError = new ApiError(BAD_REQUEST);
         apiError.setMessage("Validation error");
         apiError.addValidationErrors(ex.getConstraintViolations());
@@ -113,8 +113,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
      * @return the ApiError object
      */
     @ExceptionHandler(NotFoundException.class)
-    protected ResponseEntity<Object> handleEntityNotFound(
-            NotFoundException ex) {
+    protected ResponseEntity<Object> handleEntityNotFound(NotFoundException ex) {
         ApiError apiError = new ApiError(NOT_FOUND);
         apiError.setMessage(ex.getMessage());
         return buildResponseEntity(apiError);
@@ -192,12 +191,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex));
     }
 
-    /**
-     * Handle Exception, handle generic Exception.class
-     *
-     * @param ex the Exception
-     * @return the ApiError object
-     */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     protected ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex, WebRequest request) {
         ApiError apiError = new ApiError(BAD_REQUEST);
@@ -218,6 +211,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleBadCredentials(BadCredentialsException ex, WebRequest request) {
         ApiError apiError = new ApiError(UNAUTHORIZED);
         apiError.setMessage(String.format("Invalid username/password combination"));
+        apiError.setDebugMessage(ex.getMessage());
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(OptimisticEntityLockException.class)
+    protected ResponseEntity<Object> handleConcurrentEdit(OptimisticEntityLockException ex, WebRequest request) {
+        ApiError apiError = new ApiError(CONFLICT);
+        apiError.setMessage(String.format("Concurrent Edit Detected"));
         apiError.setDebugMessage(ex.getMessage());
         return buildResponseEntity(apiError);
     }

@@ -10,7 +10,9 @@ import ActionType from "../common/ActionType"
 export function onApiError(dispatch, setter) {
   return (error) => {
     const alert = new AlertMessage('danger', error.message);
-    dispatch(ActionType.forAlert(alert));
+    const actionType = ActionType.forAlert(alert);
+    log('onApiError', actionType);
+    dispatch(actionType);
     if (setter) {
       setter(error);
     }

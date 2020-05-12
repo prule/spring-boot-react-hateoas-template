@@ -20,6 +20,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import {Box, Container} from "@material-ui/core";
 import ActionType from "../../common/ActionType";
 import {ErrorMessage} from "../../common/ErrorMessage";
+import log from "../../core/Logging";
 
 const schema = yup.object({
   person: yup.object().shape({
@@ -75,9 +76,9 @@ function PersonPage(props) {
       .then(setPerson)
       .then((person) => person.searchPets()
         .then(setPets)
-        .catch((err) => onApiError(err, setValidation))
+        .catch(onApiError(dispatch, setValidation))
       )
-      .catch((err) => onApiError(err, setValidation));
+      .catch(onApiError(dispatch, setValidation));
   }, [personKey]);
 
   function onCancel() {
@@ -91,9 +92,7 @@ function PersonPage(props) {
         dispatch(ActionType.forNotification("Person Saved"));
         navigate(props.history, Routes.person.persons());
       })
-      .catch((e) => {
-        return onApiError(dispatch, setValidation)
-      })
+      .catch(onApiError(dispatch, setValidation))
   }
 
   function onSelectPet(pet) {

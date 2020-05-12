@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function PersonsPage(props) {
-  const [{user}] = useStateValue();
+  const [{user}, dispatch] = useStateValue();
   const classes = useStyles();
 
   // const [validation, setValidation] = useState(null);
@@ -70,7 +70,7 @@ export default function PersonsPage(props) {
         return resource;
       })
       .then(setPersons)
-      .catch(onApiError);
+      .catch(onApiError(dispatch));
 
   }, [user, props.location.search]);
 

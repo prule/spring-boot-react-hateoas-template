@@ -15,6 +15,7 @@ export default class Person extends Resource {
   name: PersonName;
   address;
   dateOfBirth;
+  version: number;
 
   constructor(data = {}) {
     super(data._links);
@@ -22,6 +23,7 @@ export default class Person extends Resource {
     this.name = new PersonName(data.name);
     this.address = new Address(data.address);
     this.dateOfBirth = new Date(data.dateOfBirth);
+    this.version = data.version;
   }
 
   save(): Promise<Person> {

@@ -7,7 +7,8 @@ export default class Environment {
   static configuration = {
     'localhost': {
       api: 'http://localhost:8080',
-      web: 'http://localhost:3000'
+      web: 'http://localhost:3000',
+      logEnabled: true
     }
   }
 }

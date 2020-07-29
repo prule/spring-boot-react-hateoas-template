@@ -8,6 +8,8 @@ import org.hibernate.dialect.lock.OptimisticEntityLockException;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.HttpMethod;
 
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -20,7 +22,7 @@ public class PersonResource extends VersionedRepresentationModel<PersonResource>
     private String key;
     private PersonName name;
     private Address address;
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @Getter
     private long version;
@@ -36,6 +38,7 @@ public class PersonResource extends VersionedRepresentationModel<PersonResource>
         add(linkTo(methodOn(PersonApi.class).find(model.getKey().getKey())).withSelfRel().withType(HttpMethod.GET.name()));
         add(linkTo(methodOn(PersonApi.class).update(model.getKey().getKey(), null)).withRel("update").withType(HttpMethod.PUT.name()));
         add(linkTo(methodOn(PetApi.class).create(null)).withRel("pet-create").withType(HttpMethod.POST.name()));
+        add(linkTo(methodOn(PetApi.class).search(null, null, null)).withRel("pet-search").withType(HttpMethod.GET.name()));
 
         return this;
 

@@ -62,16 +62,16 @@ export default function PersonsPage(props) {
   };
 
   useEffect(() => {
-
-    Person.search(user, query.parsedQuery)
-      .then((resource) => {
-        query.setSize(resource.size);
-        query.setPage(resource.number);
-        return resource;
-      })
-      .then(setPersons)
-      .catch(onApiError(dispatch));
-
+    if (user) {
+      Person.search(user, query.parsedQuery)
+        .then((resource) => {
+          query.setSize(resource.size);
+          query.setPage(resource.number);
+          return resource;
+        })
+        .then(setPersons)
+        .catch(onApiError(dispatch));
+    }
   }, [user, props.location.search]);
 
   function onSelectPerson(person) {

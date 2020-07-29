@@ -16,11 +16,11 @@ import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import Toolbar from "@material-ui/core/Toolbar";
 import {Box, Container} from "@material-ui/core";
 import ActionType from "../../common/ActionType";
 import {ErrorMessage} from "../../common/ErrorMessage";
-import log from "../../core/Logging";
+import Title from "../../components/Title";
+import Divider from "@material-ui/core/Divider";
 
 const schema = yup.object({
   person: yup.object().shape({
@@ -72,14 +72,19 @@ function PersonPage(props) {
   };
 
   useEffect(() => {
-    Person.find(user, personKey)
-      .then(setPerson)
-      .then((person) => person.searchPets()
-        .then(setPets)
-        .catch(onApiError(dispatch, setValidation))
-      )
-      .catch(onApiError(dispatch, setValidation));
-  }, [personKey]);
+    if (user) {
+      Person.find(user, personKey)
+        .then((person) => {
+          setPerson(person);
+          return person;
+        })
+        .then((person) => person.searchPets(user)
+          .then(setPets)
+          .catch(onApiError(dispatch, setValidation))
+        )
+        .catch(onApiError(dispatch, setValidation));
+    }
+  }, [user, personKey]);
 
   function onCancel() {
     navigate(props.history, Routes.person.persons());
@@ -87,7 +92,7 @@ function PersonPage(props) {
 
   function onSave(values) {
     values.person.save()
-      .then((resource)=> {
+      .then((resource) => {
         setPerson(resource);
         dispatch(ActionType.forNotification("Person Saved"));
         navigate(props.history, Routes.person.persons());
@@ -109,30 +114,42 @@ function PersonPage(props) {
       <ErrorMessage message={alert ? alert.message : null}/>
 
       <Paper className={classes.root}>
-        <Toolbar className={classes.toolbar}>
-          <Typography variant="h6" gutterBottom>
-            Owner
-          </Typography>
-        </Toolbar>
-        {person &&
+
         <Container>
 
+          <Title>Owner</Title>
+
+          <Typography className={classes.content}>
+            Edit the user below
+          </Typography>
+
+        </Container>
+
+        <Box my={3}>
+          <Divider light={true}/>
+        </Box>
+
+        {person &&
+        <Container>
           <Formik validationSchema={schema} onSubmit={onSave} initialValues={values}>
             {({handleSubmit, handleChange, handleBlur, values, touched, isValid, errors}) => (
 
               <Form className={classes.form} noValidate onSubmit={handleSubmit}>
 
-                <Field name="person.name.firstName" id="person.name.firstName" value={values.person.name.firstName} onChange={handleChange} component={TextField} label="First Name" fullWidth
+                <Field name="person.name.firstName" id="person.name.firstName" value={values.person.name.firstName}
+                       onChange={handleChange} component={TextField} label="First Name" fullWidth
                        error={!!(errors.person && errors.person.name && errors.person.name.firstName)}
                        helperText={(errors.person && errors.person.name && errors.person.name.firstName)}
                 />
 
-                <Field name="person.name.otherNames" id="person.name.otherNames" value={values.person.name.otherNames} onChange={handleChange} component={TextField} label="Other Names" fullWidth
+                <Field name="person.name.otherNames" id="person.name.otherNames" value={values.person.name.otherNames}
+                       onChange={handleChange} component={TextField} label="Other Names" fullWidth
                        error={!!(errors.person && errors.person.name && errors.person.name.otherNames)}
                        helperText={(errors.person && errors.person.name && errors.person.name.otherNames)}
                 />
 
-                <Field name="person.name.lastName" id="person.name.lastName" value={values.person.name.lastName} onChange={handleChange} component={TextField} label="Last Name" fullWidth
+                <Field name="person.name.lastName" id="person.name.lastName" value={values.person.name.lastName}
+                       onChange={handleChange} component={TextField} label="Last Name" fullWidth
                        error={!!(errors.person && errors.person.name && errors.person.name.lastName)}
                        helperText={(errors.person && errors.person.name && errors.person.name.lastName)}
                 />

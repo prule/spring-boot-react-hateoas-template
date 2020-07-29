@@ -1,9 +1,11 @@
 package com.example.demo.common;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.Embeddable;
 
+@AllArgsConstructor
 @Data
 @Embeddable
 public class Address {
@@ -15,5 +17,9 @@ public class Address {
     private String country;
 
     private String postcode; // zipcode etc
+
+    public Address() {
+    }
+
 
 }

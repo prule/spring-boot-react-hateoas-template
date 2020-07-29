@@ -4,7 +4,9 @@ import com.example.demo.common.Key;
 import com.example.demo.common.PredicateBuilder;
 import com.google.common.base.Strings;
 import com.querydsl.core.types.Predicate;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 public class PetSearchCriteria {

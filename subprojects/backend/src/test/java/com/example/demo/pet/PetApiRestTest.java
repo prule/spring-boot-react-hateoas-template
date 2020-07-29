@@ -1,21 +1,19 @@
 package com.example.demo.pet;
 
 import com.example.demo.common.Key;
-import com.example.demo.common.security.JwtTokenProvider;
 import com.example.demo.rest.RestProvider;
 import com.example.demo.steps.LoginSteps;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.inject.Inject;
+import java.time.LocalDate;
 
-import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.with;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.greaterThan;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles({"dev", "db-test", "db-init"})
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -25,6 +23,7 @@ public class PetApiRestTest {
     int port;
 
     @Inject private LoginSteps loginSteps;
+    @Inject private PetSteps petSteps;
     @Inject private RestProvider restProvider;
 
     @BeforeEach
@@ -34,15 +33,13 @@ public class PetApiRestTest {
     }
 
     @Test
-    public void should_find_pet() {
-        given()
-                .header(JwtTokenProvider.AUTH_HEADER, loginSteps.authToken())
-                .when()
-                .get("/api/1/pets/{key}", "jaws")
-                .then()
-                .statusCode(200)
-                .body("key", equalTo("jaws"))
-                .body("name.name", equalTo("Jaws"));
+    public void should_find_jaws() {
+
+        final Key jaws = new Key("jaws");
+
+        final PetResource result = petSteps.get(jaws);
+
+        assertThat(result.getName().getName()).isEqualTo("Jaws");
     }
 
     @Test
@@ -52,44 +49,46 @@ public class PetApiRestTest {
 
         // change name
         Pet pet = new Pet(key, new PetName("KUJO"));
+        pet.setDateOfBirth(LocalDate.now());
+
         PetResource resource = new PetResource().fromModel(pet);
 
-        with()
-                .body(resource)
-                .header(JwtTokenProvider.AUTH_HEADER, loginSteps.authToken())
-                .contentType("application/json")
-                .put("/api/1/pets/{key}", key.getKey())
-                .then()
-                .statusCode(200)
-                .body("key", equalTo("fido"))
-                .body("name.name", equalTo("KUJO"))
-        ;
+        final PetResource result = petSteps.update(resource);
+
+        // check update
+        checkPet(result, resource);
+
+        // check persisted version
+        checkPet(petSteps.get(key), resource);
     }
 
     @Test
     public void should_search_pets_by_person() {
 
-        with()
-                .contentType("application/json")
-                .header(JwtTokenProvider.AUTH_HEADER, loginSteps.authToken())
-                .get("/api/1/pets?personKey=john-doe")
-                .then()
-                .statusCode(200)
-                .body("page.totalElements", equalTo(2))
-        ;
+        final PetSearchCriteria criteria = new PetSearchCriteria();
+        criteria.setPersonKey("homer");
+
+        final PagedModel<PetResource> results = petSteps.search(criteria);
+
+        assertThat(results.getMetadata().getTotalElements()).isEqualTo(2);
+
     }
 
     @Test
     public void should_return_all_pets() {
 
-        with()
-                .contentType("application/json")
-                .header(JwtTokenProvider.AUTH_HEADER, loginSteps.authToken())
-                .get("/api/1/pets")
-                .then()
-                .statusCode(200)
-                .body("page.totalElements", greaterThan(4))
-        ;
+        final PetSearchCriteria criteria = new PetSearchCriteria();
+
+        final PagedModel<PetResource> results = petSteps.search(criteria);
+
+        assertThat(results.getMetadata().getTotalElements()).isGreaterThan(4);
+
     }
 
+
+    private void checkPet(PetResource actual, PetResource expected) {
+        assertThat(actual.getKey()).isEqualTo(expected.getKey());
+        assertThat(actual.getName().getName()).isEqualTo(expected.getName().getName());
+        assertThat(actual.getDateOfBirth()).isEqualTo(expected.getDateOfBirth());
+    }
 }

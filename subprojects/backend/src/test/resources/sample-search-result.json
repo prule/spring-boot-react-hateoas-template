@@ -1,0 +1,90 @@
+{
+  "test": "1",
+  "_embedded": {
+    "personResourceList": [
+      {
+        "key": "lisa",
+        "name": {
+          "firstName": "Lisa",
+          "lastName": "Simpson",
+          "otherNames": null
+        },
+        "address": {
+          "line1": null,
+          "line2": null,
+          "city": null,
+          "state": null,
+          "country": null,
+          "postcode": null
+        },
+        "dateOfBirth": "2000-04-04",
+        "version": 0,
+        "_links": {
+          "self": {
+            "href": "http://localhost:60636/api/1/persons/lisa",
+            "type": "GET"
+          },
+          "update": {
+            "href": "http://localhost:60636/api/1/persons/lisa",
+            "type": "PUT"
+          },
+          "pet-create": {
+            "href": "http://localhost:60636/api/1/pets",
+            "type": "POST"
+          },
+          "pet-search": {
+            "href": "http://localhost:60636/api/1/pets",
+            "type": "GET"
+          }
+        }
+      },
+      {
+        "key": "maggie",
+        "name": {
+          "firstName": "Maggie",
+          "lastName": "Simpson",
+          "otherNames": null
+        },
+        "address": {
+          "line1": null,
+          "line2": null,
+          "city": null,
+          "state": null,
+          "country": null,
+          "postcode": null
+        },
+        "dateOfBirth": "2010-05-05",
+        "version": 0,
+        "_links": {
+          "self": {
+            "href": "http://localhost:60636/api/1/persons/maggie",
+            "type": "GET"
+          },
+          "update": {
+            "href": "http://localhost:60636/api/1/persons/maggie",
+            "type": "PUT"
+          },
+          "pet-create": {
+            "href": "http://localhost:60636/api/1/pets",
+            "type": "POST"
+          },
+          "pet-search": {
+            "href": "http://localhost:60636/api/1/pets",
+            "type": "GET"
+          }
+        }
+      }
+    ]
+  },
+  "_links": {
+    "self": {
+      "href": "http://localhost:60636/api/1/persons?page=0&size=20"
+    }
+  },
+  "page": {
+    "size": 20,
+    "totalElements": 2,
+    "totalPages": 1,
+    "number": 0
+  }
+}

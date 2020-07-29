@@ -10,6 +10,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Set;
 
@@ -20,7 +22,7 @@ public class Person extends AbstractEntity<String> {
 
     @Getter @Setter @Embedded @Valid private PersonName name;
     @Getter @Setter @Embedded private Address address;
-    @Basic @Getter @Setter private Date dateOfBirth;
+    @Basic @Getter @Setter private LocalDate dateOfBirth;
 
     @OneToMany(mappedBy = "owner") @Getter private Set<Pet> pets;
 
@@ -28,10 +30,11 @@ public class Person extends AbstractEntity<String> {
         super();
     }
 
-    public Person(Key key, PersonName name, Address address) {
+    public Person(Key key, PersonName name, Address address, LocalDate dateOfBirth) {
         super(key);
         this.name = name;
         this.address = address;
+        this.dateOfBirth = dateOfBirth;
     }
 
     public boolean hasPets() {

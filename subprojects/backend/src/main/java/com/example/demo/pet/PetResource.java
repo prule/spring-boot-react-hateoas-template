@@ -4,6 +4,7 @@ import com.example.demo.person.PersonResource;
 import lombok.Getter;
 import org.springframework.hateoas.RepresentationModel;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -14,7 +15,7 @@ class PetResource extends RepresentationModel<PetResource> {
 
     private String key;
     private PetName name;
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     private PersonResource owner;
 
     PetResource fromModel(Pet model) {

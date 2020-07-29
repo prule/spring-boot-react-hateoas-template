@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -17,7 +18,7 @@ public class Pet extends AbstractEntity<String> {
 
     @Getter @Setter @Embedded @Valid private PetName name;
 
-    @Basic @Getter @Setter private Date dateOfBirth;
+    @Basic @Getter @Setter private LocalDate dateOfBirth;
 
     @ManyToOne @Getter @Setter private Person owner;
 

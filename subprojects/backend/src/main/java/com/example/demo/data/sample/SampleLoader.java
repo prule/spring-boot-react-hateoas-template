@@ -1,5 +1,6 @@
 package com.example.demo.data.sample;
 
+import com.example.demo.common.support.LocalDateYamlConstructor;
 import com.example.demo.person.Person;
 import com.example.demo.person.PersonRepository;
 import com.example.demo.pet.Pet;
@@ -101,7 +102,7 @@ public class SampleLoader {
     }
 
     private Iterable loadData(String path) {
-        Yaml yaml = new Yaml();
+        Yaml yaml = new Yaml(new LocalDateYamlConstructor());
         yaml.setBeanAccess(BeanAccess.FIELD);
         InputStream inputStream = this.getClass()
                 .getClassLoader()

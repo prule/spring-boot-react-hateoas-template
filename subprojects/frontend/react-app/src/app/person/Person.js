@@ -57,7 +57,9 @@ export default class Person extends Resource {
   static search(user, params): Promise<SearchPage<Person>> {
 
     let link = user.link(LinkRelations.personSearch)
-      .withQueryParams(params);
+      .withQueryParams(params)
+      .withFields('*')
+    ;
 
     return Api.do(link)
       .then(response => {

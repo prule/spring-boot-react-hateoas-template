@@ -8,7 +8,7 @@ export default class Resource {
 
   links;
 
-  constructor(links) {
+  constructor(links: Array<Link>) {
     this.links = links ? links : [];
   }
 

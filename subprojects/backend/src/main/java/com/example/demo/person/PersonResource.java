@@ -23,7 +23,6 @@ public class PersonResource extends VersionedRepresentationModel<PersonResource>
     private Address address;
     private LocalDate dateOfBirth;
 
-
     public PersonResource fromModel(Person model, Fields fields) {
 
         key = model.getKey().getKey();

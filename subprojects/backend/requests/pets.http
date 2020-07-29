@@ -12,8 +12,12 @@ Authorization: Bearer {{auth_token}}
 
 ### pets - fields = specified (nested resource example)
 
-GET {{host}}/api/1/pets?fields=name,owner.name
+GET {{host}}/api/1/pets?fields=*,owner.*
 Accept: application/json
 Authorization: Bearer {{auth_token}}
 
 ###
+
+GET {{host}}/api/1/pets/paws?fields=*,owner.*
+Accept: application/json
+Authorization: Bearer {{auth_token}}

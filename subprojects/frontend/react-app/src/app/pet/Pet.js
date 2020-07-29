@@ -35,7 +35,8 @@ export default class Pet extends Resource {
 
     let link = user
       .link(LinkRelations.petFind)
-      .pathParam('key', key);
+      .pathParam('key', key)
+;
 
     return Api.do(link)
       .then((response) => {
@@ -47,7 +48,9 @@ export default class Pet extends Resource {
 
     let link = index
       .link(LinkRelations.petSearch)
-      .withQueryParams(searchCriteria);
+      .withQueryParams(searchCriteria)
+      .withFields('*,owner.*')
+    ;
 
     return Api.do(link)
       .then((response) => {

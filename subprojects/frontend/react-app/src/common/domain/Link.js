@@ -11,19 +11,27 @@ export class Link {
   pathParams: Object = {};
   queryParams: Object;
 
-  constructor(href, type) {
+  constructor(href: string, type: string) {
     const env = Environment.instance();
     this.href = href.startsWith('http') ? href : env.api + href;
     this.type = type;
   }
 
-  pathParam(key, value) {
+  pathParam(key: string, value: string) {
     this.pathParams[key] = value;
     return this;
   }
 
-  withQueryParams(params) {
+  withQueryParams(params: Object) {
     this.queryParams = params;
+    return this;
+  }
+
+  withFields(fields : string) {
+    if (!this.queryParams) {
+      this.queryParams = {};
+    }
+    this.queryParams.fields = fields;
     return this;
   }
 

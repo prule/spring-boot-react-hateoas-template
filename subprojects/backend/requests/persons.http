@@ -17,3 +17,7 @@ Accept: application/json
 Authorization: Bearer {{auth_token}}
 
 ###
+
+PUT {{host}}/api/1/persons
+Accept: application/json
+Authorization: Bearer {{auth_token}}

@@ -67,20 +67,15 @@ Road Map
 
 There are still a lot of things to add to this to make it a fully rounded sample/template application:
 
-* Refactor to use Redux
-* Refactor to use Flow
 * Refactor to use Domain Driven Design
-* Add more custom react components to wrap the react-bootstrap dependencies
+* Add more custom react components to wrap the material-ui dependencies
 * Add Progressive Web App capabilities
 * Add more complex JPA validation (custom validation examples)
-* Add pagination and search criteria to search screens
 * Unit tests
 * Integration tests
 * Selenium/Serenity tests
 * React tests
 * Improve project documentation and make use of the various Gradle plugins provided by kordamp
-* Add authentication (JWT, permissions etc)
-* Add resource fields filtering and permission based setting
 
 Screen shots
 =====

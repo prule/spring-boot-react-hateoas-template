@@ -1,0 +1,7 @@
+### Set version
+PUT {{host}}/api/1/debug/version
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+
+###

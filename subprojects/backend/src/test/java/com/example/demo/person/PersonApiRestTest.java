@@ -2,6 +2,7 @@ package com.example.demo.person;
 
 import com.example.demo.common.Fields;
 import com.example.demo.common.Key;
+import com.example.demo.data.sample.Fixtures;
 import com.example.demo.rest.RestProvider;
 import com.example.demo.steps.LoginSteps;
 import com.example.demo.support.SearchResult;
@@ -39,17 +40,13 @@ public class PersonApiRestTest {
     }
 
     @Test
-    public void should_find_homer() {
-        final Key key = new Key("homer");
+    public void should_find_fred() {
+        final Person fixture = Fixtures.Persons.Fred.getPerson();
 
-        final PersonResource homer = personSteps.get(key);
+        final PersonResource homer = personSteps.get(fixture.getKey());
 
-        // TODO less brittle tests - ditch YAML in favour of JAVA or access the YAML so it can be used for the expected results
-
-        assertThat(homer.getKey()).isEqualTo(key.getKey());
-        assertThat(homer.getName().getFirstName()).isEqualTo("Homer");
-        assertThat(homer.getName().getLastName()).isEqualTo("Simpson");
-        assertThat(homer.getName().getOtherNames()).isEqualTo("Jay");
+        assertThat(homer.getKey()).isEqualTo(fixture.getKey().getKey());
+        assertThat(homer.getName()).isEqualTo(fixture.getName());
     }
 
     @Test

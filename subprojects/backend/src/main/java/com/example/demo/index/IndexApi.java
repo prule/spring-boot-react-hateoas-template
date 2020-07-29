@@ -9,12 +9,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.togglz.core.manager.FeatureManager;
 
 @Slf4j
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/1/index")
 public class IndexApi {
 
     private final FeatureManager manager;
+
+    public IndexApi(FeatureManager manager) {
+        this.manager = manager;
+    }
 
     @GetMapping
     public IndexResource index() {

@@ -1,7 +1,10 @@
 package com.example.demo.data.sample;
 
+import com.example.demo.common.Address;
+import com.example.demo.common.Key;
 import com.example.demo.common.support.LocalDateYamlConstructor;
 import com.example.demo.person.Person;
+import com.example.demo.person.PersonName;
 import com.example.demo.person.PersonRepository;
 import com.example.demo.pet.Pet;
 import com.example.demo.pet.PetRepository;
@@ -16,9 +19,9 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.BeanAccess;
 
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Function;
 
 @RequiredArgsConstructor
@@ -32,9 +35,31 @@ public class SampleLoader {
     private final PasswordEncoder passwordEncoder;
 
     public void load() {
+
+        // example loading from yaml
         createOrUpdate("data/sample/userGroups.yaml", obj -> createOrUpdateUserGroup((UserGroup) obj));
         createOrUpdate("data/sample/users.yaml", obj -> createOrUpdateUser((User) obj));
         createOrUpdate("data/sample/persons.yaml", obj -> createOrUpdatePerson((Person) obj));
+
+        // fixture driven
+        for (Fixtures.Persons fixture : Fixtures.Persons.values()) {
+            createOrUpdatePerson(fixture.getPerson());
+        }
+
+        // programmatic creation
+        for (int i = 0; i < 10; i++) {
+            createOrUpdatePerson(generatePerson(i));
+        }
+    }
+
+    private Person generatePerson(int i) {
+        final String key = "person" + i;
+        return new Person(
+            new Key(key),
+            new PersonName(key + ".firstName", key + ".lastName", key + ".otherNames"),
+            new Address("line1", "line2", "city", "state", "country", "postcode"),
+            LocalDate.now()
+        );
     }
 
     private void createOrUpdate(String path, Function runnable) {
@@ -105,8 +130,8 @@ public class SampleLoader {
         Yaml yaml = new Yaml(new LocalDateYamlConstructor());
         yaml.setBeanAccess(BeanAccess.FIELD);
         InputStream inputStream = this.getClass()
-                .getClassLoader()
-                .getResourceAsStream(path);
+            .getClassLoader()
+            .getResourceAsStream(path);
         return yaml.loadAll(inputStream);
     }
 }

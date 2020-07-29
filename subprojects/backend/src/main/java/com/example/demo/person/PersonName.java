@@ -1,5 +1,6 @@
 package com.example.demo.person;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import javax.persistence.Embeddable;
@@ -7,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 
 @Embeddable
 @Getter
+@EqualsAndHashCode
 public class PersonName {
 
     @NotBlank private String firstName;

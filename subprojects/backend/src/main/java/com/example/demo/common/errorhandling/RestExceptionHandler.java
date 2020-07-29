@@ -225,6 +225,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
+        log.error("Error caught", ex);
         ApiError apiError = new ApiError(INTERNAL_SERVER_ERROR);
         apiError.setMessage(String.format("Unexpected error"));
         apiError.setDebugMessage(ex.getMessage());

@@ -1,6 +1,7 @@
 package com.example.demo.person;
 
 import com.example.demo.common.Address;
+import com.example.demo.common.Fields;
 import com.example.demo.common.Key;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +21,7 @@ class PersonResourceTest {
             LocalDate.now()
         );
         // when
-        PersonResource resource = new PersonResource().fromModel(person);
+        PersonResource resource = new PersonResource().fromModel(person, Fields.all());
         // then
         assertThat(resource.getKey()).isEqualTo(person.getKey().getKey());
         assertThat(resource.getName().getFirstName()).isEqualTo(person.getName().getFirstName());

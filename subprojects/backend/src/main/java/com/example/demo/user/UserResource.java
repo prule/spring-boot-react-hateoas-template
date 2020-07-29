@@ -1,6 +1,5 @@
 package com.example.demo.user;
 
-import com.example.demo.person.Person;
 import com.example.demo.person.PersonApi;
 import com.example.demo.pet.PetApi;
 import lombok.Getter;
@@ -33,12 +32,12 @@ public class UserResource extends RepresentationModel<UserResource> {
 
         // user specific links
 
-        add(linkTo(methodOn(PersonApi.class).search(null, null, null)).withRel("person-search").withType(HttpMethod.GET.name()));
-        add(linkTo(methodOn(PersonApi.class).find(null)).withRel("person-find").withType(HttpMethod.GET.name()));
+        add(linkTo(methodOn(PersonApi.class).search(null, null, null, null)).withRel("person-search").withType(HttpMethod.GET.name()));
+        add(linkTo(methodOn(PersonApi.class).find(null, null)).withRel("person-find").withType(HttpMethod.GET.name()));
 
-        add(linkTo(methodOn(PetApi.class).search(null, null, null)).withRel("pet-search").withType(HttpMethod.GET.name()));
-        add(linkTo(methodOn(PetApi.class).find(null)).withRel("pet-find").withType(HttpMethod.GET.name()));
-        add(linkTo(methodOn(PetApi.class).create(null)).withRel("pet-create").withType(HttpMethod.POST.name()));
+        add(linkTo(methodOn(PetApi.class).search(null, null, null, null)).withRel("pet-search").withType(HttpMethod.GET.name()));
+        add(linkTo(methodOn(PetApi.class).find(null, null)).withRel("pet-find").withType(HttpMethod.GET.name()));
+        add(linkTo(methodOn(PetApi.class).create(null, null)).withRel("pet-create").withType(HttpMethod.POST.name()));
 
         return this;
 

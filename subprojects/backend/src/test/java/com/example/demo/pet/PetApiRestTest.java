@@ -1,5 +1,6 @@
 package com.example.demo.pet;
 
+import com.example.demo.common.Fields;
 import com.example.demo.common.Key;
 import com.example.demo.rest.RestProvider;
 import com.example.demo.steps.LoginSteps;
@@ -51,7 +52,7 @@ public class PetApiRestTest {
         Pet pet = new Pet(key, new PetName("KUJO"));
         pet.setDateOfBirth(LocalDate.now());
 
-        PetResource resource = new PetResource().fromModel(pet);
+        PetResource resource = new PetResource().fromModel(pet, Fields.all());
 
         final PetResource result = petSteps.update(resource);
 

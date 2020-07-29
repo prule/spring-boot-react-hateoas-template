@@ -1,5 +1,6 @@
 package com.example.demo.person;
 
+import com.example.demo.common.Fields;
 import com.example.demo.common.Key;
 import com.example.demo.common.NotFoundException;
 import com.example.demo.pet.PetSearchCriteria;
@@ -25,12 +26,12 @@ public class PersonApi {
     }
 
     @GetMapping
-    public HttpEntity<PagedModel<PersonResource>> search(PersonSearchCriteria criteria, Pageable pageable, PagedResourcesAssembler<Person> assembler) {
+    public HttpEntity<PagedModel<PersonResource>> search(PersonSearchCriteria criteria, Fields fields, Pageable pageable, PagedResourcesAssembler<Person> assembler) {
         Page<Person> page = repository.findAll(criteria.toPredicate(), pageable);
 
         return new ResponseEntity<>(assembler.toModel(page, (person) -> {
                     PersonResource resource = new PersonResource();
-                    resource.fromModel(person);
+                    resource.fromModel(person, fields);
                     return resource;
                 }
         ), HttpStatus.OK);
@@ -38,38 +39,38 @@ public class PersonApi {
     }
 
     @GetMapping("/{key}")
-    public PersonResource find(@PathVariable String key) {
+    public PersonResource find(@PathVariable String key, Fields fields) {
 
         Person model = repository.findOneByKey(new Key(key)).orElseThrow(() -> new NotFoundException(String.format("Person %s not found", key)));
 
         PersonResource resource = new PersonResource();
-        resource.fromModel(model);
+        resource.fromModel(model, fields);
 
         return resource;
 
     }
 
     @PostMapping
-    public PersonResource create(@RequestBody PersonResource resource) {
+    public PersonResource create(@RequestBody PersonResource resource, Fields fields) {
 
         Person model = new Person();
         resource.toModel(model);
 
         repository.save(model);
 
-        return find(model.getKey().getKey());
+        return find(model.getKey().getKey(), fields);
 
     }
 
     @PutMapping("/{key}")
-    public PersonResource update(@PathVariable String key, @RequestBody PersonResource resource) {
+    public PersonResource update(@PathVariable String key, Fields fields, @RequestBody PersonResource resource) {
 
         Person model = repository.findByKey(new Key(key)).orElseThrow(() -> new NotFoundException(String.format("Person %s not found", key)));
         resource.toModel(model);
 
         repository.save(model);
 
-        return find(model.getKey().getKey());
+        return find(model.getKey().getKey(), fields);
 
     }
 

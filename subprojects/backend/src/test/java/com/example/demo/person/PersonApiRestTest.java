@@ -1,5 +1,6 @@
 package com.example.demo.person;
 
+import com.example.demo.common.Fields;
 import com.example.demo.common.Key;
 import com.example.demo.rest.RestProvider;
 import com.example.demo.steps.LoginSteps;
@@ -58,7 +59,7 @@ public class PersonApiRestTest {
 
         // change name
         Person person = new Person(key, new PersonName("Test", "User", "X"), null, LocalDate.now());
-        PersonResource resource = new PersonResource().fromModel(person);
+        PersonResource resource = new PersonResource().fromModel(person, Fields.all());
 
         final PersonResource maggie = personSteps.update(resource);
 

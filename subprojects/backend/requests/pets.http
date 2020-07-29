@@ -1,0 +1,19 @@
+### pets - no fields param
+
+GET {{host}}/api/1/pets
+Authorization: Bearer {{auth_token}}
+Accept: application/json
+
+### pets - fields = wildcard
+
+GET {{host}}/api/1/pets?fields=*
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+### pets - fields = specified (nested resource example)
+
+GET {{host}}/api/1/pets?fields=name,owner.name
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+###

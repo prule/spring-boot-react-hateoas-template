@@ -1,0 +1,19 @@
+### Persons - no fields param
+
+GET {{host}}/api/1/persons
+Authorization: Bearer {{auth_token}}
+Accept: application/json
+
+### Persons - fields = wildcard
+
+GET {{host}}/api/1/persons?fields=*
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+### Persons - fields = specified
+
+GET {{host}}/api/1/persons?fields=name,address,dateOfBirth
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+###

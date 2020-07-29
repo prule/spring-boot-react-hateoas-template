@@ -1,16 +1,13 @@
 package com.example.demo.person;
 
 import com.example.demo.common.Address;
+import com.example.demo.common.Fields;
 import com.example.demo.common.VersionedRepresentationModel;
 import com.example.demo.pet.PetApi;
 import lombok.Getter;
-import org.hibernate.dialect.lock.OptimisticEntityLockException;
-import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.HttpMethod;
 
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
-import java.util.Date;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -20,25 +17,26 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class PersonResource extends VersionedRepresentationModel<PersonResource> {
 
     private String key;
+    private long version;
+
     private PersonName name;
     private Address address;
     private LocalDate dateOfBirth;
 
-    @Getter
-    private long version;
 
-    public PersonResource fromModel(Person model) {
+    public PersonResource fromModel(Person model, Fields fields) {
 
         key = model.getKey().getKey();
-        name = model.getName();
-        address = model.getAddress();
-        dateOfBirth = model.getDateOfBirth();
         version = model.getVersion();
 
-        add(linkTo(methodOn(PersonApi.class).find(model.getKey().getKey())).withSelfRel().withType(HttpMethod.GET.name()));
-        add(linkTo(methodOn(PersonApi.class).update(model.getKey().getKey(), null)).withRel("update").withType(HttpMethod.PUT.name()));
-        add(linkTo(methodOn(PetApi.class).create(null)).withRel("pet-create").withType(HttpMethod.POST.name()));
-        add(linkTo(methodOn(PetApi.class).search(null, null, null)).withRel("pet-search").withType(HttpMethod.GET.name()));
+        fields.set("name", () -> name = model.getName());
+        fields.set("address", () -> address = model.getAddress());
+        fields.set("dateOfBirth", () -> dateOfBirth = model.getDateOfBirth());
+
+        add(linkTo(methodOn(PersonApi.class).find(model.getKey().getKey(), null)).withSelfRel().withType(HttpMethod.GET.name()));
+        add(linkTo(methodOn(PersonApi.class).update(model.getKey().getKey(), null, null)).withRel("update").withType(HttpMethod.PUT.name()));
+        add(linkTo(methodOn(PetApi.class).create(null, null)).withRel("pet-create").withType(HttpMethod.POST.name()));
+        add(linkTo(methodOn(PetApi.class).search(null, null, null, null)).withRel("pet-search").withType(HttpMethod.GET.name()));
 
         return this;
 

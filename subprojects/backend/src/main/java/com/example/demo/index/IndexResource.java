@@ -17,8 +17,13 @@ public class IndexResource extends RepresentationModel<IndexResource> {
 
         // public links that don't require login
 
-        add(linkTo(methodOn(AuthenticationApi.class).login( null)).withRel("login").withType(HttpMethod.POST.name()));
-        add(linkTo(methodOn(AuthenticationApi.class).me()).withRel("user-me").withType(HttpMethod.GET.name()));
+        add(linkTo(methodOn(AuthenticationApi.class).login( null))
+            .withRel("login")
+            .withType(HttpMethod.POST.name()));
+
+        add(linkTo(methodOn(AuthenticationApi.class).me())
+            .withRel("user-me")
+            .withType(HttpMethod.GET.name()));
 
     }
 

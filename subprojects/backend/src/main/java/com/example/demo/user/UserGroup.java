@@ -11,7 +11,15 @@ import javax.persistence.*;
 @Entity
 public class UserGroup extends AbstractEntity<String> {
 
-    public enum Group { ADMIN, USER }
+    public enum Group { ADMIN("Admin"), USER("User");
+        private final String id;
+        Group(String id) {
+            this.id = id;
+        }
+        public String getId() {
+            return id;
+        }
+    }
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO) private Long id;
 

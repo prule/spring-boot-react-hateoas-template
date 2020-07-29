@@ -24,7 +24,7 @@ public class AuthenticatedUser {
 
     public boolean hasGroup(UserGroup.Group group) {
         if (authentication != null) {
-            return authentication.getAuthorities().stream().anyMatch(g -> g.getAuthority().equals(group.name()));
+            return authentication.getAuthorities().stream().anyMatch(g -> g.getAuthority().equals(group.getId()));
         }
         return false;
     }

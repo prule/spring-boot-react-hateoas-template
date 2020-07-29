@@ -21,6 +21,8 @@ import ActionType from "../../common/ActionType";
 import {ErrorMessage} from "../../common/ErrorMessage";
 import Title from "../../components/Title";
 import Divider from "@material-ui/core/Divider";
+import Pet from "../pet/Pet";
+import LinkRelations from "../LinkRelations";
 
 const schema = yup.object({
   person: yup.object().shape({
@@ -61,11 +63,11 @@ function PersonPage(props) {
 
   const [{user, alert}, dispatch] = useStateValue();
 
-  const personKey = props.match.params.key;
+  const personKey: string = props.match.params.key;
 
   const [validation, setValidation] = useState(null);
-  const [person, setPerson] = useState(null);
-  const [pets, setPets] = useState(null);
+  const [person: Person, setPerson] = useState(null);
+  const [pets: Array<Pet>, setPets] = useState(null);
 
   const values = {
     person: person
@@ -155,9 +157,12 @@ function PersonPage(props) {
                 />
 
                 <Box p={1} className={classes.buttons}>
+                  {person.hasLink(LinkRelations.update) &&
                   <Button type="submit" variant="contained" color="primary" className={classes.submit}>
                     Save
                   </Button>
+                  }
+
                   <Button onClick={onCancel} variant="contained" color="default">
                     Cancel
                   </Button>

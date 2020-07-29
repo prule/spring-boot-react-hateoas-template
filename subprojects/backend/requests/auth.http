@@ -1,9 +1,26 @@
-### Authorization by token. Retrieve and save token.
+### ADMIN
 POST {{host}}/api/1/auth/login
 Content-Type: application/json
 
 {
   "username": "boss",
+  "password": "password"
+}
+
+> {%
+ client.global.set("auth_token", JSON.parse(response.body).token);
+ client.test("Login was successful", function() {
+  client.assert(client.global.get("auth_token") !== undefined);
+ })
+%}
+
+
+### USER
+POST {{host}}/api/1/auth/login
+Content-Type: application/json
+
+{
+  "username": "bob",
   "password": "password"
 }
 

@@ -3,6 +3,9 @@ package com.example.demo.common;
 import com.google.common.base.Splitter;
 
 import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class Fields {
@@ -27,9 +30,11 @@ public class Fields {
         return this;
     }
 
-    public Fields setNested(String fieldName, Runnable setFunction) {
-        if (hasNestedField(fieldName)) {
-            setFunction.run();
+    public <T> Fields setNested(String fieldName, T model, BiConsumer<T, Fields> setFunction) {
+        if (model != null) {
+            if (hasNestedField(fieldName)) {
+                setFunction.accept(model, this.from(fieldName));
+            }
         }
         return this;
     }

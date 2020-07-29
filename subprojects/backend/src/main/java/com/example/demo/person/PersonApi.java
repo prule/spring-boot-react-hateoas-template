@@ -11,6 +11,7 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,6 +52,7 @@ public class PersonApi {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('Admin')")
     public PersonResource create(@RequestBody PersonResource resource, Fields fields) {
 
         Person model = new Person();
@@ -63,6 +65,7 @@ public class PersonApi {
     }
 
     @PutMapping("/{key}")
+    @PreAuthorize("hasRole('Admin')")
     public PersonResource update(@PathVariable String key, Fields fields, @RequestBody PersonResource resource) {
 
         Person model = repository.findByKey(new Key(key)).orElseThrow(() -> new NotFoundException(String.format("Person %s not found", key)));

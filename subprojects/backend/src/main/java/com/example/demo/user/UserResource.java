@@ -37,7 +37,6 @@ public class UserResource extends RepresentationModel<UserResource> {
 
         add(linkTo(methodOn(PetApi.class).search(null, null, null, null)).withRel("pet-search").withType(HttpMethod.GET.name()));
         add(linkTo(methodOn(PetApi.class).find(null, null)).withRel("pet-find").withType(HttpMethod.GET.name()));
-        add(linkTo(methodOn(PetApi.class).create(null, null)).withRel("pet-create").withType(HttpMethod.POST.name()));
 
         return this;
 

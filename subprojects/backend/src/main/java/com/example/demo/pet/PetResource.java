@@ -28,7 +28,7 @@ class PetResource extends RepresentationModel<PetResource> {
         fields.set("name", () -> name = model.getName());
         fields.set("dateOfBirth", () -> dateOfBirth = model.getDateOfBirth());
 
-        fields.setNested("owner", () -> owner = model.getOwner() != null ? new PersonResource().fromModel(model.getOwner(), fields.from("owner")) : null);
+        fields.setNested("owner", model.getOwner(), (m, f) -> owner = new PersonResource().fromModel(m, f));
 
         add(linkTo(methodOn(PetApi.class).find(model.getKey().getKey(), null)).withSelfRel());
         add(linkTo(methodOn(PetApi.class).update(model.getKey().getKey(), null, null)).withRel("update"));

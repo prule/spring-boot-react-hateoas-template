@@ -27,4 +27,7 @@ public class User extends AbstractEntity<String> {
         super();
     }
 
+    public static boolean hasRole(String role) {
+        return false;
+    }
 }

@@ -1,14 +1,20 @@
+ifndef::imagesdir[]
+:imagesdir: ../resources/images
+endif::[]
+ifndef::includedir[]
+:includedir: .
+endif::[]
 = {project-title}
 :author: {project-author}
 :revnumber: {project-version}
 :toclevels: 4
 :docinfo1:
 
-include::_links.adoc[]
+include::{includedir}/_links.adoc[]
 
 :leveloffset: 1
-include::introduction.adoc[]
-include::usage.adoc[]
+include::{includedir}/introduction.adoc[]
+include::{includedir}/usage.adoc[]
 
 = Links
 

@@ -11,6 +11,7 @@ plugins {
     id "java"
     id "org.springframework.boot" version "2.3.7.RELEASE"
     id "org.kordamp.gradle.jar"
+    id "org.kordamp.gradle.pmd"
     id "com.gorylenko.gradle-git-properties" version "2.2.4"
 }
 
@@ -80,7 +81,12 @@ config {
     }
     docs {
         javadoc {
-            enabled = false
+            enabled = true
+        }
+    }
+    quality {
+        pmd {
+            enabled = true
         }
     }
 }

@@ -102,11 +102,23 @@ case "$1" in
     echo ""
     ;;
 
+  'report:all')
+    echo ""
+    echo "Generating Jacoco test coverage report."
+    echo ""
+    ./gradlew :backend:allTests
+    ./gradlew :backend:JacocoTestReport
+    ./gradlew :backend:pmdMain
+    echo ""
+    ;;
+
+
   'report:coverage')
     echo ""
     echo "Generating Jacoco test coverage report."
     echo ""
-    ./gradlew JacocoTestReport
+    ./gradlew :backend:allTests
+    ./gradlew :backend:JacocoTestReport
     echo ""
     ;;
 
@@ -150,7 +162,7 @@ case "$1" in
     echo ""
     echo "Creating guide"
     echo ""
-    ./gradlew createGuide
+    ./gradlew :guide:createGuide
     ;;
 
   'guide:open')

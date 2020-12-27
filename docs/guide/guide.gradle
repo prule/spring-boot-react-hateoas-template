@@ -1,5 +1,14 @@
 plugins {
     id 'org.kordamp.gradle.guide' version '0.42.1'
+    id 'org.asciidoctor.jvm.pdf' version '3.2.0'
+    id 'org.asciidoctor.jvm.gems' version '3.2.0'
+}
+
+apply plugin: 'java'
+
+repositories {
+    jcenter()
+    ruby.gems()
 }
 
 configurations {
@@ -8,19 +17,44 @@ configurations {
 
 dependencies {
     asciidoctorExtensions 'com.bmuschko:asciidoctorj-tabbed-code-extension:0.3'
+    asciidoctorGems 'rubygems:rouge:3.15.0'
 }
 
 asciidoctor {
     configurations 'asciidoctorExtensions'
     attributes = [
-        'gradle-version': project.gradle.gradleVersion,
-        'source-highlighter': 'prettify',
-        detektVersion: detektVersion,
-        errorproneVersion: errorproneVersion,
-        checkstyleVersion: checkstyleVersion,
-        codenarcVersion: codenarcVersion,
-        jacocoVersion: jacocoVersion,
-        pmdVersion: pmdVersion,
-        spotbugsVersion: spotbugsVersion
+            'gradle-version'    : project.gradle.gradleVersion,
+            'source-highlighter': 'prettify',
+            detektVersion       : detektVersion,
+            errorproneVersion   : errorproneVersion,
+            checkstyleVersion   : checkstyleVersion,
+            codenarcVersion     : codenarcVersion,
+            jacocoVersion       : jacocoVersion,
+            pmdVersion          : pmdVersion,
+            spotbugsVersion     : spotbugsVersion
     ]
 }
+
+asciidoctorPdf {
+    dependsOn asciidoctorGemsPrepare
+
+    baseDirFollowsSourceFile()
+
+    asciidoctorj {
+        requires 'rouge'
+        attributes 'build-gradle': file('build.gradle'),
+                'sourcedir': project.sourceSets.main.java.srcDirs[0],
+                'endpoint-url': 'http://example.org',
+                'source-highlighter': 'rouge',
+                'imagesdir': './images',
+                'toc': 'left',
+                'icons': 'font',
+                'idprefix': '',
+                'idseparator': '-',
+                'pdf-page-size': 'A3' // A3 gives more real estate for code samples.
+//                'pdf-page-layout': 'landscape' // Landscape can be used if more horizontal real estate is required for code samples
+    }
+}
+
+
+asciidoctor.finalizedBy(asciidoctorPdf)

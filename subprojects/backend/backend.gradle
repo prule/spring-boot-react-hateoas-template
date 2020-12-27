@@ -1,53 +1,34 @@
 buildscript {
-    ext {
-        springBootVersion = "2.2.6.RELEASE"
-    }
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.3.7.RELEASE")
     }
 }
 
 plugins {
     id "java"
-    id "org.springframework.boot" version "2.2.6.RELEASE"
+    id "org.springframework.boot" version "2.3.7.RELEASE"
     id "org.kordamp.gradle.jar"
-    id "com.gorylenko.gradle-git-properties" version "2.2.2"
+    id "com.gorylenko.gradle-git-properties" version "2.2.4"
 }
+
+apply plugin: 'io.spring.dependency-management'
 
 // generate a git.properties file so the application knows what version it is
 gitProperties {
     keys = ['git.branch','git.commit.id','git.commit.time']
 }
 
-apply plugin: 'io.spring.dependency-management'
 
 group = "com.example"
 version = "0.0.1-SNAPSHOT"
 sourceCompatibility = 1.8
 
-springBoot {
-    mainClassName = "com.example.demo.Main"
-}
-
 repositories {
     mavenCentral()
 }
-
-//sourceSets {
-//    main {
-//        java {
-//            output.generatedSourcesDir = "src/main/generated"
-//        }
-//    }
-//    test {
-//        java {
-//            output.generatedSourcesDir = "src/test/generated_tests"
-//        }
-//    }
-//}
 
 dependencies {
 
@@ -56,7 +37,7 @@ dependencies {
     annotationProcessor "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final"
     annotationProcessor "javax.annotation:javax.annotation-api:1.3.2"
 
-    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.6" // so local date will be correctly serialized
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.0" // so local date will be correctly serialized
     implementation "org.springframework.boot:spring-boot-starter-data-jpa"
     implementation "org.springframework.boot:spring-boot-starter-hateoas"
     implementation "org.springframework.boot:spring-boot-starter-security"
@@ -65,14 +46,13 @@ dependencies {
     implementation "org.springframework.data:spring-data-jpa"
     implementation "org.flywaydb:flyway-core"
 
-    implementation "org.togglz:togglz-spring-boot-starter:2.6.1.Final"
-    implementation("org.togglz:togglz-spring-security:2.6.1.Final")
-    implementation("com.github.heneke.thymeleaf:thymeleaf-extras-togglz:1.0.1.RELEASE")
+    implementation "org.togglz:togglz-spring-boot-starter:2.9.2"
+    implementation("org.togglz:togglz-spring-security:2.9.2")
+    implementation("com.github.heneke.thymeleaf:thymeleaf-extras-togglz:2.0.1.RELEASE")
 
     compile "org.projectlombok:lombok:${LOMBOK_VERSION}"
     implementation "com.querydsl:querydsl-jpa:${QUERYDSL_VERSION}"
-    implementation "org.springframework.data:spring-data-jpa:2.1.2.RELEASE"
-    implementation "com.google.guava:guava:27.0.1-jre"
+    implementation "com.google.guava:guava:30.1-jre"
     implementation "io.jsonwebtoken:jjwt:0.9.1"
     implementation "org.yaml:snakeyaml:1.24"
 
@@ -94,24 +74,26 @@ test {
     useJUnitPlatform() // required for junit 5
 }
 
-//idea {
-//    module {
-//        apt {
-//            addAptDependencies = true
-//            mainDependenciesScope = "PROVIDED"
-//        }
-//        inheritOutputDirs = false
-//        outputDir = file("$buildDir/classes/main/")
-//        testOutputDir = file("$buildDir/classes/test/")
-//        downloadJavadoc = true
-//        downloadSources = true
-//    }
-//}
-
 config {
     buildInfo {
         enabled
     }
+    docs {
+        javadoc {
+            enabled = false
+        }
+    }
+}
+
+bootJar {
+    mainClassName = "com.example.demo.Main"
+    classifier = 'boot'
+}
+
+// Run the application so that your static classpath resources (i.e. in src/main/resources by default) are reloadable in the live application, which can be helpful at development time.
+bootRun {
+    main = "com.example.demo.Main"
+//    addResources = true
 }
 
 task bootRunDev {
@@ -121,3 +103,5 @@ task bootRunDev {
 }
 
 bootRunDev.finalizedBy bootRun
+
+//bootJar.dependsOn(rootProject.copyReactApp)

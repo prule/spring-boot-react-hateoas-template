@@ -22,7 +22,7 @@ public class Pet extends AbstractEntity<String> {
 
     @ManyToOne @Getter @Setter private Person owner;
 
-    Pet() {
+    public Pet() {
         super();
     }
 

@@ -1,5 +1,4 @@
 ### Persons - no fields param
-
 GET {{host}}/api/1/persons
 Authorization: Bearer {{auth_token}}
 Accept: application/json
@@ -19,5 +18,5 @@ Authorization: Bearer {{auth_token}}
 ###
 
 PUT {{host}}/api/1/persons
-Accept: application/json
 Authorization: Bearer {{auth_token}}
+Accept: application/json

@@ -2,6 +2,13 @@
 
 case "$1" in
 
+  'compile')
+    echo ""
+    echo "Compiling"
+    echo ""
+    ./gradlew compileJava
+    ;;
+
   'build')
     echo ""
     echo "Building"
@@ -37,7 +44,7 @@ case "$1" in
     echo ""
     echo "Starting local server from jar file..."
     echo ""
-    java -Dspring.profiles.active=dev,db-h2,db-init,debug -jar ./subprojects/backend/build/libs/backend-0.0.1-SNAPSHOT.jar
+    java -Dspring.profiles.active=dev,db-h2,db-init,debug -jar ./subprojects/backend/build/libs/backend-0.0.1-SNAPSHOT-boot.jar com.example.demo.Main
     ;;
 
   'server:javadoc')

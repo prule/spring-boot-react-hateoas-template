@@ -48,6 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/h2-console/**");
         web.ignoring().antMatchers("/static/**");
+        web.ignoring().antMatchers("/*");
         web.ignoring().antMatchers("/api/*/index");
         web.ignoring().antMatchers("/api/1/auth/*");
     }

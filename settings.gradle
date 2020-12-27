@@ -1,16 +1,16 @@
 buildscript {
     repositories {
         gradlePluginPortal()
-}
-    dependencies {
-        classpath 'org.kordamp.gradle:settings-gradle-plugin:0.35.0'
-        }
     }
+    dependencies {
+        classpath 'org.kordamp.gradle:settings-gradle-plugin:0.42.1'
+    }
+}
 apply plugin: 'org.kordamp.gradle.settings'
 
-rootProject.name = 'root'
+rootProject.name = 'Spring Hateoas React Template'
 
 projects {
-    directories = ['subprojects']
-//    directories = ['docs', 'subprojects']
+//    directories = ['subprojects']
+        directories = ['docs', 'subprojects']
 }

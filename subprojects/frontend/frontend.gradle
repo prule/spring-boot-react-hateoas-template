@@ -8,3 +8,5 @@ clean.doLast {
 }
 
 build.dependsOn(npm)
+
+build.finalizedBy rootProject.copyReactApp

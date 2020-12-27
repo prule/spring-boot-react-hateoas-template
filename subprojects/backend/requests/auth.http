@@ -8,9 +8,13 @@ Content-Type: application/json
 }
 
 > {%
- client.global.set("auth_token", JSON.parse(response.body).token);
+ // client.global.set("auth_token", JSON.parse(response.body).token);
+ client.global.set("auth_token", response.body.token);
+
  client.test("Login was successful", function() {
   client.assert(client.global.get("auth_token") !== undefined);
+  client.assert(client.global.get("auth_token") !== null);
+  client.assert(client.global.get("auth_token") !== '');
  })
 %}
 

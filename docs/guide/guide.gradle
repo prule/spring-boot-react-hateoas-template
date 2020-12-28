@@ -52,8 +52,8 @@ asciidoctorPdf {
                 'idprefix': '',
                 'idseparator': '-',
                 'pdf-page-size': 'A3' // A3 gives more real estate for code samples.
-        //          'pdf-page-layout': 'landscape' // Landscape can be used if more horizontal real estate is required for code samples
-        // :pdf-page-size: [8.25in, 11.69in] // example of how to customise the size (untested)
+//              'pdf-page-layout': 'landscape' // Landscape can be used if more horizontal real estate is required for code samples
+//              'pdf-page-size': '8.25in x 11.69in' // example of how to customise the size
     }
 }
 

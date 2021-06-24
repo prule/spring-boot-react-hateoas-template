@@ -10,8 +10,9 @@ buildscript {
 plugins {
     id "java"
     id "org.springframework.boot" version "2.3.7.RELEASE"
+    id "org.kordamp.gradle.javadoc"
     id "org.kordamp.gradle.jar"
-    id "org.kordamp.gradle.pmd"
+//    id "org.kordamp.gradle.pmd"
     id "com.gorylenko.gradle-git-properties" version "2.2.4"
 }
 
@@ -51,7 +52,7 @@ dependencies {
     implementation("org.togglz:togglz-spring-security:2.9.2")
     implementation("com.github.heneke.thymeleaf:thymeleaf-extras-togglz:2.0.1.RELEASE")
 
-    compile "org.projectlombok:lombok:${LOMBOK_VERSION}"
+    implementation "org.projectlombok:lombok:${LOMBOK_VERSION}"
     implementation "com.querydsl:querydsl-jpa:${QUERYDSL_VERSION}"
     implementation "com.google.guava:guava:30.1-jre"
     implementation "io.jsonwebtoken:jjwt:0.9.1"

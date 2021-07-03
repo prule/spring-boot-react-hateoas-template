@@ -52,11 +52,11 @@ allprojects {
         jcenter()
         mavenCentral()
     }
-    ext {
-        LOMBOK_VERSION = "1.18.16"
-        POSTGRES_DRIVER_VERSION = "42.2.5"
-        QUERYDSL_VERSION = "4.4.0"
-    }
+//    ext {
+//        LOMBOK_VERSION = "1.18.16"
+//        POSTGRES_DRIVER_VERSION = "42.2.5"
+//        QUERYDSL_VERSION = "4.4.0"
+//    }
 }
 
 

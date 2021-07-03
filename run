@@ -2,6 +2,35 @@
 
 case "$1" in
 
+  'setup:install')
+    echo ""
+    echo "Installing"
+    echo ""
+    # https://brew.sh/
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    brew update
+    brew doctor
+
+    brew install git
+    brew install jenv
+    brew install node
+    brew install bash bash-completion git
+    brew install adoptopenjdk
+
+    npm install -g avn avn-nvm avn-n
+
+    ;;
+
+  'setup:upgrade')
+    echo ""
+    echo "Upgrading"
+    echo ""
+    brew upgrade node
+    brew upgrade npm
+
+    ;;
+
+
   'compile')
     echo ""
     echo "Compiling"
@@ -13,8 +42,7 @@ case "$1" in
     echo ""
     echo "Building"
     echo ""
-    ./gradlew build
-    ./gradlew assemble
+    ./gradlew build assemble
     ;;
 
   'clean')
@@ -99,6 +127,14 @@ case "$1" in
     else
       ./gradlew wrapper --gradle-version $2 --distribution-type=all
     fi
+    echo ""
+    ;;
+
+  'npm:update')
+    echo ""
+    echo "Updating npm dependencies"
+    echo ""
+    cd subprojects/frontend/react-app && npm update
     echo ""
     ;;
 

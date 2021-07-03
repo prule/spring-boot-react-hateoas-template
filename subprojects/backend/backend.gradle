@@ -1,11 +1,3 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-//    dependencies {
-//        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-//    }
-}
 
 plugins {
     id "java"
@@ -14,7 +6,7 @@ plugins {
     id "org.kordamp.gradle.javadoc"
     id "org.kordamp.gradle.jar"
 //    id "org.kordamp.gradle.pmd"
-    id "com.gorylenko.gradle-git-properties" version "2.2.4"
+    id "com.gorylenko.gradle-git-properties" version "2.3.1"
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -24,14 +16,9 @@ gitProperties {
     keys = ['git.branch','git.commit.id','git.commit.time']
 }
 
-
 group = "com.example"
 version = "0.0.1-SNAPSHOT"
-sourceCompatibility = 1.8
-
-repositories {
-    mavenCentral()
-}
+sourceCompatibility = 16
 
 dependencies {
 
@@ -70,6 +57,8 @@ dependencies {
     }
 
     testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc"
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
 
 }
 
@@ -100,7 +89,7 @@ bootJar {
 
 // Run the application so that your static classpath resources (i.e. in src/main/resources by default) are reloadable in the live application, which can be helpful at development time.
 bootRun {
-    main = "com.example.demo.Main"
+    mainClass = "com.example.demo.Main"
 //    addResources = true
 }
 

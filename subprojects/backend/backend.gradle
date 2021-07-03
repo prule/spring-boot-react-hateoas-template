@@ -2,14 +2,15 @@ buildscript {
     repositories {
         mavenCentral()
     }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.3.7.RELEASE")
-    }
+//    dependencies {
+//        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+//    }
 }
 
 plugins {
     id "java"
-    id "org.springframework.boot" version "2.3.7.RELEASE"
+    id "org.springframework.boot" version "${springBootVersion}"
+
     id "org.kordamp.gradle.javadoc"
     id "org.kordamp.gradle.jar"
 //    id "org.kordamp.gradle.pmd"
@@ -93,7 +94,7 @@ config {
 }
 
 bootJar {
-    mainClassName = "com.example.demo.Main"
+    mainClass = "com.example.demo.Main"
     classifier = 'boot'
 }
 

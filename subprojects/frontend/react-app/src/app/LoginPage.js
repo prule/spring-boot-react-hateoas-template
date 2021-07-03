@@ -76,10 +76,6 @@ function LoginPage(props) {
   const [{index, user, alert}, dispatch] = useStateValue();
   const [validation, setValidation] = useState({});
 
-  function onCancel() {
-    navigate(Routes.main.home());
-  }
-
   function onSubmit(values) {
     Api.do(index.link(LinkRelations.login), values.credentials)
       .then((response) => {

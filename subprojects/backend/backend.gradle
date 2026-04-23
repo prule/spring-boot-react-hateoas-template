@@ -55,13 +55,14 @@ test {
 }
 
 //bootJar {
-//    mainClassName = "com.example.demo.Main"
+//    mainClass = "com.example.demo.Main"
+//    archiveFileName = 'backend-0.0.1-SNAPSHOT.jar'
 //}
-//
+
 //bootRun {
-//    mainClassName = "com.example.demo.Main"
+//    mainClass = "com.example.demo.Main"
 //}
-//
+
 //task bootRunDev {
 //    bootRun.configure {
 //        systemProperty "spring.profiles.active", 'db-h2,db-init,dev'

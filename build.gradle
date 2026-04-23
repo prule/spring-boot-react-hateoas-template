@@ -23,7 +23,7 @@ subprojects {
     }
 }
 
-task copyReactApp(type: Copy) {
+tasks.register('copyReactApp', Copy) {
     group = 'build'
     description = 'Copy client resources into server'
 

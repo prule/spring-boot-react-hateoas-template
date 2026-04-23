@@ -1,0 +1,17 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Start Server" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <option name="ACTIVE_PROFILES" value="db-h2,db-init,dev" />
+    <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UnknownPolicyInFreeMode" />
+    <module name="spring-boot-react-hateoas-template.backend.main" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.demo.Main" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="com.example.demo.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

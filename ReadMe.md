@@ -17,28 +17,19 @@ To get started from source code you can use Gradle or Intellij IDEA.
 MacOS setup
 -----------
 
-Install Brew:
-
-`/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
-
-Install NPM:
-
-`brew install npm`
-
-Install Java:
-
-`brew cask install java`
+Use `nvm` and `SDKMAN` for node and java respectively.
 
 Using Gradle
 ----
 
 The `run` bash script can be used on MacOS to build and run the application:
 
-* `./run react:deps` to install the NPM dependencies required (you must have NPM installed)
+* `./run react:deps` to install the NPM dependencies required (you must have NPM 16 installed)
 * `./run build` to build the react application and server application, and produces a single jar file which can be executed
-* `./run server:start` to run the packaged jar file
 
-After starting the application, it can be accessed via http://localhost:8080
+After starting the application, it can be accessed via http://localhost:3000
+
+Log in with username "boss" password "password".
 
 Using Intellij IDEA
 ----
@@ -59,7 +50,6 @@ Using Intellij IDEA
 Notes
 ----
 
-* Gradle project structure from https://aalmiray.github.io/kordamp-gradle-plugins/
 * QueryDSL is used to provide type safe criteria, and uses APT processing to generate the `Q` classes - If you are using Intellij IDEA be sure to tick "Enable Annotation Processing" and "Module Content Root".
 
 Road Map
@@ -80,12 +70,12 @@ There are still a lot of things to add to this to make it a fully rounded sample
 Screen shots
 =====
 
-[<img src="docs/guide/src/docs/resources/1 Home.png" width="500"/>]
+![login.png](docs/guide/src/docs/resources/login.png)
 
-[<img src="docs/guide/src/docs/resources/2 Owners.png" width="500"/>]
+![home.png](docs/guide/src/docs/resources/home.png)
 
-[<img src="docs/guide/src/docs/resources/3 Owner.png" width="500"/>]
+![people.png](docs/guide/src/docs/resources/people.png)
 
-[<img src="docs/guide/src/docs/resources/4 Owner - validation example.png" width="500"/>]
+![search.png](docs/guide/src/docs/resources/search.png)
 
-[<img src="docs/guide/src/docs/resources/5 Pet.png" width="500"/>]
+![network.png](docs/guide/src/docs/resources/network.png)

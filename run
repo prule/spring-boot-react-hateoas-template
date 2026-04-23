@@ -68,20 +68,6 @@ case "$1" in
     npm start
     ;;
 
-  'server:start')
-    echo ""
-    echo "Starting local server from jar file..."
-    echo ""
-    java -Dspring.profiles.active=dev,db-h2,db-init,debug -jar ./subprojects/backend/build/libs/backend-0.0.1-SNAPSHOT-boot.jar com.example.demo.Main
-    ;;
-
-  'server:javadoc')
-    echo ""
-    echo "Opening javadoc"
-    echo ""
-    open subprojects/backend/build/docs/javadoc/index.html
-    ;;
-
   'server:reports:test')
     echo ""
     echo "Opening report test"
@@ -115,26 +101,6 @@ case "$1" in
     url=http://localhost:3000
 
     /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --app=$url --window-size=414,736 --user-data-dir=./temp/chrome/mobile
-    echo ""
-    ;;
-
-  'gradle:upgrade')
-    echo ""
-    echo "Upgrading gradle."
-    echo ""
-    if [ -z "$2" ]; then
-      echo "Version not specified!"
-    else
-      ./gradlew wrapper --gradle-version $2 --distribution-type=all
-    fi
-    echo ""
-    ;;
-
-  'npm:update')
-    echo ""
-    echo "Updating npm dependencies"
-    echo ""
-    cd subprojects/frontend/react-app && npm update
     echo ""
     ;;
 
@@ -190,22 +156,6 @@ case "$1" in
     pwd = `pwd`
     pkill -fl ${pwd}/web/node_modules/
     echo ""
-    ;;
-
-  # kordamp targets
-
-  'guide:create')
-    echo ""
-    echo "Creating guide"
-    echo ""
-    ./gradlew :guide:createGuide
-    ;;
-
-  'guide:open')
-    echo ""
-    echo "Opening guide"
-    echo ""
-    open ./docs/guide/build/guide/index.html
     ;;
 
 

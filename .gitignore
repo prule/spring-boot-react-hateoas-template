@@ -39,3 +39,5 @@ subprojects/frontend/react-app/build
 
 temp
 /classes/
+/node_modules/
+/build/

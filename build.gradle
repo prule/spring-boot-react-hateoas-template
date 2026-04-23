@@ -1,76 +1,27 @@
 plugins {
-    id 'org.kordamp.gradle.java-project' version "${kordampVersion}"
-}
-
-config {
-    release = (rootProject.findProperty('release') ?: false).toBoolean()
-
-    info {
-        name = 'Demo'
-        vendor = 'Paul Rule'
-        description = 'Demo spring-boot/react application'
-
-        links {
-            website = 'https://github.com/prule/spring-boot-react-hateoas-template'
-            issueTracker = 'https://github.com/prule/spring-boot-react-hateoas-template/issues'
-            scm = 'https://github.com/prule/spring-boot-react-hateoas-template.git'
-        }
-
-        people {
-            person {
-                id = 'paulrule'
-                name = 'Paul Rule'
-                roles = ['developer', 'architect']
-            }
-        }
-    }
-
-    licensing {
-        enabled = false
-    }
-
-    bintray {
-        enabled = false
-    }
-
-//    coverage {
-//        jacoco {
-//            enabled
-//            mergeExecFile
-//            mergeReportHtmlFile
-//            mergeReportXmlFile
-//            additionalSourceDirs
-//            additionalClassDirs
-//        }
-//    }
-
+    id 'java'
+    id 'org.springframework.boot' version '2.5.2' apply false
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE' apply false
 }
 
 allprojects {
+    group = 'com.example'
+    version = '0.0.1-SNAPSHOT'
+
     repositories {
-        mavenLocal()
-        jcenter()
         mavenCentral()
     }
-//    ext {
-//        LOMBOK_VERSION = "1.18.16"
-//        POSTGRES_DRIVER_VERSION = "42.2.5"
-//        QUERYDSL_VERSION = "4.4.0"
-//    }
 }
 
+subprojects {
+    apply plugin: 'java'
 
-//task copyClientResources(type: Copy) {
-//    println "Building frontend so resources are available to include in spring boot jar"
-//
-//    def src = "${project(':frontend').projectDir}/react-app/build"
-//    def dest = "${project(':backend').buildDir}/resources/main/static"
-//    doLast {
-//        println("Copying ${src} to ${dest}")
-//        from "${src}"
-//        into "${dest}"
-//    }
-//}
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(17)
+        }
+    }
+}
 
 task copyReactApp(type: Copy) {
     group = 'build'
@@ -87,9 +38,3 @@ task copyReactApp(type: Copy) {
         println("Copying ${src} to ${dest}")
     }
 }
-
-//rootProject.copyClientResources.mustRunAfter(project(":frontend").build)
-//rootProject.copyClientResources.dependsOn(project(":frontend").build)
-//project(":backend").build.mustRunAfter(rootProject.copyReactApp)
-
-//project(":backend").bootJar.dependsOn(rootProject.copyClientResources)

@@ -1,16 +1,9 @@
-buildscript {
-    repositories {
-        gradlePluginPortal()
-    }
-    dependencies {
-        classpath "org.kordamp.gradle:settings-gradle-plugin:${kordampVersion}"
-    }
-}
-apply plugin: 'org.kordamp.gradle.settings'
+rootProject.name = 'spring-boot-react-hateoas-template'
 
-rootProject.name = 'Spring Hateoas React Template'
+include 'backend'
+project(':backend').projectDir = file('subprojects/backend')
+project(':backend').buildFileName = 'backend.gradle'
 
-projects {
-//    directories = ['subprojects']
-        directories = ['docs', 'subprojects']
-}
+include 'frontend'
+project(':frontend').projectDir = file('subprojects/frontend')
+project(':frontend').buildFileName = 'frontend.gradle'

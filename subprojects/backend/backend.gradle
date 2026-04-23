@@ -1,24 +1,18 @@
 
 plugins {
-    id "java"
-    id "org.springframework.boot" version "${springBootVersion}"
-
-    id "org.kordamp.gradle.javadoc"
-    id "org.kordamp.gradle.jar"
-//    id "org.kordamp.gradle.pmd"
-    id "com.gorylenko.gradle-git-properties" version "2.3.1"
+    id 'java'
+    id 'org.springframework.boot'
+    id 'io.spring.dependency-management'
 }
 
-apply plugin: 'io.spring.dependency-management'
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
 
-// generate a git.properties file so the application knows what version it is
-gitProperties {
-    keys = ['git.branch','git.commit.id','git.commit.time']
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
-
-group = "com.example"
-version = "0.0.1-SNAPSHOT"
-sourceCompatibility = 16
 
 dependencies {
 
@@ -27,13 +21,12 @@ dependencies {
     annotationProcessor "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final"
     annotationProcessor "javax.annotation:javax.annotation-api:1.3.2"
 
-    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.0" // so local date will be correctly serialized
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.0"
     implementation "org.springframework.boot:spring-boot-starter-data-jpa"
     implementation "org.springframework.boot:spring-boot-starter-hateoas"
     implementation "org.springframework.boot:spring-boot-starter-security"
     implementation "org.springframework.boot:spring-boot-starter-validation"
     implementation "org.springframework.boot:spring-boot-starter-web"
-    implementation "org.springframework.data:spring-data-jpa"
     implementation "org.flywaydb:flyway-core"
 
     implementation "org.togglz:togglz-spring-boot-starter:2.9.2"
@@ -50,12 +43,7 @@ dependencies {
     runtimeOnly "org.postgresql:postgresql:${POSTGRES_DRIVER_VERSION}"
 
     testImplementation "io.rest-assured:rest-assured:3.2.0"
-
-    testImplementation("org.springframework.boot:spring-boot-starter-test") {
-        exclude group: 'junit', module: 'junit' //by both name and group
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine' //by both name and group
-    }
-
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc"
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
@@ -63,42 +51,19 @@ dependencies {
 }
 
 test {
-    useJUnitPlatform() // required for junit 5
+    useJUnitPlatform()
 }
 
-config {
-    buildInfo {
-        enabled
-    }
-    docs {
-        javadoc {
-            enabled = true
-        }
-    }
-    quality {
-        pmd {
-            enabled = true
-        }
-    }
-}
-
-bootJar {
-    mainClass = "com.example.demo.Main"
-    classifier = 'boot'
-}
-
-// Run the application so that your static classpath resources (i.e. in src/main/resources by default) are reloadable in the live application, which can be helpful at development time.
-bootRun {
-    mainClass = "com.example.demo.Main"
-//    addResources = true
-}
-
-task bootRunDev {
-    bootRun.configure {
-        systemProperty "spring.profiles.active", 'db-h2,db-init,dev'
-    }
-}
-
-bootRunDev.finalizedBy bootRun
-
-//bootJar.dependsOn(rootProject.copyReactApp)
+//bootJar {
+//    mainClassName = "com.example.demo.Main"
+//}
+//
+//bootRun {
+//    mainClassName = "com.example.demo.Main"
+//}
+//
+//task bootRunDev {
+//    bootRun.configure {
+//        systemProperty "spring.profiles.active", 'db-h2,db-init,dev'
+//    }
+//}

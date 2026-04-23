@@ -31,7 +31,6 @@
         "react-router": "^5.2.0",
         "react-router-dom": "^5.2.0",
         "react-scripts": "^4.0.3",
-        "recharts": "^1.8.5",
         "redux": "^4.1.0",
         "winston": "^3.3.3",
         "yup": "^0.28.5"

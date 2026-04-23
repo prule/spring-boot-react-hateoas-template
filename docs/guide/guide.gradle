@@ -1,5 +1,4 @@
 plugins {
-    id 'org.kordamp.gradle.guide' version '0.42.1'
     id 'org.asciidoctor.jvm.pdf' version '3.2.0'
     id 'org.asciidoctor.jvm.gems' version '3.2.0'
 }
@@ -7,7 +6,7 @@ plugins {
 apply plugin: 'java'
 
 repositories {
-    jcenter()
+    mavenCentral()
     ruby.gems()
 }
 

@@ -36,14 +36,12 @@ Using Intellij IDEA
 
 * Import the project by opening the main `build.gradle` file in the root directory (choose to override the existing .idea project)
 * `./run react:deps` to install the NPM dependencies required (you must have NPM installed)
-* Create 2 run configurations:
- * Server - dev,h2,init (Spring boot run config)
-  * Main class = `com.example.demo.Main`
-  * VM Options = `-Dspring.profiles.active=dev,db-h2,db-init,debug`
- * React - start (Bash run config)
-  * Script = `./run`
-  * Interpreter path = `/bin/bash`
-  * Program arguments = `react:start`
+* Intellij run configurations are in the source. 
+
+![backend run config.png](docs/guide/src/docs/resources/backend%20run%20config.png)
+
+![frontend run config.png](docs/guide/src/docs/resources/frontend%20run%20config.png)
+
 * Start the server run config followed by the react run config (server uses port 8080)
 * The browser should be opened at http://localhost:3000
 

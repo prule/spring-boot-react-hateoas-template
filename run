@@ -2,35 +2,6 @@
 
 case "$1" in
 
-  'setup:install')
-    echo ""
-    echo "Installing"
-    echo ""
-    # https://brew.sh/
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    brew update
-    brew doctor
-
-    brew install git
-    brew install jenv
-    brew install node
-    brew install bash bash-completion git
-    brew install adoptopenjdk
-
-    npm install -g avn avn-nvm avn-n
-
-    ;;
-
-  'setup:upgrade')
-    echo ""
-    echo "Upgrading"
-    echo ""
-    brew upgrade node
-    brew upgrade npm
-
-    ;;
-
-
   'compile')
     echo ""
     echo "Compiling"
@@ -104,57 +75,21 @@ case "$1" in
     echo ""
     ;;
 
-  'report:all')
-    echo ""
-    echo "Generating Jacoco test coverage report."
-    echo ""
-    ./gradlew :backend:allTests
-    ./gradlew :backend:JacocoTestReport
-    ./gradlew :backend:pmdMain
-    echo ""
-    ;;
-
-
-  'report:coverage')
-    echo ""
-    echo "Generating Jacoco test coverage report."
-    echo ""
-    ./gradlew :backend:allTests
-    ./gradlew :backend:JacocoTestReport
-    echo ""
-    ;;
-
-  'report:coverage:open')
-    echo ""
-    echo "Opening Jacoco test coverage report."
-    echo ""
-    open ./subprojects/backend/build/reports/jacoco/test/html/index.html
-    echo ""
-    ;;
-
-  'report:test:open')
-    echo ""
-    echo "Opening Junit test report."
-    echo ""
-    open ./subprojects/backend/build/reports/tests/test/index.html
-    echo ""
-    ;;
-
   'kill:server')
+    pwd=$(pwd)
     echo ""
     echo "Killing server processes"
     echo ""
-    pwd = `pwd`
-    pkill -fl spring.profiles.active=
+    pkill -fl "${pwd}/subprojects/backend/build"
     echo ""
     ;;
 
   'kill:web')
+    pwd=$(pwd)
     echo ""
-    echo "Killing web processes"
+    echo "Killing web processes with ${pwd}"
     echo ""
-    pwd = `pwd`
-    pkill -fl ${pwd}/web/node_modules/
+    pkill -fl "${pwd}/subprojects/frontend/react-app/node_modules"
     echo ""
     ;;
 
@@ -174,7 +109,6 @@ case "$1" in
     echo "$(tput setaf 3)    react:start                                $(tput sgr0)      Start local react application"
     echo "$(tput setaf 3)    react:deps                                 $(tput sgr0)      Install NPM dependencies for react application"
 
-    echo "$(tput setaf 3)    server:start                               $(tput sgr0)      Run entire application as a spring boot jar (must generate jar via './run build' first)"
     echo "$(tput setaf 3)    h2:console                                 $(tput sgr0)      Open the H2 database console"
 
 esac

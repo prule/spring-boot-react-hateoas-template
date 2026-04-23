@@ -70,6 +70,8 @@ There are still a lot of things to add to this to make it a fully rounded sample
 Screen shots
 =====
 
+![intellij.png](docs/guide/src/docs/resources/intellij.png)
+
 ![login.png](docs/guide/src/docs/resources/login.png)
 
 ![home.png](docs/guide/src/docs/resources/home.png)
